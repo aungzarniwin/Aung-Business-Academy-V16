@@ -1,228 +1,320 @@
-/* =========================================================
+/* ============================================================
 AUNG BUSINESS ACADEMY V16
 BUSINESS GROWTH OS
-app.js — FULL REPLACEMENT
-========================================================= */
+ERROR-SAFE FULL REPLACEMENT
+============================================================ */
 
-(() => {
+(function () {
 “use strict”;
 
-/* =======================================================
-STORAGE
-======================================================= */
+/* ==========================================================
+1. CONFIG
+========================================================== */
 
+const VERSION = “V16.1”;
 const STORAGE = {
 progress: “aba_v16_progress”,
 goals: “aba_v16_goals”,
 tasks: “aba_v16_tasks”,
 profile: “aba_v16_profile”,
-plan: “aba_v16_plan”,
-settings: “aba_v16_settings”
+settings: “aba_v16_settings”,
+businessPlan: “aba_v16_business_plan”
 };
 
 const DEFAULT_PROFILE = {
 name: “Aung Zar Ni Win”,
-role: “Business Manager”,
-company: “”,
-phone: “”,
-email: “”,
-bio: “”
+role: “Business Manager”
 };
 
 const DEFAULT_SETTINGS = {
-notifications: true,
-dailyGoal: 30,
-compactMode: false
+growthMode: true,
+notifications: true
 };
 
-/* =======================================================
-STATE
-======================================================= */
+/* ==========================================================
+2. SAFE STORAGE
+========================================================== */
 
-const state = {
-currentPage: “dashboard”,
-currentLesson: null,
-profile: load(STORAGE.profile, DEFAULT_PROFILE),
-settings: load(STORAGE.settings, DEFAULT_SETTINGS),
-progress: load(STORAGE.progress, {}),
-goals: load(STORAGE.goals, []),
-tasks: load(STORAGE.tasks, []),
-plan: load(STORAGE.plan, “free”)
-};
-
-/* =======================================================
-FALLBACK LESSONS
-External lesson files can add more lessons.
-======================================================= */
-
-const FALLBACK_LESSONS = [
-{
-id: “foundation-01”,
-course: “Business Management Foundation”,
-category: “Business Foundation”,
-title: “Manager တစ်ယောက်ရဲ့ အဓိကတာဝန်က ဘာလဲ?”,
-duration: 15,
-level: “Beginner”,
-premium: false,
-description: “Manager တစ်ယောက်ရဲ့ တကယ့်တာဝန်ကို လက်တွေ့ Business Situation နဲ့ လေ့လာပါ။”,
-objectives: [
-“Manager နဲ့ Staff ကွာခြားချက်ကို နားလည်ရန်”,
-“Manager ရဲ့ အဓိကတာဝန်များကို သိရှိရန်”,
-“Target ကို Team Action အဖြစ်ပြောင်းရန်”,
-“Business Management Cycle ကို အသုံးချရန်”
-],
-sections: [
-{
-heading: “Real Business Situation”,
-content: “Manager ဆိုတာ ရာထူးနာမည်တစ်ခုတည်း မဟုတ်ပါဘူး။ Manager ရဲ့ တန်ဖိုးက လူ၊ အချိန်၊ ငွေ၊ Resource တွေကို အသုံးချပြီး Business Result ထုတ်ပေးနိုင်ခြင်းမှာ ရှိပါတယ်။”
-},
-{
-heading: “Why It Matters”,
-content: “Individual Performer ကောင်းတာနဲ့ Team Performance ကောင်းတာ မတူပါဘူး။ Manager ရဲ့အလုပ်က ကိုယ်တိုင်အလုပ်အားလုံးလုပ်တာမဟုတ်ဘဲ Team တစ်ခုလုံး Result ရအောင် စီမံပေးတာဖြစ်ပါတယ်။”
-},
-{
-heading: “Manager Framework”,
-content: “Direction → People → Numbers → Execution ဆိုတဲ့ Framework ကို သုံးပါ။ ဘာကိုရောက်ရမလဲ၊ ဘယ်သူကဘာလုပ်မလဲ၊ Number ဘယ်လောက်ရပြီလဲ၊ Execution ဘယ်လိုရှိလဲဆိုတာ အမြဲကြည့်ပါ။”
-},
-{
-heading: “Business Numbers”,
-content: “Target, Actual, Achievement %, Growth %, Gross Profit, Margin, Customer, Distribution, Collection နဲ့ Expense တွေဟာ Manager တစ်ယောက်သိထားရမယ့် အခြေခံ Business Numbers တွေပါ။”
-},
-{
-heading: “Manager Operating Cycle”,
-content: “PLAN → EXECUTE → MEASURE → ANALYZE → IMPROVE → REPEAT ဆိုတဲ့ Cycle ကို နေ့စဉ်၊ အပတ်စဉ် အသုံးချပါ။”
-},
-{
-heading: “Real Example”,
-content: “Sales Team ၅ ယောက်ရဲ့ Monthly Target က 500M ဖြစ်ပြီး Actual က 430M ဆိုရင် Achievement 86% ဖြစ်ပါတယ်။ Market မကောင်းဘူးလို့ပဲ မပြောဘဲ Customer, Coverage, Stock, People နဲ့ Competition ကို Root Cause အဖြစ် ခွဲခြမ်းပါ။”
-},
-{
-heading: “Practical Exercise”,
-content: “သင့် Team ရဲ့ Target နဲ့ Actual ကို ရေးပါ။ Achievement % နဲ့ Gap ကိုတွက်ပါ။ Gap ဖြစ်စေတဲ့အကြောင်းရင်းကို People / Customer-Market / Execution အဖြစ် ခွဲပါ။ နောက် ၇ ရက် Action Plan တစ်ခုရေးပါ။”
-},
-{
-heading: “Decision Challenge”,
-content: “Salesperson တစ်ယောက် Target 100% ရပေမယ့် New Customer မရှာ၊ Team ကိုမကူညီ၊ Report နောက်ကျ၊ Customer Complaint များနေတယ်ဆိုရင် Result တစ်ခုတည်းနဲ့ မဆုံးဖြတ်ပါနဲ့။ RESULT + BEHAVIOR + FUTURE POTENTIAL ကို အတူကြည့်ပါ။”
-},
-{
-heading: “Apply Tomorrow”,
-content: “Team Member တစ်ယောက်ချင်းစီနဲ့ ၁၅ မိနစ်စကားပြောပါ။ Result ဘယ်လောက်လဲ? Problem ဘာလဲ? Next Action ဘာလဲ? ဆိုတဲ့ မေးခွန်း ၃ ခုကို မေးပြီး Support နဲ့ Follow-up လုပ်ပါ။”
-}
-],
-keyPoints: [
-“Manager ဆိုတာ Title မဟုတ်ဘဲ Business Result ထုတ်ပေးနိုင်သူဖြစ်တယ်။”,
-“Numbers မသိဘဲ Business ကို မစီမံနိုင်ဘူး။”,
-“Target → Actual → Gap → Root Cause → Action”,
-“Manager ရဲ့အလုပ်က အားလုံးကို ကိုယ်တိုင်လုပ်တာမဟုတ်ဘူး။”,
-“PLAN → EXECUTE → MEASURE → ANALYZE → IMPROVE → REPEAT”
-]
-},
-{
-id: “foundation-02”,
-course: “Business Management Foundation”,
-category: “Business Foundation”,
-title: “Business ကို Numbers နဲ့ ဘယ်လိုစီမံမလဲ?”,
-duration: 15,
-level: “Beginner”,
-premium: false,
-description: “Business Manager တစ်ယောက်အတွက် အရေးကြီးတဲ့ Business Numbers တွေကို လက်တွေ့အသုံးချပါ။”,
-objectives: [
-“Target နဲ့ Actual ကို ခွဲခြားနိုင်ရန်”,
-“Achievement နဲ့ Gap တွက်နိုင်ရန်”,
-“Growth ကို နားလည်ရန်”,
-“Number ကနေ Root Cause ရှာနိုင်ရန်”
-],
-sections: [
-{
-heading: “Real Business Situation”,
-content: “Sales တက်နေတယ်ဆိုတာ Business က အမြဲကောင်းနေတယ်လို့ မဆိုလိုပါဘူး။ Sales တက်ပေမယ့် Margin ကျနိုင်ပါတယ်။ Revenue တက်ပေမယ့် Collection မရနိုင်ပါတယ်။”
-},
-{
-heading: “Core Numbers”,
-content: “Target, Actual, Achievement %, Gap, Growth %, Gross Profit, Gross Margin, Collection, Expense နဲ့ Customer Count တို့ကို အခြေခံ Numbers အဖြစ် စောင့်ကြည့်ပါ။”
-},
-{
-heading: “Manager Rule”,
-content: “Number တစ်ခုကိုမြင်ရုံနဲ့ မဆုံးဖြတ်ပါနဲ့။ Number → Change → Reason → Action ဆိုတဲ့ Logic နဲ့ စဉ်းစားပါ။”
-},
-{
-heading: “Practical Example”,
-content: “Monthly Target 100M၊ Actual 85M ဆိုရင် Achievement 85% ဖြစ်ပြီး Gap 15M ဖြစ်ပါတယ်။ Gap ကို Customer, Product, People, Execution အလိုက် ခွဲခြမ်းပါ။”
-},
-{
-heading: “Apply Tomorrow”,
-content: “မနက်တိုင်း Target, Yesterday Actual, MTD Actual, Achievement, Gap, Collection နဲ့ Key Problem ကို ၁၀ မိနစ်အတွင်း Review လုပ်ပါ။”
-}
-],
-keyPoints: [
-“Revenue တစ်ခုတည်းကို မကြည့်ပါနဲ့။”,
-“Achievement % ကို ပုံမှန်ကြည့်ပါ။”,
-“Gap ရှိရင် Root Cause ရှာပါ။”,
-“Number တိုင်းမှာ Action တစ်ခုရှိရမယ်။”
-]
-},
-{
-id: “leadership-01”,
-course: “Leadership”,
-category: “Leadership”,
-title: “Team Performance တိုးအောင် ဘယ်လိုဦးဆောင်မလဲ?”,
-duration: 15,
-level: “Intermediate”,
-premium: true,
-description: “Micromanagement မလုပ်ဘဲ Coaching နဲ့ Accountability တည်ဆောက်ပါ။”,
-objectives: [
-“Clear Expectation သတ်မှတ်ရန်”,
-“Coaching နဲ့ Micromanagement ကွာခြားရန်”,
-“Feedback ပေးနိုင်ရန်”,
-“Accountability တည်ဆောက်ရန်”
-],
-sections: [
-{
-heading: “Leadership Principle”,
-content: “Leader က လူတွေကို အမြဲလိုက်ထိန်းချုပ်နေရတာမဟုတ်ပါဘူး။ ဘာလုပ်ရမလဲ၊ ဘာကြောင့်လုပ်ရမလဲ၊ ဘယ် Result ကိုမျှော်လင့်လဲဆိုတာ ရှင်းလင်းစွာပြောပြီး Ownership ပေးရပါတယ်။”
-},
-{
-heading: “Leadership Framework”,
-content: “SET EXPECTATION → COACH → REVIEW → EMPOWER ဆိုတဲ့ Framework ကို အသုံးချပါ။”
-},
-{
-heading: “Real Example”,
-content: “Salesperson Target မရရင် အပြစ်တင်မယ့်အစား Customer Segment, Coverage, Conversion နဲ့ Activity ကို အတူတကွကြည့်ပြီး Next Action ချမှတ်ပါ။”
-},
-{
-heading: “Apply Tomorrow”,
-content: “Team Member တစ်ယောက်ကိုရွေးပြီး Goal တစ်ခု၊ Problem တစ်ခု၊ Next Action တစ်ခုကို အတူတကွ သတ်မှတ်ပါ။”
-}
-],
-keyPoints: [
-“Clear Expectation”,
-“Coaching”,
-“Regular Review”,
-“Ownership”,
-“Accountability”
-]
-}
-];
-
-/* =======================================================
-HELPERS
-======================================================= */
-
-function load(key, fallback) {
+function readJSON(key, fallback) {
 try {
 const value = localStorage.getItem(key);
-return value ? JSON.parse(value) : fallback;
+if (!value) return fallback;
+const parsed = JSON.parse(value);
+return parsed ?? fallback;
 } catch (error) {
+console.warn(”[ABA] Storage read error:”, key, error);
 return fallback;
 }
 }
 
-function save(key, value) {
+function writeJSON(key, value) {
 try {
 localStorage.setItem(key, JSON.stringify(value));
+return true;
 } catch (error) {
-console.warn(“Storage error”, error);
+console.warn(”[ABA] Storage write error:”, key, error);
+return false;
 }
+}
+
+/* ==========================================================
+3. APPLICATION STATE
+========================================================== */
+
+const state = {
+currentPage: “dashboard”,
+currentLesson: null,
+
+profile: readJSON(STORAGE.profile, DEFAULT_PROFILE),
+settings: readJSON(STORAGE.settings, DEFAULT_SETTINGS),
+progress: readJSON(STORAGE.progress, {}),
+goals: readJSON(STORAGE.goals, []),
+tasks: readJSON(STORAGE.tasks, []),
+businessPlan: readJSON(STORAGE.businessPlan, {}),
+lessons: [],
+lessonSources: {
+  fundamentals: false,
+  leadership: false,
+  strategy: false,
+  marketing: false,
+  sales: false,
+  finance: false,
+  people: false,
+  operations: false
+}
+
+};
+
+/* ==========================================================
+4. FALLBACK LESSONS
+========================================================== */
+
+const fallbackLessons = [
+{
+id: “foundation-01”,
+category: “Business Foundation”,
+course: “Business Management Foundation”,
+lessonNumber: 1,
+title: “Manager တစ်ယောက်ရဲ့ အဓိကတာဝန်က ဘာလဲ?”,
+subtitle: “Result ကို လူ၊ အချိန်၊ ငွေကြေးနဲ့ Resource တွေကနေ ဖန်တီးခြင်း”,
+duration: “15 min”,
+isPremium: false,
+sections: [
+{
+type: “situation”,
+title: “၁။ Real Business Situation”,
+content: “Manager ဆိုတာ Title တစ်ခုမဟုတ်ဘဲ Business Result ကို လူတွေနဲ့အတူ ဖန်တီးပေးနိုင်သူ ဖြစ်ပါတယ်။”
+},
+{
+type: “why”,
+title: “၂။ Why It Matters”,
+content: “Manager က အလုပ်အားလုံးကို ကိုယ်တိုင်လုပ်တာမဟုတ်ပါဘူး။ Direction, People, Numbers နဲ့ Execution ကို စီမံရပါတယ်။”
+},
+{
+type: “framework”,
+title: “၃။ Manager Framework”,
+content: “PLAN → EXECUTE → MEASURE → ANALYZE → IMPROVE → REPEAT”
+},
+{
+type: “example”,
+title: “၄။ Real Example”,
+content: “Target 500M ဖြစ်ပြီး Actual 430M ဆိုရင် Achievement 86% ဖြစ်ပါတယ်။ Manager က Excuse မရှာဘဲ Gap ရဲ့ Root Cause ကိုရှာရပါတယ်။”
+},
+{
+type: “exercise”,
+title: “၅။ Practical Exercise”,
+content: “Target, Actual, Achievement, Gap နဲ့ Root Cause ကိုရေးပြီး 7-Day Action Plan တစ်ခုရေးပါ။”
+},
+{
+type: “challenge”,
+title: “၆။ Decision Challenge”,
+content: “Result တစ်ခုတည်းမကြည့်ဘဲ RESULT + BEHAVIOR + FUTURE POTENTIAL နဲ့ Team Member ကို အကဲဖြတ်ပါ။”
+},
+{
+type: “takeaways”,
+title: “၇။ Key Takeaways”,
+content: “Target → Actual → Gap → Root Cause → 7-Day Action”
+},
+{
+type: “tomorrow”,
+title: “၈။ Apply Tomorrow”,
+content: “Team Member တစ်ယောက်နဲ့ 15 မိနစ်စကားပြောပြီး Result, Problem, Action ဆိုတဲ့ မေးခွန်း 3 ခုကို အသုံးပြုပါ။”
+}
+]
+},
+
+{
+  id: "foundation-02",
+  category: "Business Foundation",
+  course: "Business Management Foundation",
+  lessonNumber: 2,
+  title: "Business ကို Numbers နဲ့ ဘယ်လိုစီမံမလဲ?",
+  subtitle: "Business Decision ကို Feeling မဟုတ်ဘဲ Data နဲ့ ချမှတ်ခြင်း",
+  duration: "15 min",
+  isPremium: false,
+  sections: [
+    {
+      type: "situation",
+      title: "၁။ Real Business Situation",
+      content: "Sales တက်နေသော်လည်း Profit မတက်တဲ့ Business တွေရှိပါတယ်။ ဒါကြောင့် Sales တစ်ခုတည်းနဲ့ Business ကို မဆုံးဖြတ်သင့်ပါဘူး။"
+    },
+    {
+      type: "why",
+      title: "၂။ Why It Matters",
+      content: "Target, Actual, Achievement, Growth, Profit, Margin, Customer, Distribution, Collection နဲ့ Expense တွေကို သိထားရပါမယ်။"
+    },
+    {
+      type: "framework",
+      title: "၃။ Manager Framework",
+      content: "TARGET → ACTUAL → GAP → CAUSE → ACTION → RESULT"
+    },
+    {
+      type: "example",
+      title: "၄။ Real Example",
+      content: "Monthly Target 100M၊ Actual 90M ဆိုရင် Achievement 90% ဖြစ်ပြီး Gap 10M ဖြစ်ပါတယ်။ Gap ရဲ့အကြောင်းရင်းကို Customer, People, Product, Competition အလိုက်ခွဲပါ။"
+    },
+    {
+      type: "exercise",
+      title: "၅။ Practical Exercise",
+      content: "သင့်လုပ်ငန်းရဲ့ Target, Actual, Achievement %, Gap နဲ့ Profit ကို တစ်ပတ်စာ စာရင်းပြုစုပါ။"
+    },
+    {
+      type: "challenge",
+      title: "၆။ Decision Challenge",
+      content: "Sales 20% တက်ပေမယ့် Margin 5% ကျနေတယ်ဆိုရင် Sales တက်တာကိုသာ အောင်မြင်မှုလို့ မသတ်မှတ်ပါနဲ့။"
+    },
+    {
+      type: "takeaways",
+      title: "၇။ Key Takeaways",
+      content: "Business Manager တစ်ယောက်ဟာ Numbers ကို သိရုံမက Numbers နောက်က အကြောင်းရင်းကို နားလည်ရပါတယ်။"
+    },
+    {
+      type: "tomorrow",
+      title: "၈။ Apply Tomorrow",
+      content: "မနက်ဖြန် Daily Business Dashboard တစ်ခုတည်ဆောက်ပြီး Target, Actual, Achievement, Gap, Action ၅ ခုကို နေ့တိုင်းကြည့်ပါ။"
+    }
+  ]
+},
+{
+  id: "leadership-01",
+  category: "Leadership",
+  course: "Leadership Mastery",
+  lessonNumber: 5,
+  title: "Team Performance တိုးအောင် ဘယ်လိုဦးဆောင်မလဲ?",
+  subtitle: "Micromanagement မလုပ်ဘဲ Accountability နဲ့ Performance တည်ဆောက်ခြင်း",
+  duration: "15 min",
+  isPremium: true,
+  sections: [
+    {
+      type: "situation",
+      title: "၁။ Real Business Situation",
+      content: "Manager က Team Member တစ်ယောက်ချင်းစီကို အလုပ်တိုင်းလိုက်စစ်နေရင် Manager ကိုယ်တိုင် Bottleneck ဖြစ်လာနိုင်ပါတယ်။"
+    },
+    {
+      type: "why",
+      title: "၂။ Why It Matters",
+      content: "Team Performance က Clear Expectation, Coaching, Accountability နဲ့ Regular Review ပေါ်မှာ အခြေခံပါတယ်။"
+    },
+    {
+      type: "framework",
+      title: "၃။ Manager Framework",
+      content: "CLEAR EXPECTATION → COACH → REVIEW → ACCOUNTABILITY → IMPROVE"
+    },
+    {
+      type: "example",
+      title: "၄။ Real Example",
+      content: "Salesperson တစ်ယောက်ရဲ့ Target 20M ဆိုရင် Result Target အပြင် Customer Visit, New Customer, Collection စတဲ့ Leading Activities တွေပါ သတ်မှတ်ပါ။"
+    },
+    {
+      type: "exercise",
+      title: "၅။ Practical Exercise",
+      content: "Team Member တစ်ယောက်အတွက် Result KPI 2 ခုနဲ့ Activity KPI 3 ခုရေးပါ။"
+    },
+    {
+      type: "challenge",
+      title: "၆။ Decision Challenge",
+      content: "Manager က Staff ရဲ့အလုပ်ကို ကိုယ်တိုင်ဝင်လုပ်ပေးတာထက် Staff ကို Problem Solve လုပ်နိုင်အောင် Coaching ပေးပါ။"
+    },
+    {
+      type: "takeaways",
+      title: "၇။ Key Takeaways",
+      content: "Clear Expectation + Coaching + Accountability = Strong Team"
+    },
+    {
+      type: "tomorrow",
+      title: "၈။ Apply Tomorrow",
+      content: "Team Member တစ်ယောက်ကို 15 မိနစ် Coaching Session လုပ်ပြီး Goal, Current Result, Blocker, Next Action ကို ဆွေးနွေးပါ။"
+    }
+  ]
+}
+
+];
+
+/* ==========================================================
+5. SAFE LESSON LOADING
+========================================================== */
+
+function addLessonSource(globalName, sourceName) {
+try {
+const data = window[globalName];
+
+  if (Array.isArray(data)) {
+    data.forEach(function (lesson) {
+      if (lesson && lesson.id) {
+        state.lessons.push(lesson);
+      }
+    });
+    state.lessonSources[sourceName] = true;
+    return true;
+  }
+} catch (error) {
+  console.warn("[ABA] Lesson source error:", globalName, error);
+}
+return false;
+
+}
+
+function loadLessons() {
+state.lessons = [];
+
+const sources = [
+  ["ABA_BUSINESS_FUNDAMENTALS", "fundamentals"],
+  ["ABA_LEADERSHIP", "leadership"],
+  ["ABA_STRATEGY", "strategy"],
+  ["ABA_MARKETING", "marketing"],
+  ["ABA_SALES", "sales"],
+  ["ABA_FINANCE", "finance"],
+  ["ABA_PEOPLE", "people"],
+  ["ABA_OPERATIONS", "operations"]
+];
+sources.forEach(function (item) {
+  addLessonSource(item[0], item[1]);
+});
+const loadedIds = {};
+state.lessons.forEach(function (lesson) {
+  loadedIds[lesson.id] = true;
+});
+fallbackLessons.forEach(function (lesson) {
+  if (!loadedIds[lesson.id]) {
+    state.lessons.push(lesson);
+  }
+});
+state.lessons.sort(function (a, b) {
+  return Number(a.lessonNumber || 0) - Number(b.lessonNumber || 0);
+});
+console.log(
+  "[ABA] Lessons loaded:",
+  state.lessons.length
+);
+
+}
+
+/* ==========================================================
+6. HELPERS
+========================================================== */
+
+function $(id) {
+return document.getElementById(id);
 }
 
 function esc(value) {
@@ -235,2606 +327,2418 @@ return String(value ?? “”)
 }
 
 function money(value) {
-return new Intl.NumberFormat(“en-US”, {
-maximumFractionDigits: 0
-}).format(Number(value) || 0);
+const number = Number(value) || 0;
+return number.toLocaleString(“en-US”);
 }
 
 function pct(value) {
-const n = Number(value) || 0;
-return ${n.toFixed(n % 1 === 0 ? 0 : 1)}%;
+const number = Number(value) || 0;
+return Math.max(0, Math.min(100, number));
 }
 
-function calcAchievement(actual, target) {
+function achievement(target, actual) {
 const t = Number(target) || 0;
-return t ? (Number(actual) / t) * 100 : 0;
-}
+const a = Number(actual) || 0;
 
-function slug(value) {
-return String(value || “”)
-.toLowerCase()
-.replace(/[^a-z0-9]+/g, “-”)
-.replace(/^-|-$/g, “”);
+if (!t) return 0;
+return Math.round((a / t) * 100);
+
 }
 
 function today() {
-return new Date().toISOString().slice(0, 10);
-}
+const d = new Date();
 
-function getLessons() {
-const list = […FALLBACK_LESSONS];
+return d.getFullYear() +
+  "-" +
+  String(d.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(d.getDate()).padStart(2, "0");
 
-const names = [
-  "ABA_LESSONS",
-  "ACADEMY_BUSINESS_FUNDAMENTALS",
-  "ACADEMY_LEADERSHIP",
-  "ACADEMY_STRATEGY",
-  "ACADEMY_MARKETING",
-  "ACADEMY_SALES",
-  "ACADEMY_FINANCE",
-  "ACADEMY_PEOPLE",
-  "ACADEMY_OPERATIONS"
-];
-names.forEach((name) => {
-  const data = window[name];
-  if (Array.isArray(data)) {
-    list.push(...data);
-  } else if (data && Array.isArray(data.lessons)) {
-    list.push(...data.lessons);
-  }
-});
-const unique = new Map();
-list.forEach((lesson, index) => {
-  if (!lesson) return;
-  const id =
-    lesson.id ||
-    `${slug(lesson.category || lesson.course || "lesson")}-${index}`;
-  unique.set(id, {
-    ...lesson,
-    id,
-    title: lesson.title || `Lesson ${index + 1}`,
-    course: lesson.course || lesson.category || "Business Academy",
-    category: lesson.category || "Business Foundation",
-    duration: lesson.duration || 15,
-    level: lesson.level || "Beginner",
-    premium: Boolean(lesson.premium),
-    sections: Array.isArray(lesson.sections) ? lesson.sections : [],
-    objectives: Array.isArray(lesson.objectives)
-      ? lesson.objectives
-      : [],
-    keyPoints: Array.isArray(lesson.keyPoints)
-      ? lesson.keyPoints
-      : []
-  });
-});
-return Array.from(unique.values());
-
-}
-
-function completedCount() {
-return getLessons().filter((l) => state.progress[l.id]).length;
-}
-
-function overallProgress() {
-const total = getLessons().length;
-return total ? Math.round((completedCount() / total) * 100) : 0;
 }
 
 function isComplete(id) {
-return Boolean(state.progress[id]);
+return !!state.progress[id];
 }
 
-function categoryList() {
-const map = new Map();
+function completedCount() {
+return state.lessons.filter(function (lesson) {
+return isComplete(lesson.id);
+}).length;
+}
 
-getLessons().forEach((lesson) => {
-  if (!map.has(lesson.category)) {
-    map.set(lesson.category, []);
-  }
-  map.get(lesson.category).push(lesson);
+function overallProgress() {
+if (!state.lessons.length) return 0;
+
+return Math.round(
+  (completedCount() / state.lessons.length) * 100
+);
+
+}
+
+function getCategoryLessons(category) {
+return state.lessons.filter(function (lesson) {
+return lesson.category === category;
 });
-const defaults = [
-  "Business Foundation",
-  "Leadership",
-  "Strategy",
-  "Marketing",
-  "Sales",
-  "Finance",
-  "People",
-  "Operations"
-];
-defaults.forEach((category) => {
-  if (!map.has(category)) {
-    map.set(category, []);
+}
+
+function categories() {
+const map = {};
+
+state.lessons.forEach(function (lesson) {
+  if (lesson.category) {
+    map[lesson.category] = true;
   }
 });
-return Array.from(map.entries()).map(([name, lessons]) => ({
-  name,
-  lessons
-}));
+return Object.keys(map);
 
 }
 
 function iconForCategory(category) {
 const icons = {
-“Business Foundation”: “🏢”,
-Leadership: “👥”,
-Strategy: “♟️”,
-Marketing: “📣”,
-Sales: “📈”,
-Finance: “💰”,
-People: “🧑‍🤝‍🧑”,
-Operations: “⚙️”
+“Business Foundation”: “📘”,
+“Leadership”: “👥”,
+“Strategy”: “🎯”,
+“Marketing”: “📣”,
+“Sales”: “💼”,
+“Finance”: “💰”,
+“People”: “👤”,
+“Operations”: “⚙️”
 };
 
 return icons[category] || "📚";
 
 }
 
-function toast(message, type = “success”) {
-const container = document.getElementById(“toastContainer”);
-if (!container) return;
+/* ==========================================================
+7. UI HELPERS
+========================================================== */
 
-const item = document.createElement("div");
-item.className = `toast toast-${type}`;
-item.innerHTML = `
-  <span>${type === "success" ? "✓" : "!"}</span>
-  <strong>${esc(message)}</strong>
-`;
-container.appendChild(item);
-setTimeout(() => {
-  item.classList.add("toast-hide");
-  setTimeout(() => item.remove(), 300);
-}, 2600);
+function setMain(html) {
+const main = $(“app-main”);
+
+if (!main) {
+  console.error("[ABA] #app-main not found.");
+  return;
+}
+main.innerHTML = html;
 
 }
 
-function setMain(html) {
-const main = document.getElementById(“app-main”);
-if (!main) return;
-main.innerHTML = html;
-window.scrollTo({ top: 0, behavior: “smooth” });
+function toast(message) {
+const container = $(“toastContainer”);
+
+if (!container) {
+  console.log("[ABA]", message);
+  return;
+}
+const item = document.createElement("div");
+item.className = "toast";
+item.textContent = message;
+container.appendChild(item);
+setTimeout(function () {
+  item.remove();
+}, 3000);
+
+}
+
+function closeModal() {
+const modal = $(“globalModal”);
+
+if (modal) {
+  modal.classList.remove("open");
+  modal.innerHTML = "";
+}
+
+}
+
+function showModal(content) {
+const modal = $(“globalModal”);
+
+if (!modal) return;
+modal.innerHTML = `
+  <div class="modal-backdrop" onclick="window.ABA.closeModal()"></div>
+  <div class="modal-panel">
+    <button class="modal-close" onclick="window.ABA.closeModal()">×</button>
+    ${content}
+  </div>
+`;
+modal.classList.add("open");
+
 }
 
 function closeMobileMenu() {
-document.body.classList.remove(“sidebar-open”);
+document.body.classList.remove(“menu-open”);
 
-const overlay = document.querySelector(".mobile-overlay");
-if (overlay) overlay.classList.remove("show");
+const overlay = $("mobileOverlay");
+if (overlay) {
+  overlay.classList.remove("active");
+}
 
 }
 
 function openMobileMenu() {
-document.body.classList.add(“sidebar-open”);
+document.body.classList.add(“menu-open”);
 
-const overlay = document.querySelector(".mobile-overlay");
-if (overlay) overlay.classList.add("show");
+const overlay = $("mobileOverlay");
+if (overlay) {
+  overlay.classList.add("active");
+}
 
 }
 
 function updateHeader(title) {
-const titleEl = document.querySelector(”.topbar-title”);
-if (titleEl) titleEl.textContent = title;
+const titleElement = document.querySelector(
+“.topbar-title”
+);
 
-const crumb = document.querySelector(".topbar-breadcrumb");
-if (crumb) crumb.textContent = `AUNG BUSINESS ACADEMY / ${title.toUpperCase()}`;
+if (titleElement) {
+  titleElement.textContent = title;
+}
 
 }
 
 function setActiveNav(page) {
-document.querySelectorAll(”[data-page]”).forEach((el) => {
-el.classList.toggle(
+document.querySelectorAll(”[data-page]”).forEach(
+function (item) {
+item.classList.toggle(
 “active”,
-el.getAttribute(“data-page”) === page
+item.dataset.page === page
 );
-});
+}
+);
 }
 
-function pageHeader(title, subtitle, action = “”) {
-return <div class="page-header"> <div> <div class="eyebrow">AUNG BUSINESS ACADEMY</div> <h1>${esc(title)}</h1> <p>${esc(subtitle || "")}</p> </div> ${action} </div>;
+function pageHeader(title, subtitle) {
+return <div class="page-header"> <div> <div class="eyebrow">AUNG BUSINESS ACADEMY</div> <h1>${esc(title)}</h1> <p>${esc(subtitle || "")}</p> </div> </div>;
 }
 
-function card(title, content, extra = “”) {
-return <section class="card ${extra}"> <div class="card-header"> <h3>${esc(title)}</h3> </div> <div class="card-body">${content}</div> </section>;
+function card(title, body, extraClass) {
+return <div class="aba-card ${extraClass || ""}"> <div class="card-title">${esc(title)}</div> <div class="card-body">${body}</div> </div>;
 }
 
-function lockedCard(title, description) {
-return <div class="locked-card"> <div class="lock-icon">🔒</div> <h3>${esc(title)}</h3> <p>${esc(description)}</p> <button class="btn btn-primary" data-page="premium"> Upgrade to Growth Pro </button> </div>;
-}
-
-/* =======================================================
-ROUTER
-======================================================= */
-
-function navigate(page, params = {}) {
-state.currentPage = page;
-state.currentLesson = params.lessonId || null;
-
-closeMobileMenu();
-render();
-
-}
-
-function render() {
-const page = state.currentPage;
-
-setActiveNav(page);
-const titles = {
-  dashboard: "Dashboard",
-  today: "Today",
-  goals: "My Goals",
-  academy: "Business Academy",
-  lessons: "Lessons",
-  "business-foundation": "Business Foundation",
-  leadership: "Leadership",
-  strategy: "Strategy",
-  marketing: "Marketing",
-  sales: "Sales",
-  finance: "Finance",
-  people: "People",
-  operations: "Operations",
-  "sales-target": "Sales Target",
-  pricing: "Pricing Calculator",
-  kpi: "KPI & Scorecard",
-  customer: "Customer Plan",
-  planner: "Action Planner",
-  "business-plan": "Business Plan",
-  performance: "Performance",
-  "sales-analysis": "Sales Analysis",
-  "profit-analysis": "Profit Analysis",
-  reports: "Reports",
-  "ai-business": "AI Business Coach",
-  "ai-sales": "AI Sales Coach",
-  "ai-problem": "AI Problem Solver",
-  "cv-builder": "CV Builder",
-  interview: "Interview Coach",
-  career: "Career Growth",
-  profile: "Profile",
-  settings: "Settings",
-  premium: "Growth Pro"
-};
-updateHeader(titles[page] || "Dashboard");
-const routes = {
-  dashboard: renderDashboard,
-  today: renderToday,
-  goals: renderGoals,
-  academy: renderAcademy,
-  lessons: renderLessons,
-  "business-foundation": () =>
-    renderCategory("Business Foundation"),
-  leadership: () => renderCategory("Leadership"),
-  strategy: () => renderCategory("Strategy"),
-  marketing: () => renderCategory("Marketing"),
-  sales: () => renderCategory("Sales"),
-  finance: () => renderCategory("Finance"),
-  people: () => renderCategory("People"),
-  operations: () => renderCategory("Operations"),
-  "sales-target": renderSalesTarget,
-  pricing: renderPricing,
-  kpi: renderKPI,
-  customer: renderCustomerPlan,
-  planner: renderPlanner,
-  "business-plan": renderBusinessPlan,
-  performance: renderPerformance,
-  "sales-analysis": renderSalesAnalysis,
-  "profit-analysis": renderProfitAnalysis,
-  reports: renderReports,
-  "ai-business": () =>
-    renderAI("AI Business Coach", "Business strategy, planning and decision support."),
-  "ai-sales": () =>
-    renderAI("AI Sales Coach", "Sales execution, team coaching and target achievement."),
-  "ai-problem": () =>
-    renderAI("AI Problem Solver", "Analyze business problems and build practical action plans."),
-  "cv-builder": renderCVBuilder,
-  interview: renderInterview,
-  career: renderCareer,
-  profile: renderProfile,
-  settings: renderSettings,
-  premium: renderPremium
-};
-const renderer = routes[page] || renderDashboard;
-renderer();
-
-}
-
-/* =======================================================
-DASHBOARD
-======================================================= */
+/* ==========================================================
+8. DASHBOARD
+========================================================== */
 
 function renderDashboard() {
-const lessons = getLessons();
-const completed = completedCount();
-const progress = overallProgress();
+state.currentPage = “dashboard”;
 
-const nextLesson =
-  lessons.find((lesson) => !isComplete(lesson.id)) || lessons[0];
-const todayTasks = state.tasks.filter((task) => task.date === today());
-const completedTasks = todayTasks.filter((task) => task.done).length;
-const goalsActive = state.goals.filter((goal) => !goal.done).length;
+updateHeader("Dashboard");
+setActiveNav("dashboard");
+const progress = overallProgress();
+const completed = completedCount();
+const recentLesson = state.lessons.find(function (lesson) {
+  return !isComplete(lesson.id);
+}) || state.lessons[0];
 setMain(`
   ${pageHeader(
     "Business Growth Dashboard",
-    "Learn → Plan → Execute → Measure → Improve",
-    `<button class="btn btn-primary" data-page="today">Today's Focus →</button>`
+    "Learn • Plan • Execute • Measure • Improve"
   )}
   <section class="dashboard-hero">
-    <div class="hero-copy">
-      <span class="badge">V16.0 • BUSINESS GROWTH OS</span>
-      <h2>Build a better business,<br>one decision at a time.</h2>
+    <div>
+      <span class="hero-label">GROWTH MODE</span>
+      <h2>Build a stronger business.</h2>
       <p>
-        Your learning, planning, execution and performance tools
-        are connected in one professional workspace.
+        Your workspace for practical business learning,
+        execution and performance management.
       </p>
       <div class="hero-actions">
-        <button class="btn btn-primary" data-page="academy">
-          Continue Learning
+        <button class="primary-button"
+          onclick="window.ABA.openPage('today')">
+          Start Today's Plan →
         </button>
-        <button class="btn btn-secondary" data-page="sales-target">
-          Open Manager Tools
+        <button class="secondary-button"
+          onclick="window.ABA.openPage('lessons')">
+          Continue Learning
         </button>
       </div>
     </div>
-    <div class="hero-score">
-      <div class="score-ring" style="--progress:${progress * 3.6}deg">
-        <div>
-          <strong>${progress}%</strong>
-          <span>Learning</span>
-        </div>
+    <div class="score-ring" style="--progress:${progress * 3.6}deg">
+      <div>
+        <strong>${progress}%</strong>
+        <span>Progress</span>
       </div>
-      <small>${completed} of ${lessons.length} lessons completed</small>
     </div>
   </section>
   <div class="stats-grid">
     <div class="stat-card">
-      <span class="stat-icon">📚</span>
-      <small>Total Lessons</small>
-      <strong>${lessons.length}</strong>
-      <span>Available in Academy</span>
+      <span>Courses</span>
+      <strong>8</strong>
+      <small>Business areas</small>
     </div>
     <div class="stat-card">
-      <span class="stat-icon">✓</span>
-      <small>Completed</small>
+      <span>Lessons</span>
+      <strong>${state.lessons.length}</strong>
+      <small>Available lessons</small>
+    </div>
+    <div class="stat-card">
+      <span>Completed</span>
       <strong>${completed}</strong>
-      <span>${progress}% overall progress</span>
+      <small>Lessons completed</small>
     </div>
     <div class="stat-card">
-      <span class="stat-icon">🎯</span>
-      <small>Active Goals</small>
-      <strong>${goalsActive}</strong>
-      <span>Goals to execute</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">⚡</span>
-      <small>Today's Tasks</small>
-      <strong>${completedTasks}/${todayTasks.length}</strong>
-      <span>Execution progress</span>
+      <span>Progress</span>
+      <strong>${progress}%</strong>
+      <small>Overall learning</small>
     </div>
   </div>
   <div class="dashboard-grid">
-    ${card(
-      "Continue Learning",
-      nextLesson
-        ? `
-          <div class="continue-lesson">
-            <div class="lesson-number">01</div>
-            <div class="continue-info">
-              <span>${esc(nextLesson.category)}</span>
-              <h3>${esc(nextLesson.title)}</h3>
-              <p>${esc(nextLesson.description || "")}</p>
-              <div class="lesson-meta">
-                <span>⏱ ${nextLesson.duration} min</span>
-                <span>•</span>
-                <span>${esc(nextLesson.level)}</span>
-                ${nextLesson.premium ? "<span>• 🔒 Pro</span>" : ""}
-              </div>
-            </div>
-            <button
-              class="btn btn-primary"
-              data-lesson="${esc(nextLesson.id)}">
-              ${isComplete(nextLesson.id) ? "Review" : "Start Lesson"}
-            </button>
-          </div>
-        `
-        : `<div class="empty-state">No lessons available.</div>`
-    )}
-    ${card(
-      "Today's Focus",
-      `
-        <div class="today-focus">
-          <div class="focus-item">
-            <span>🎯</span>
-            <div>
-              <strong>Set one business priority</strong>
-              <small>Focus on the action with the highest impact.</small>
-            </div>
-          </div>
-          <div class="focus-item">
-            <span>📊</span>
-            <div>
-              <strong>Review your numbers</strong>
-              <small>Target → Actual → Gap → Action.</small>
-            </div>
-          </div>
-          <div class="focus-item">
-            <span>👥</span>
-            <div>
-              <strong>Coach one team member</strong>
-              <small>Ask about Result, Problem and Next Action.</small>
-            </div>
-          </div>
-        </div>
-      `
-    )}
+    ${recentLesson ? `
+      <div class="continue-card">
+        <div class="section-label">CONTINUE LEARNING</div>
+        <h3>
+          Lesson ${Number(recentLesson.lessonNumber || "")}:
+          ${esc(recentLesson.title)}
+        </h3>
+        <p>
+          ${esc(
+            recentLesson.subtitle ||
+            "Continue your business growth journey."
+          )}
+        </p>
+        <button class="primary-button"
+          onclick="window.ABA.openLesson('${esc(recentLesson.id)}')">
+          Open Lesson →
+        </button>
+      </div>
+    ` : ""}
+    <div class="today-card">
+      <div class="section-label">TODAY</div>
+      <h3>Today's Business Focus</h3>
+      <ul class="clean-list">
+        <li>🎯 Review your most important target</li>
+        <li>📊 Check yesterday's numbers</li>
+        <li>👥 Coach one team member</li>
+        <li>⚙️ Improve one process</li>
+      </ul>
+      <button class="secondary-button"
+        onclick="window.ABA.openPage('today')">
+        Open Today
+      </button>
+    </div>
   </div>
-  <section class="section-block">
-    <div class="section-title-row">
+  <div class="growth-roadmap">
+    <div class="section-heading">
       <div>
-        <span class="eyebrow">YOUR GROWTH SYSTEM</span>
-        <h2>Learn → Plan → Execute → Measure → Improve</h2>
+        <span class="section-label">GROWTH ROADMAP</span>
+        <h2>Learn → Execute → Improve</h2>
       </div>
     </div>
-    <div class="roadmap">
+    <div class="roadmap-grid">
       <div class="roadmap-step">
-        <b>01</b>
-        <span>📚</span>
-        <h3>Learn</h3>
+        <span>01</span>
+        <strong>Learn</strong>
         <p>Build practical business knowledge.</p>
       </div>
-      <div class="roadmap-line"></div>
       <div class="roadmap-step">
-        <b>02</b>
-        <span>🎯</span>
-        <h3>Plan</h3>
-        <p>Turn knowledge into measurable goals.</p>
+        <span>02</span>
+        <strong>Plan</strong>
+        <p>Turn knowledge into clear goals.</p>
       </div>
-      <div class="roadmap-line"></div>
       <div class="roadmap-step">
-        <b>03</b>
-        <span>⚡</span>
-        <h3>Execute</h3>
-        <p>Move from strategy to action.</p>
+        <span>03</span>
+        <strong>Execute</strong>
+        <p>Convert plans into daily actions.</p>
       </div>
-      <div class="roadmap-line"></div>
       <div class="roadmap-step">
-        <b>04</b>
-        <span>📊</span>
-        <h3>Measure</h3>
-        <p>Track numbers and performance.</p>
+        <span>04</span>
+        <strong>Measure</strong>
+        <p>Use numbers to understand results.</p>
       </div>
-      <div class="roadmap-line"></div>
       <div class="roadmap-step">
-        <b>05</b>
-        <span>🔄</span>
-        <h3>Improve</h3>
-        <p>Find gaps and improve continuously.</p>
+        <span>05</span>
+        <strong>Improve</strong>
+        <p>Fix bottlenecks and repeat.</p>
       </div>
     </div>
-  </section>
+  </div>
+  ${renderFooter()}
 `);
 
 }
 
-/* =======================================================
-TODAY
-======================================================= */
+/* ==========================================================
+9. TODAY
+========================================================== */
 
 function renderToday() {
-let tasks = state.tasks.filter((task) => task.date === today());
+state.currentPage = “today”;
 
+updateHeader("Today");
+setActiveNav("today");
+const todayTasks = state.tasks.filter(function (task) {
+  return task.date === today();
+});
 setMain(`
   ${pageHeader(
-    "Today",
-    "Turn your priorities into actions.",
-    `<button class="btn btn-primary" id="addTaskBtn">+ Add Task</button>`
+    "Today's Execution",
+    "Turn your priorities into measurable actions."
   )}
-  <div class="stats-grid">
-    <div class="stat-card">
-      <small>Daily Goal</small>
-      <strong>${state.settings.dailyGoal} min</strong>
-      <span>Learning target</span>
+  <div class="tool-card">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">DAILY ACTION</span>
+        <h2>What must get done today?</h2>
+      </div>
     </div>
-    <div class="stat-card">
-      <small>Tasks</small>
-      <strong>${tasks.length}</strong>
-      <span>Today's actions</span>
-    </div>
-    <div class="stat-card">
-      <small>Completed</small>
-      <strong>${tasks.filter(t => t.done).length}</strong>
-      <span>Execution</span>
-    </div>
-    <div class="stat-card">
-      <small>Progress</small>
-      <strong>${
-        tasks.length
-          ? Math.round(tasks.filter(t => t.done).length / tasks.length * 100)
-          : 0
-      }%</strong>
-      <span>Today's execution</span>
+    <div class="inline-form">
+      <input
+        id="todayTaskInput"
+        class="tool-input"
+        type="text"
+        placeholder="Enter today's important action..."
+      >
+      <button
+        class="primary-button"
+        onclick="window.ABA.addTask()">
+        Add Task
+      </button>
     </div>
   </div>
-  ${card(
-    "Today's Action Plan",
-    tasks.length
-      ? `
-        <div class="task-list">
-          ${tasks.map((task) => `
-            <label class="task-row ${task.done ? "done" : ""}">
-              <input
-                type="checkbox"
-                data-task-toggle="${esc(task.id)}"
-                ${task.done ? "checked" : ""}
-              >
-              <span class="task-check"></span>
-              <span class="task-content">
-                <strong>${esc(task.title)}</strong>
-                <small>${esc(task.note || "Business action")}</small>
-              </span>
-              <span class="task-priority">${esc(task.priority || "Normal")}</span>
-            </label>
-          `).join("")}
-        </div>
-      `
-      : `
-        <div class="empty-state">
-          <div>🎯</div>
-          <h3>No tasks for today</h3>
-          <p>Add 1–3 important actions that will move your business forward.</p>
-          <button class="btn btn-primary" id="addTaskBtn2">+ Add First Task</button>
-        </div>
-      `
-  )}
-  ${card(
-    "Manager Daily Routine",
-    `
-      <div class="checklist">
-        <div>✓ Review yesterday's result</div>
-        <div>✓ Check today's target</div>
-        <div>✓ Identify the biggest gap</div>
-        <div>✓ Coach one person</div>
-        <div>✓ Confirm today's actions</div>
-        <div>✓ Review progress before ending the day</div>
+  <div class="list-card">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">TODAY'S TASKS</span>
+        <h2>${todayTasks.length} Actions</h2>
       </div>
-    `
-  )}
-`);
-document.querySelectorAll("[data-task-toggle]").forEach((input) => {
-  input.addEventListener("change", () => {
-    const id = input.dataset.taskToggle;
-    const task = state.tasks.find((item) => item.id === id);
-    if (task) {
-      task.done = input.checked;
-      save(STORAGE.tasks, state.tasks);
-      renderToday();
+    </div>
+    ${
+      todayTasks.length
+        ? todayTasks.map(function (task) {
+            return `
+              <div class="task-row">
+                <button
+                  class="check-button ${task.done ? "done" : ""}"
+                  onclick="window.ABA.toggleTask('${esc(task.id)}')">
+                  ${task.done ? "✓" : ""}
+                </button>
+                <span class="${task.done ? "task-done" : ""}">
+                  ${esc(task.title)}
+                </span>
+              </div>
+            `;
+          }).join("")
+        : `
+          <div class="empty-state">
+            <div class="empty-icon">✓</div>
+            <h3>No tasks yet</h3>
+            <p>Add one important action for today.</p>
+          </div>
+        `
     }
-  });
-});
-document.getElementById("addTaskBtn")?.addEventListener("click", addTask);
-document.getElementById("addTaskBtn2")?.addEventListener("click", addTask);
+  </div>
+  ${renderFooter()}
+`);
 
 }
 
 function addTask() {
-showModal(
-“Add Today’s Task”,
-`
-Task
-      <div class="form-field full">
-        <label>Note</label>
-        <textarea id="taskNote" placeholder="Why is this important?"></textarea>
-      </div>
-      <div class="form-field">
-        <label>Priority</label>
-        <select id="taskPriority">
-          <option>High</option>
-          <option selected>Normal</option>
-          <option>Low</option>
-        </select>
-      </div>
-      <button class="btn btn-primary full" type="submit">
-        Add Task
-      </button>
-    </form>
-  `
-);
-document.getElementById("taskForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  state.tasks.push({
-    id: `task-${Date.now()}`,
-    date: today(),
-    title: document.getElementById("taskTitle").value,
-    note: document.getElementById("taskNote").value,
-    priority: document.getElementById("taskPriority").value,
-    done: false
-  });
-  save(STORAGE.tasks, state.tasks);
-  closeModal();
-  toast("Task added");
-  renderToday();
+const input = $(“todayTaskInput”);
+
+if (!input) return;
+const title = input.value.trim();
+if (!title) {
+  toast("Task တစ်ခုရေးပါ။");
+  return;
+}
+state.tasks.push({
+  id: "task-" + Date.now(),
+  title: title,
+  date: today(),
+  done: false
 });
+writeJSON(STORAGE.tasks, state.tasks);
+toast("Task added.");
+renderToday();
 
 }
 
-/* =======================================================
-GOALS
-======================================================= */
+function toggleTask(id) {
+const task = state.tasks.find(function (item) {
+return item.id === id;
+});
+
+if (!task) return;
+task.done = !task.done;
+writeJSON(STORAGE.tasks, state.tasks);
+renderToday();
+
+}
+
+/* ==========================================================
+10. GOALS
+========================================================== */
 
 function renderGoals() {
-const goals = state.goals;
+state.currentPage = “goals”;
 
+updateHeader("My Goals");
+setActiveNav("goals");
 setMain(`
   ${pageHeader(
     "My Goals",
-    "Create measurable goals and execute them.",
-    `<button class="btn btn-primary" id="addGoalBtn">+ New Goal</button>`
+    "Set measurable goals and track execution."
   )}
-  ${
-    goals.length
-      ? `
-        <div class="goal-grid">
-          ${goals.map((goal) => {
-            const progress = goal.target
-              ? Math.min(100, Math.round((goal.current / goal.target) * 100))
-              : 0;
+  <div class="tool-card">
+    <h2>Add Business Goal</h2>
+    <div class="form-grid">
+      <input
+        id="goalTitle"
+        class="tool-input"
+        placeholder="Goal title"
+      >
+      <input
+        id="goalTarget"
+        class="tool-input"
+        type="number"
+        placeholder="Target number"
+      >
+    </div>
+    <button
+      class="primary-button"
+      onclick="window.ABA.addGoal()">
+      Add Goal
+    </button>
+  </div>
+  <div class="card-grid">
+    ${
+      state.goals.length
+        ? state.goals.map(function (goal) {
+            const achievementValue =
+              achievement(goal.target, goal.actual);
             return `
-              <div class="goal-card ${goal.done ? "goal-done" : ""}">
-                <div class="goal-top">
-                  <span class="badge">${esc(goal.category || "Business")}</span>
-                  <button class="icon-btn" data-delete-goal="${esc(goal.id)}">×</button>
-                </div>
+              <div class="kpi-card">
+                <span class="section-label">GOAL</span>
                 <h3>${esc(goal.title)}</h3>
-                <p>${esc(goal.deadline || "No deadline")}</p>
+                <div class="kpi-number">
+                  ${money(goal.actual)} /
+                  ${money(goal.target)}
+                </div>
                 <div class="progress-bar">
-                  <span style="width:${progress}%"></span>
+                  <span style="width:${pct(achievementValue)}%"></span>
                 </div>
-                <div class="goal-values">
-                  <strong>${money(goal.current)}</strong>
-                  <span>/ ${money(goal.target)}</span>
-                </div>
-                <div class="goal-actions">
-                  <button class="btn btn-secondary" data-update-goal="${esc(goal.id)}">
-                    Update
-                  </button>
-                  ${
-                    !goal.done
-                      ? `<button class="btn btn-primary" data-complete-goal="${esc(goal.id)}">Complete</button>`
-                      : `<span class="success-label">✓ Completed</span>`
-                  }
-                </div>
+                <small>
+                  ${achievementValue}% achieved
+                </small>
+                <button
+                  class="secondary-button"
+                  onclick="window.ABA.updateGoal('${esc(goal.id)}')">
+                  Update
+                </button>
               </div>
             `;
-          }).join("")}
-        </div>
-      `
-      : `
-        <div class="empty-state">
-          <div>🎯</div>
-          <h3>No goals yet</h3>
-          <p>Set your first measurable business goal.</p>
-          <button class="btn btn-primary" id="addGoalBtn2">Create Goal</button>
-        </div>
-      `
-  }
-`);
-document.getElementById("addGoalBtn")?.addEventListener("click", addGoal);
-document.getElementById("addGoalBtn2")?.addEventListener("click", addGoal);
-document.querySelectorAll("[data-delete-goal]").forEach((button) => {
-  button.addEventListener("click", () => {
-    state.goals = state.goals.filter(
-      (goal) => goal.id !== button.dataset.deleteGoal
-    );
-    save(STORAGE.goals, state.goals);
-    renderGoals();
-  });
-});
-document.querySelectorAll("[data-complete-goal]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const goal = state.goals.find(
-      (item) => item.id === button.dataset.completeGoal
-    );
-    if (goal) {
-      goal.done = true;
-      goal.current = goal.target;
-      save(STORAGE.goals, state.goals);
-      toast("Goal completed");
-      renderGoals();
-    }
-  });
-});
-document.querySelectorAll("[data-update-goal]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const goal = state.goals.find(
-      (item) => item.id === button.dataset.updateGoal
-    );
-    if (!goal) return;
-    showModal(
-      "Update Goal",
-      `
-        <form id="updateGoalForm" class="form-grid">
-          <div class="form-field full">
-            <label>Current Progress</label>
-            <input id="goalCurrent" type="number" value="${goal.current}">
+          }).join("")
+        : `
+          <div class="empty-state">
+            <div class="empty-icon">🎯</div>
+            <h3>No goals yet</h3>
+            <p>Create your first measurable business goal.</p>
           </div>
-          <button class="btn btn-primary full" type="submit">
-            Save Progress
-          </button>
-        </form>
-      `
-    );
-    document.getElementById("updateGoalForm")?.addEventListener("submit", (event) => {
-      event.preventDefault();
-      goal.current = Number(document.getElementById("goalCurrent").value) || 0;
-      save(STORAGE.goals, state.goals);
-      closeModal();
-      renderGoals();
-    });
-  });
-});
+        `
+    }
+  </div>
+  ${renderFooter()}
+`);
 
 }
 
 function addGoal() {
-showModal(
-“Create Business Goal”,
-`
-Goal
-      <div class="form-field">
-        <label>Category</label>
-        <select id="goalCategory">
-          <option>Sales</option>
-          <option>Profit</option>
-          <option>Customer</option>
-          <option>People</option>
-          <option>Career</option>
-          <option>Business</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label>Target</label>
-        <input id="goalTarget" type="number" required placeholder="100000000">
-      </div>
-      <div class="form-field">
-        <label>Current</label>
-        <input id="goalCurrent" type="number" value="0">
-      </div>
-      <div class="form-field">
-        <label>Deadline</label>
-        <input id="goalDeadline" type="date">
-      </div>
-      <button class="btn btn-primary full" type="submit">
-        Create Goal
-      </button>
-    </form>
-  `
-);
-document.getElementById("goalForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  state.goals.push({
-    id: `goal-${Date.now()}`,
-    title: document.getElementById("goalTitle").value,
-    category: document.getElementById("goalCategory").value,
-    target: Number(document.getElementById("goalTarget").value) || 0,
-    current: Number(document.getElementById("goalCurrent").value) || 0,
-    deadline: document.getElementById("goalDeadline").value,
-    done: false
-  });
-  save(STORAGE.goals, state.goals);
-  closeModal();
-  toast("Goal created");
-  renderGoals();
+const titleInput = $(“goalTitle”);
+const targetInput = $(“goalTarget”);
+
+if (!titleInput || !targetInput) return;
+const title = titleInput.value.trim();
+const target = Number(targetInput.value);
+if (!title || !target) {
+  toast("Goal title နဲ့ target ထည့်ပါ။");
+  return;
+}
+state.goals.push({
+  id: "goal-" + Date.now(),
+  title: title,
+  target: target,
+  actual: 0
 });
+writeJSON(STORAGE.goals, state.goals);
+toast("Goal added.");
+renderGoals();
 
 }
 
-/* =======================================================
-ACADEMY
-======================================================= */
+function updateGoal(id) {
+const goal = state.goals.find(function (item) {
+return item.id === id;
+});
+
+if (!goal) return;
+const value = prompt(
+  "Current actual number ထည့်ပါ။",
+  String(goal.actual || 0)
+);
+if (value === null) return;
+const actual = Number(value);
+if (Number.isNaN(actual)) {
+  toast("Number မှန်မှန်ထည့်ပါ။");
+  return;
+}
+goal.actual = actual;
+writeJSON(STORAGE.goals, state.goals);
+renderGoals();
+
+}
+
+/* ==========================================================
+11. ACADEMY
+========================================================== */
 
 function renderAcademy() {
-const cats = categoryList();
+state.currentPage = “academy”;
 
+updateHeader("Business Academy");
+setActiveNav("academy");
+const cats = categories();
 setMain(`
   ${pageHeader(
-    "Business Academy",
-    "Practical business learning for managers and entrepreneurs."
+    "Master Business",
+    "Practical business lessons designed for managers and entrepreneurs."
   )}
-  <div class="academy-intro">
+  <div class="academy-hero">
     <div>
-      <span class="badge">PROFESSIONAL BUSINESS LEARNING</span>
-      <h2>Build business capability, not just knowledge.</h2>
+      <span class="section-label">30-LESSON BUSINESS PROGRAM</span>
+      <h2>Build your Business Management capability.</h2>
       <p>
-        Every lesson is designed around real business situations,
-        practical frameworks and actions you can apply immediately.
+        Foundation → Leadership → Strategy → Marketing →
+        Sales → Finance → People → Operations
       </p>
     </div>
-  </div>
-  <div class="section-title-row">
-    <div>
-      <span class="eyebrow">MASTER BUSINESS</span>
-      <h2>Learning Categories</h2>
+    <div class="hero-stat">
+      <strong>${state.lessons.length}</strong>
+      <span>Lessons</span>
     </div>
   </div>
   <div class="category-grid">
-    ${cats.map((cat) => {
-      const done = cat.lessons.filter((l) => isComplete(l.id)).length;
-      const total = cat.lessons.length;
+    ${cats.map(function (category) {
+      const lessons = getCategoryLessons(category);
+      const done = lessons.filter(function (lesson) {
+        return isComplete(lesson.id);
+      }).length;
       return `
         <button
           class="category-card"
-          data-page="${slug(cat.name)}"
-        >
-          <span class="category-icon">${iconForCategory(cat.name)}</span>
-          <span class="category-content">
-            <strong>${esc(cat.name)}</strong>
-            <small>${total} lessons • ${done} completed</small>
+          onclick="window.ABA.openCategory('${esc(category)}')">
+          <span class="category-icon">
+            ${iconForCategory(category)}
           </span>
-          <span class="category-arrow">→</span>
+          <strong>${esc(category)}</strong>
+          <small>
+            ${done}/${lessons.length} completed
+          </small>
         </button>
       `;
     }).join("")}
   </div>
-  ${card(
-    "Recommended Learning Path",
-    `
-      <div class="learning-path">
-        <div><b>01</b><span>Business Foundation</span><small>Understand how business works</small></div>
-        <div><b>02</b><span>Leadership</span><small>Build high-performing teams</small></div>
-        <div><b>03</b><span>Strategy</span><small>Make better decisions</small></div>
-        <div><b>04</b><span>Marketing & Sales</span><small>Create revenue growth</small></div>
-        <div><b>05</b><span>Finance</span><small>Understand profit and cash</small></div>
-        <div><b>06</b><span>Operations</span><small>Build repeatable systems</small></div>
-      </div>
-    `
-  )}
+  ${renderFooter()}
 `);
 
 }
+
+/* ==========================================================
+12. LESSON LIST
+========================================================== */
 
 function renderLessons() {
-const lessons = getLessons();
+state.currentPage = “lessons”;
 
+updateHeader("Lessons");
+setActiveNav("lessons");
 setMain(`
   ${pageHeader(
-    "Lessons",
-    "Choose a lesson and start building practical business skills."
+    "All Lessons",
+    "Choose a lesson and apply it directly to your business."
   )}
-  <div class="lesson-filter">
-    <input id="lessonSearch" placeholder="Search lessons...">
-    <select id="lessonCategoryFilter">
-      <option value="">All Categories</option>
-      ${categoryList().map((c) => `<option>${esc(c.name)}</option>`).join("")}
-    </select>
+  <div class="lesson-toolbar">
+    <input
+      id="lessonSearch"
+      class="tool-input"
+      placeholder="Search lessons..."
+      oninput="window.ABA.filterLessons(this.value)"
+    >
   </div>
-  <div class="lesson-grid" id="lessonGrid">
-    ${lessonCards(lessons)}
+  <div id="lessonList" class="lesson-grid">
+    ${lessonCards(state.lessons)}
   </div>
+  ${renderFooter()}
 `);
-document.getElementById("lessonSearch")?.addEventListener("input", filterLessons);
-document.getElementById("lessonCategoryFilter")?.addEventListener("change", filterLessons);
 
 }
 
-function lessonCards(lessons) {
-if (!lessons.length) {
-return <div class="empty-state"><h3>No lessons found</h3></div>;
+function lessonCards(list) {
+if (!list.length) {
+return <div class="empty-state"> <div class="empty-icon">📚</div> <h3>No lessons found</h3> <p>Try another search.</p> </div>;
 }
 
-return lessons.map((lesson, index) => `
-  <article class="lesson-card ${lesson.premium ? "premium-lesson" : ""}">
-    <div class="lesson-card-top">
-      <span class="lesson-index">${String(index + 1).padStart(2, "0")}</span>
-      ${lesson.premium ? `<span class="premium-label">PRO</span>` : `<span class="free-label">FREE</span>`}
-    </div>
-    <span class="eyebrow">${esc(lesson.category)}</span>
-    <h3>${esc(lesson.title)}</h3>
-    <p>${esc(lesson.description || "")}</p>
-    <div class="lesson-meta">
-      <span>⏱ ${lesson.duration} min</span>
-      <span>${esc(lesson.level)}</span>
-      ${isComplete(lesson.id) ? "<span>✓ Completed</span>" : ""}
-    </div>
-    <button class="btn ${lesson.premium && state.plan !== "pro" ? "btn-secondary" : "btn-primary"}"
-            data-lesson="${esc(lesson.id)}">
-      ${
-        lesson.premium && state.plan !== "pro"
-          ? "🔒 Unlock"
-          : isComplete(lesson.id)
-            ? "Review Lesson"
-            : "Start Lesson"
-      }
-    </button>
-  </article>
-`).join("");
+return list.map(function (lesson) {
+  const locked = !!lesson.isPremium;
+  const done = isComplete(lesson.id);
+  return `
+    <article class="lesson-card ${locked ? "premium-lesson" : ""}">
+      <div class="lesson-number">
+        ${String(lesson.lessonNumber || "").padStart(2, "0")}
+      </div>
+      <div class="lesson-content">
+        <div class="lesson-meta">
+          <span>${esc(lesson.category || "Business")}</span>
+          <span>${esc(lesson.duration || "15 min")}</span>
+          ${
+            locked
+              ? `<span class="premium-badge">PRO</span>`
+              : ""
+          }
+          ${
+            done
+              ? `<span class="complete-badge">✓ Done</span>`
+              : ""
+          }
+        </div>
+        <h3>${esc(lesson.title)}</h3>
+        <p>
+          ${esc(
+            lesson.subtitle ||
+            lesson.description ||
+            "Practical business lesson."
+          )}
+        </p>
+        <button
+          class="${
+            locked
+              ? "secondary-button"
+              : "primary-button"
+          }"
+          onclick="window.ABA.openLesson('${esc(lesson.id)}')">
+          ${
+            locked
+              ? "View Lesson 🔒"
+              : done
+                ? "Review Lesson"
+                : "Start Lesson →"
+          }
+        </button>
+      </div>
+    </article>
+  `;
+}).join("");
 
 }
 
-function filterLessons() {
-const search =
-document.getElementById(“lessonSearch”)?.value.toLowerCase() || “”;
+function filterLessons(value) {
+const search = String(value || “”).toLowerCase();
 
-const category =
-  document.getElementById("lessonCategoryFilter")?.value || "";
-const filtered = getLessons().filter((lesson) => {
-  const matchesSearch =
-    !search ||
-    lesson.title.toLowerCase().includes(search) ||
-    (lesson.description || "").toLowerCase().includes(search);
-  const matchesCategory =
-    !category || lesson.category === category;
-  return matchesSearch && matchesCategory;
+const filtered = state.lessons.filter(function (lesson) {
+  return (
+    String(lesson.title || "")
+      .toLowerCase()
+      .includes(search) ||
+    String(lesson.category || "")
+      .toLowerCase()
+      .includes(search) ||
+    String(lesson.subtitle || "")
+      .toLowerCase()
+      .includes(search)
+  );
 });
-const grid = document.getElementById("lessonGrid");
-if (grid) grid.innerHTML = lessonCards(filtered);
+const list = $("lessonList");
+if (list) {
+  list.innerHTML = lessonCards(filtered);
+}
 
 }
+
+/* ==========================================================
+13. CATEGORY
+========================================================== */
 
 function renderCategory(category) {
-const lessons = getLessons().filter(
-(lesson) => lesson.category === category
-);
+state.currentPage = “category”;
 
-const done = lessons.filter((lesson) => isComplete(lesson.id)).length;
+updateHeader(category);
 setMain(`
   ${pageHeader(
     category,
-    `${done} of ${lessons.length} lessons completed`,
-    `<button class="btn btn-secondary" data-page="academy">← Academy</button>`
+    "Practical lessons and business management skills."
   )}
-  <div class="course-overview">
-    <div class="course-icon">${iconForCategory(category)}</div>
-    <div>
-      <span class="badge">${esc(category)}</span>
-      <h2>${esc(category)} Mastery</h2>
-      <p>Practical lessons designed for real-world business execution.</p>
-    </div>
-  </div>
-  <div class="progress-summary">
-    <div>
-      <strong>${lessons.length ? Math.round(done / lessons.length * 100) : 0}%</strong>
-      <span>Course Progress</span>
-    </div>
-    <div class="progress-bar">
-      <span style="width:${lessons.length ? done / lessons.length * 100 : 0}%"></span>
-    </div>
-  </div>
   <div class="lesson-grid">
-    ${lessonCards(lessons)}
+    ${lessonCards(getCategoryLessons(category))}
   </div>
+  <button
+    class="secondary-button"
+    onclick="window.ABA.openPage('lessons')">
+    ← All Lessons
+  </button>
+  ${renderFooter()}
 `);
 
 }
 
-/* =======================================================
-LESSON DETAIL
-======================================================= */
+/* ==========================================================
+14. OPEN LESSON
+========================================================== */
 
 function openLesson(id) {
-const lesson = getLessons().find((item) => item.id === id);
+const lesson = state.lessons.find(function (item) {
+return String(item.id) === String(id);
+});
 
 if (!lesson) {
-  toast("Lesson not found", "error");
+  toast("Lesson မတွေ့ပါ။");
   return;
 }
-if (lesson.premium && state.plan !== "pro") {
-  navigate("premium");
-  toast("This lesson is part of Growth Pro", "error");
+state.currentLesson = lesson;
+closeMobileMenu();
+if (lesson.isPremium) {
+  showPremiumLesson(lesson);
   return;
 }
-state.currentLesson = id;
 renderLessonDetail(lesson);
 
 }
 
-function renderLessonDetail(lesson) {
-const complete = isComplete(lesson.id);
+function showPremiumLesson(lesson) {
+showModal(`
+    <div class="premium-icon">👑</div>
+    <span class="section-label">GROWTH PRO</span>
+    <h2>Premium Lesson</h2>
+    <p>
+      <strong>${esc(lesson.title)}</strong>
+      သည် Growth Pro content ဖြစ်ပါတယ်။
+    </p>
+    <p>
+      Advanced lessons, tools နဲ့ AI Business Coaching
+      တွေကို Premium အဖြစ် unlock လုပ်နိုင်ပါမယ်။
+    </p>
+    <button
+      class="primary-button"
+      onclick="window.ABA.closeModal();window.ABA.openPage('growth-pro')">
+      View Growth Pro →
+    </button>
+    <button
+      class="secondary-button"
+      onclick="window.ABA.closeModal()">
+      Maybe Later
+    </button>
+  </div>
+`);
 
+}
+
+function renderLessonDetail(lesson) {
+state.currentPage = “lesson”;
+
+updateHeader(
+  "Lesson " + String(lesson.lessonNumber || "")
+);
+const index = state.lessons.findIndex(function (item) {
+  return item.id === lesson.id;
+});
+const previous = state.lessons[index - 1];
+const next = state.lessons[index + 1];
 setMain(`
   <div class="lesson-detail-page">
-    <div class="lesson-detail-top">
-      <button class="btn btn-secondary" id="backLessonBtn">
-        ← Back to Lessons
-      </button>
-      <span class="badge">${esc(lesson.category)}</span>
+    <button
+      class="back-button"
+      onclick="window.ABA.openPage('lessons')">
+      ← Back to Lessons
+    </button>
+    <div class="lesson-detail-header">
+      <span class="section-label">
+        ${esc(lesson.category || "Business")}
+      </span>
+      <h1>
+        Lesson ${Number(lesson.lessonNumber || "")}:
+        ${esc(lesson.title)}
+      </h1>
+      <p>
+        ${esc(lesson.subtitle || "")}
+      </p>
+      <div class="lesson-info">
+        <span>⏱ ${esc(lesson.duration || "15 min")}</span>
+        <span>
+          ${isComplete(lesson.id) ? "✓ Completed" : "In Progress"}
+        </span>
+      </div>
     </div>
-    <div class="lesson-detail-layout">
-      <article class="lesson-content">
-        <div class="lesson-title-block">
-          <span class="eyebrow">${esc(lesson.course)}</span>
-          <h1>${esc(lesson.title)}</h1>
-          <p>${esc(lesson.description || "")}</p>
-          <div class="lesson-meta large">
-            <span>⏱ ${lesson.duration} minutes</span>
-            <span>•</span>
-            <span>${esc(lesson.level)}</span>
-            ${complete ? `<span>• ✓ Completed</span>` : ""}
-          </div>
-        </div>
+    <div class="lesson-layout">
+      <article class="lesson-main-content">
         ${
-          lesson.objectives.length
-            ? `
-              <div class="lesson-objectives">
-                <h3>ဒီ Lesson ပြီးသွားရင်...</h3>
-                <ul>
-                  ${lesson.objectives.map((item) => `<li>✓ ${esc(item)}</li>`).join("")}
-                </ul>
-              </div>
-            `
-            : ""
-        }
-        ${
-          lesson.sections.length
-            ? lesson.sections.map((section, index) => `
+          Array.isArray(lesson.sections)
+            ? lesson.sections.map(function (section) {
+                return `
+                  <section class="lesson-section">
+                    <h2>
+                      ${esc(section.title || "")}
+                    </h2>
+                    <div class="lesson-text">
+                      ${formatLessonText(section.content || "")}
+                    </div>
+                  </section>
+                `;
+              }).join("")
+            : `
               <section class="lesson-section">
-                <div class="section-number">${String(index + 1).padStart(2, "0")}</div>
-                <div>
-                  <span class="eyebrow">${esc(section.heading)}</span>
-                  <p>${esc(section.content)}</p>
+                <div class="lesson-text">
+                  ${formatLessonText(
+                    lesson.content ||
+                    "ဒီ Lesson ရဲ့ Content မရှိသေးပါ။"
+                  )}
                 </div>
               </section>
-            `).join("")
-            : `<div class="empty-state">Lesson content coming soon.</div>`
-        }
-        ${
-          lesson.keyPoints.length
-            ? `
-              <div class="key-points-box">
-                <span class="eyebrow">KEY TAKEAWAYS</span>
-                <h2>အဓိကမှတ်ထားရမယ့်အချက်များ</h2>
-                <ul>
-                  ${lesson.keyPoints.map((point) => `<li>✓ ${esc(point)}</li>`).join("")}
-                </ul>
-              </div>
             `
-            : ""
         }
         <div class="lesson-complete-box">
           ${
-            complete
+            isComplete(lesson.id)
               ? `
-                <div>
-                  <strong>✓ Lesson Completed</strong>
-                  <p>ဒီ Lesson ကို ပြီးမြောက်ထားပါတယ်။</p>
+                <div class="completed-message">
+                  ✓ Lesson Completed
                 </div>
-                <button class="btn btn-secondary" data-page="lessons">
-                  Continue Learning
+              `
+              : `
+                <button
+                  class="primary-button"
+                  onclick="window.ABA.completeLesson('${esc(lesson.id)}')">
+                  ✓ Mark Lesson Complete
+                </button>
+              `
+          }
+        </div>
+        <div class="lesson-navigation">
+          ${
+            previous
+              ? `
+                <button
+                  class="secondary-button"
+                  onclick="window.ABA.openLesson('${esc(previous.id)}')">
+                  ← Previous
+                </button>
+              `
+              : `<span></span>`
+          }
+          ${
+            next
+              ? `
+                <button
+                  class="primary-button"
+                  onclick="window.ABA.openLesson('${esc(next.id)}')">
+                  Next Lesson →
                 </button>
               `
               : `
-                <div>
-                  <strong>Ready to apply?</strong>
-                  <p>ဒီ Lesson မှာ သင်ယူထားတာကို လက်တွေ့အသုံးချပါ။</p>
-                </div>
-                <button class="btn btn-primary" id="completeLessonBtn">
-                  ✓ Mark as Completed
+                <button
+                  class="primary-button"
+                  onclick="window.ABA.openPage('progress')">
+                  View My Progress →
                 </button>
               `
           }
         </div>
       </article>
       <aside class="lesson-sidebar">
-        <div class="lesson-side-card">
-          <span class="eyebrow">YOUR PROGRESS</span>
-          <strong>${overallProgress()}%</strong>
+        <div class="lesson-sidebar-card">
+          <span class="section-label">YOUR PROGRESS</span>
+          <strong>
+            ${overallProgress()}%
+          </strong>
           <div class="progress-bar">
             <span style="width:${overallProgress()}%"></span>
           </div>
-          <small>${completedCount()} lessons completed</small>
+          <small>
+            ${completedCount()} of
+            ${state.lessons.length} lessons completed
+          </small>
         </div>
-        <div class="lesson-side-card">
-          <span class="eyebrow">APPLY TOMORROW</span>
+        <div class="lesson-sidebar-card">
+          <span class="section-label">NEXT ACTION</span>
           <p>
-            Lesson ထဲက အချက်တစ်ခုကို ရွေးပြီး
-            နောက်အလုပ်လုပ်ရက်မှာ လက်တွေ့အသုံးချပါ။
+            ဒီ Lesson မှာသင်ယူထားတာကို
+            မနက်ဖြန် Business ထဲမှာ အသုံးချပါ။
           </p>
         </div>
       </aside>
     </div>
+    ${renderFooter()}
   </div>
 `);
-document.getElementById("backLessonBtn")?.addEventListener("click", () => {
-  navigate("lessons");
-});
-document.getElementById("completeLessonBtn")?.addEventListener("click", () => {
-  state.progress[lesson.id] = {
-    completedAt: new Date().toISOString()
-  };
-  save(STORAGE.progress, state.progress);
-  toast("Lesson completed successfully");
-  renderLessonDetail(lesson);
-});
 
 }
 
-/* =======================================================
-SALES TARGET CALCULATOR
-======================================================= */
+function formatLessonText(text) {
+return esc(text)
+.replace(/\n\n/g, “”)
+.replace(/\n/g, “”);
+}
+
+function completeLesson(id) {
+state.progress[id] = true;
+
+writeJSON(STORAGE.progress, state.progress);
+toast("Lesson completed ✓");
+const lesson = state.lessons.find(function (item) {
+  return item.id === id;
+});
+if (lesson) {
+  renderLessonDetail(lesson);
+} else {
+  renderLessons();
+}
+
+}
+
+/* ==========================================================
+15. PROGRESS
+========================================================== */
+
+function renderProgress() {
+state.currentPage = “progress”;
+
+updateHeader("My Progress");
+setActiveNav("progress");
+const progress = overallProgress();
+const catProgress = categories().map(function (category) {
+  const lessons = getCategoryLessons(category);
+  const done = lessons.filter(function (lesson) {
+    return isComplete(lesson.id);
+  }).length;
+  const value = lessons.length
+    ? Math.round((done / lessons.length) * 100)
+    : 0;
+  return `
+    <div class="progress-category">
+      <div class="progress-category-header">
+        <strong>
+          ${iconForCategory(category)}
+          ${esc(category)}
+        </strong>
+        <span>${value}%</span>
+      </div>
+      <div class="progress-bar">
+        <span style="width:${value}%"></span>
+      </div>
+      <small>
+        ${done}/${lessons.length} lessons completed
+      </small>
+    </div>
+  `;
+}).join("");
+setMain(`
+  ${pageHeader(
+    "My Progress",
+    "Track your learning and business growth journey."
+  )}
+  <div class="progress-hero">
+    <div>
+      <span class="section-label">OVERALL PROGRESS</span>
+      <h2>${progress}%</h2>
+      <p>
+        ${completedCount()} of
+        ${state.lessons.length} lessons completed.
+      </p>
+    </div>
+    <div class="progress-bar large">
+      <span style="width:${progress}%"></span>
+    </div>
+  </div>
+  <div class="progress-list">
+    ${catProgress}
+  </div>
+  ${renderFooter()}
+`);
+
+}
+
+/* ==========================================================
+16. SALES TARGET
+========================================================== */
 
 function renderSalesTarget() {
-setMain(`
-${pageHeader(
-“Sales Target Calculator”,
-“Convert business targets into practical daily and team targets.”
-)}
+state.currentPage = “sales-target”;
 
-  <div class="calculator-layout">
-    ${card(
-      "Target Inputs",
-      `
-        <form id="salesTargetForm" class="form-grid">
-          <div class="form-field">
-            <label>Monthly Target</label>
-            <input id="monthlyTarget" type="number" placeholder="100000000" required>
-          </div>
-          <div class="form-field">
-            <label>Working Days</label>
-            <input id="workingDays" type="number" value="26" required>
-          </div>
-          <div class="form-field">
-            <label>Team Size</label>
-            <input id="teamSize" type="number" value="5" required>
-          </div>
-          <div class="form-field">
-            <label>Average Order Value</label>
-            <input id="aov" type="number" value="100000" required>
-          </div>
-          <button class="btn btn-primary full" type="submit">
-            Calculate Target
-          </button>
-        </form>
-      `
-    )}
+updateHeader("Sales Target");
+setActiveNav("sales-target");
+setMain(`
+  ${pageHeader(
+    "Sales Target Calculator",
+    "Break your monthly target into practical execution numbers."
+  )}
+  <div class="calculator-card">
+    <div class="form-grid">
+      <div>
+        <label>Monthly Target</label>
+        <input
+          id="salesTarget"
+          class="tool-input"
+          type="number"
+          placeholder="100000000"
+        >
+      </div>
+      <div>
+        <label>Working Days</label>
+        <input
+          id="salesDays"
+          class="tool-input"
+          type="number"
+          value="26"
+        >
+      </div>
+      <div>
+        <label>Salespeople</label>
+        <input
+          id="salesPeople"
+          class="tool-input"
+          type="number"
+          value="5"
+        >
+      </div>
+    </div>
+    <button
+      class="primary-button"
+      onclick="window.ABA.calculateSalesTarget()">
+      Calculate →
+    </button>
     <div id="salesTargetResult"></div>
   </div>
+  ${renderFooter()}
 `);
-document.getElementById("salesTargetForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const monthly = Number(document.getElementById("monthlyTarget").value) || 0;
-  const days = Number(document.getElementById("workingDays").value) || 1;
-  const team = Number(document.getElementById("teamSize").value) || 1;
-  const aov = Number(document.getElementById("aov").value) || 1;
-  const daily = monthly / days;
-  const perPerson = monthly / team;
-  const dailyPerPerson = daily / team;
-  const orders = monthly / aov;
-  const dailyOrders = orders / days;
-  document.getElementById("salesTargetResult").innerHTML = `
-    <div class="result-panel">
-      <span class="eyebrow">CALCULATION RESULT</span>
-      <h2>Monthly Target: ${money(monthly)}</h2>
-      <div class="result-grid">
-        <div>
-          <small>Daily Team Target</small>
-          <strong>${money(daily)}</strong>
-        </div>
-        <div>
-          <small>Per Person / Month</small>
-          <strong>${money(perPerson)}</strong>
-        </div>
-        <div>
-          <small>Per Person / Day</small>
-          <strong>${money(dailyPerPerson)}</strong>
-        </div>
-        <div>
-          <small>Required Orders / Month</small>
-          <strong>${money(orders)}</strong>
-        </div>
-        <div>
-          <small>Required Orders / Day</small>
-          <strong>${dailyOrders.toFixed(1)}</strong>
-        </div>
-      </div>
-      <div class="insight-box">
-        <strong>Manager Insight</strong>
-        <p>
-          Monthly Target ကို Daily Target နဲ့ Individual Target အဖြစ်
-          ခွဲပြီး Team တစ်ခုချင်းစီကို ရှင်းလင်းစွာ ပေးနိုင်ပါပြီ။
-        </p>
-      </div>
-    </div>
-  `;
-});
 
 }
 
-/* =======================================================
-PRICING CALCULATOR
-======================================================= */
+function calculateSalesTarget() {
+const target = Number($(“salesTarget”)?.value) || 0;
+const days = Number($(“salesDays”)?.value) || 1;
+const people = Number($(“salesPeople”)?.value) || 1;
 
-function renderPricing() {
-setMain(`
-${pageHeader(
-“Pricing Calculator”,
-“Understand cost, margin, markup and selling price.”
-)}
-
-  <div class="calculator-layout">
-    ${card(
-      "Pricing Inputs",
-      `
-        <form id="pricingForm" class="form-grid">
-          <div class="form-field">
-            <label>Product Cost</label>
-            <input id="productCost" type="number" placeholder="70000" required>
-          </div>
-          <div class="form-field">
-            <label>Desired Margin %</label>
-            <input id="desiredMargin" type="number" value="30" required>
-          </div>
-          <div class="form-field">
-            <label>Quantity</label>
-            <input id="priceQuantity" type="number" value="1">
-          </div>
-          <button class="btn btn-primary full" type="submit">
-            Calculate Price
-          </button>
-        </form>
-      `
-    )}
-    <div id="pricingResult"></div>
-  </div>
-`);
-document.getElementById("pricingForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const cost = Number(document.getElementById("productCost").value) || 0;
-  const margin = Number(document.getElementById("desiredMargin").value) || 0;
-  const quantity = Number(document.getElementById("priceQuantity").value) || 1;
-  const price = margin >= 100
-    ? 0
-    : cost / (1 - margin / 100);
-  const profit = price - cost;
-  const total = price * quantity;
-  document.getElementById("pricingResult").innerHTML = `
-    <div class="result-panel">
-      <span class="eyebrow">RECOMMENDED PRICE</span>
-      <h2>${money(price)} MMK</h2>
-      <div class="result-grid">
-        <div>
-          <small>Cost</small>
-          <strong>${money(cost)}</strong>
-        </div>
-        <div>
-          <small>Margin</small>
-          <strong>${pct(margin)}</strong>
-        </div>
-        <div>
-          <small>Profit / Unit</small>
-          <strong>${money(profit)}</strong>
-        </div>
-        <div>
-          <small>Total / Quantity</small>
-          <strong>${money(total)}</strong>
-        </div>
-      </div>
+const daily = target / days;
+const perPerson = target / people;
+const perPersonDaily = target / people / days;
+const result = $("salesTargetResult");
+if (!result) return;
+result.innerHTML = `
+  <div class="result-grid">
+    <div class="result-card">
+      <span>Daily Team Target</span>
+      <strong>${money(daily)}</strong>
     </div>
-  `;
-});
-
-}
-
-/* =======================================================
-KPI
-======================================================= */
-
-function renderKPI() {
-setMain(`
-${pageHeader(
-“KPI & Scorecard”,
-“Measure the numbers that matter.”
-)}
-
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <span>📈</span>
-      <small>Sales Achievement</small>
-      <strong id="kpiSales">0%</strong>
-      <input id="kpiSalesInput" type="number" placeholder="Achievement %">
+    <div class="result-card">
+      <span>Monthly / Person</span>
+      <strong>${money(perPerson)}</strong>
     </div>
-    <div class="kpi-card">
-      <span>👥</span>
-      <small>Team Productivity</small>
-      <strong id="kpiTeam">0%</strong>
-      <input id="kpiTeamInput" type="number" placeholder="Productivity %">
-    </div>
-    <div class="kpi-card">
-      <span>🏪</span>
-      <small>Distribution</small>
-      <strong id="kpiDistribution">0%</strong>
-      <input id="kpiDistributionInput" type="number" placeholder="Distribution %">
-    </div>
-    <div class="kpi-card">
-      <span>💰</span>
-      <small>Collection</small>
-      <strong id="kpiCollection">0%</strong>
-      <input id="kpiCollectionInput" type="number" placeholder="Collection %">
+    <div class="result-card">
+      <span>Daily / Person</span>
+      <strong>${money(perPersonDaily)}</strong>
     </div>
   </div>
-  ${card(
-    "Manager Score",
-    `
-      <div class="manager-score-result" id="managerScore">
-        Enter KPI values above to calculate your score.
-      </div>
-    `
-  )}
-`);
-const inputs = document.querySelectorAll(
-  "#kpiSalesInput,#kpiTeamInput,#kpiDistributionInput,#kpiCollectionInput"
-);
-inputs.forEach((input) => {
-  input.addEventListener("input", calculateKPI);
-});
-
-}
-
-function calculateKPI() {
-const values = [
-Number(document.getElementById(“kpiSalesInput”)?.value) || 0,
-Number(document.getElementById(“kpiTeamInput”)?.value) || 0,
-Number(document.getElementById(“kpiDistributionInput”)?.value) || 0,
-Number(document.getElementById(“kpiCollectionInput”)?.value) || 0
-];
-
-document.getElementById("kpiSales").textContent = pct(values[0]);
-document.getElementById("kpiTeam").textContent = pct(values[1]);
-document.getElementById("kpiDistribution").textContent = pct(values[2]);
-document.getElementById("kpiCollection").textContent = pct(values[3]);
-const score = values.reduce((a, b) => a + b, 0) / 4;
-let level = "Needs Improvement";
-if (score >= 90) level = "Excellent";
-else if (score >= 80) level = "Strong";
-else if (score >= 70) level = "Good";
-else if (score >= 60) level = "Developing";
-document.getElementById("managerScore").innerHTML = `
-  <strong>${pct(score)}</strong>
-  <span>${level}</span>
-  <p>
-    Overall score ကို တစ်ခုတည်းမကြည့်ဘဲ KPI တစ်ခုချင်းစီရဲ့ Gap ကို
-    Action Plan အဖြစ်ပြောင်းလဲပါ။
-  </p>
 `;
 
 }
 
-/* =======================================================
-CUSTOMER PLAN
-======================================================= */
+/* ==========================================================
+17. PRICING
+========================================================== */
+
+function renderPricing() {
+state.currentPage = “pricing”;
+
+updateHeader("Pricing");
+setActiveNav("pricing");
+setMain(`
+  ${pageHeader(
+    "Pricing Calculator",
+    "Understand cost, margin and selling price."
+  )}
+  <div class="calculator-card">
+    <div class="form-grid">
+      <div>
+        <label>Cost</label>
+        <input
+          id="priceCost"
+          class="tool-input"
+          type="number"
+          placeholder="10000"
+        >
+      </div>
+      <div>
+        <label>Desired Margin %</label>
+        <input
+          id="priceMargin"
+          class="tool-input"
+          type="number"
+          value="30"
+        >
+      </div>
+    </div>
+    <button
+      class="primary-button"
+      onclick="window.ABA.calculatePricing()">
+      Calculate Price →
+    </button>
+    <div id="pricingResult"></div>
+  </div>
+  ${renderFooter()}
+`);
+
+}
+
+function calculatePricing() {
+const cost = Number($(“priceCost”)?.value) || 0;
+const margin = Number($(“priceMargin”)?.value) || 0;
+
+if (margin >= 100) {
+  toast("Margin 100% ထက်နည်းရပါမယ်။");
+  return;
+}
+const sellingPrice = cost / (1 - margin / 100);
+const grossProfit = sellingPrice - cost;
+const result = $("pricingResult");
+if (!result) return;
+result.innerHTML = `
+  <div class="result-grid">
+    <div class="result-card">
+      <span>Recommended Selling Price</span>
+      <strong>${money(sellingPrice)}</strong>
+    </div>
+    <div class="result-card">
+      <span>Gross Profit</span>
+      <strong>${money(grossProfit)}</strong>
+    </div>
+    <div class="result-card">
+      <span>Margin</span>
+      <strong>${margin}%</strong>
+    </div>
+  </div>
+`;
+
+}
+
+/* ==========================================================
+18. KPI SCORECARD
+========================================================== */
+
+function renderKPI() {
+state.currentPage = “kpi”;
+
+updateHeader("KPI & Scorecard");
+setActiveNav("kpi");
+setMain(`
+  ${pageHeader(
+    "KPI & Scorecard",
+    "Manage performance with clear numbers."
+  )}
+  <div class="card-grid">
+    ${card(
+      "Sales Achievement",
+      `
+        <div class="metric-big">86%</div>
+        <div class="progress-bar">
+          <span style="width:86%"></span>
+        </div>
+        <small>Target vs Actual</small>
+      `
+    )}
+    ${card(
+      "New Customers",
+      `
+        <div class="metric-big">24</div>
+        <small>Monthly new customers</small>
+      `
+    )}
+    ${card(
+      "Collection",
+      `
+        <div class="metric-big">92%</div>
+        <div class="progress-bar">
+          <span style="width:92%"></span>
+        </div>
+        <small>Collection achievement</small>
+      `
+    )}
+    ${card(
+      "Team Productivity",
+      `
+        <div class="metric-big">78%</div>
+        <div class="progress-bar">
+          <span style="width:78%"></span>
+        </div>
+        <small>Activity effectiveness</small>
+      `
+    )}
+  </div>
+  ${renderFooter()}
+`);
+
+}
+
+/* ==========================================================
+19. CUSTOMER PLAN
+========================================================== */
 
 function renderCustomerPlan() {
+state.currentPage = “customer-plan”;
+
+updateHeader("Customer Plan");
+setActiveNav("customer-plan");
 setMain(`
-${pageHeader(
-“Customer Plan”,
-“Plan customers by value, potential and action.”
-)}
-
-  ${card(
-    "Customer Planning Framework",
-    `
-      <div class="framework-grid">
-        <div><b>01</b><strong>Current Value</strong><p>လက်ရှိ Revenue ဘယ်လောက်ပေးနေလဲ?</p></div>
-        <div><b>02</b><strong>Potential</strong><p>နောက်ထပ် ဘယ်လောက်တိုးနိုင်လဲ?</p></div>
-        <div><b>03</b><strong>Problem</strong><p>ဘာက Growth ကိုတားနေလဲ?</p></div>
-        <div><b>04</b><strong>Action</strong><p>နောက်တစ်ဆင့် ဘာလုပ်မလဲ?</p></div>
-      </div>
-    `
+  ${pageHeader(
+    "Customer Plan",
+    "Manage key customers with structured actions."
   )}
-  ${card(
-    "Customer Action Template",
-    `
-      <div class="form-grid">
-        <div class="form-field">
-          <label>Customer</label>
-          <input id="customerName" placeholder="Customer name">
-        </div>
-        <div class="form-field">
-          <label>Current Sales</label>
-          <input id="customerSales" type="number">
-        </div>
-        <div class="form-field">
-          <label>Potential Sales</label>
-          <input id="customerPotential" type="number">
-        </div>
-        <div class="form-field full">
-          <label>Main Problem</label>
-          <textarea id="customerProblem"></textarea>
-        </div>
-        <div class="form-field full">
-          <label>Next Action</label>
-          <textarea id="customerAction"></textarea>
-        </div>
-        <button class="btn btn-primary" id="saveCustomerPlan">
-          Save Plan
-        </button>
-      </div>
-    `
-  )}
-`);
-document.getElementById("saveCustomerPlan")?.addEventListener("click", () => {
-  toast("Customer plan saved");
-});
-
-}
-
-/* =======================================================
-ACTION PLANNER
-======================================================= */
-
-function renderPlanner() {
-setMain(`
-${pageHeader(
-“Action Planner”,
-“Turn a business problem into a clear action plan.”
-)}
-
-  ${card(
-    "7-Day Action Plan",
-    `
-      <form id="plannerForm" class="form-grid">
-        <div class="form-field full">
-          <label>Business Problem</label>
-          <textarea id="plannerProblem" required placeholder="What is the main problem?"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Root Cause</label>
-          <input id="plannerCause" required placeholder="Why is it happening?">
-        </div>
-        <div class="form-field">
-          <label>Owner</label>
-          <input id="plannerOwner" placeholder="Who will own it?">
-        </div>
-        <div class="form-field full">
-          <label>Action</label>
-          <textarea id="plannerAction" required placeholder="What will you do?"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Measure</label>
-          <input id="plannerMeasure" placeholder="How will you measure success?">
-        </div>
-        <div class="form-field">
-          <label>Deadline</label>
-          <input id="plannerDeadline" type="date">
-        </div>
-        <button class="btn btn-primary full" type="submit">
-          Create Action Plan
-        </button>
-      </form>
-    `
-  )}
-  <div id="plannerResult"></div>
-`);
-document.getElementById("plannerForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const result = `
-    <div class="result-panel">
-      <span class="eyebrow">ACTION PLAN</span>
-      <h2>Problem → Root Cause → Action → Measure</h2>
-      <div class="action-plan">
-        <div><b>Problem</b><p>${esc(document.getElementById("plannerProblem").value)}</p></div>
-        <div><b>Root Cause</b><p>${esc(document.getElementById("plannerCause").value)}</p></div>
-        <div><b>Owner</b><p>${esc(document.getElementById("plannerOwner").value)}</p></div>
-        <div><b>Action</b><p>${esc(document.getElementById("plannerAction").value)}</p></div>
-        <div><b>Measure</b><p>${esc(document.getElementById("plannerMeasure").value)}</p></div>
-        <div><b>Deadline</b><p>${esc(document.getElementById("plannerDeadline").value)}</p></div>
-      </div>
+  <div class="tool-card">
+    <div class="form-grid">
+      <input
+        id="customerName"
+        class="tool-input"
+        placeholder="Customer name"
+      >
+      <input
+        id="customerValue"
+        class="tool-input"
+        placeholder="Monthly value"
+      >
+      <input
+        id="customerAction"
+        class="tool-input"
+        placeholder="Next action"
+      >
     </div>
-  `;
-  document.getElementById("plannerResult").innerHTML = result;
-  toast("Action plan created");
-});
+    <button
+      class="primary-button"
+      onclick="window.ABA.saveCustomerPlan()">
+      Save Customer Plan
+    </button>
+  </div>
+  <div class="empty-state">
+    <div class="empty-icon">👥</div>
+    <h3>Customer planning workspace</h3>
+    <p>
+      Add customer plans as you execute your business strategy.
+    </p>
+  </div>
+  ${renderFooter()}
+`);
 
 }
 
-/* =======================================================
-BUSINESS PLAN
-======================================================= */
+function saveCustomerPlan() {
+toast(“Customer plan saved locally.”);
+}
+
+/* ==========================================================
+20. ACTION PLANNER
+========================================================== */
+
+function renderActionPlanner() {
+state.currentPage = “action-planner”;
+
+updateHeader("Action Planner");
+setActiveNav("action-planner");
+setMain(`
+  ${pageHeader(
+    "Action Planner",
+    "Convert business goals into clear actions."
+  )}
+  <div class="planner-grid">
+    ${[
+      ["01", "Priority", "What matters most?"],
+      ["02", "Owner", "Who is responsible?"],
+      ["03", "Deadline", "When must it happen?"],
+      ["04", "Measure", "How will success be measured?"]
+    ].map(function (item) {
+      return `
+        <div class="planner-card">
+          <span>${item[0]}</span>
+          <strong>${item[1]}</strong>
+          <p>${item[2]}</p>
+        </div>
+      `;
+    }).join("")}
+  </div>
+  ${renderFooter()}
+`);
+
+}
+
+/* ==========================================================
+21. BUSINESS PLAN
+========================================================== */
 
 function renderBusinessPlan() {
-setMain(`
-${pageHeader(
-“Business Plan”,
-“Build a simple but practical business plan.”
-)}
+state.currentPage = “business-plan”;
 
-  ${card(
-    "Business Growth Plan",
-    `
-      <form id="businessPlanForm" class="form-grid">
-        <div class="form-field full">
-          <label>Business / Project</label>
-          <input id="bpBusiness" placeholder="Business name">
-        </div>
-        <div class="form-field full">
-          <label>Customer</label>
-          <textarea id="bpCustomer" placeholder="Who is your target customer?"></textarea>
-        </div>
-        <div class="form-field full">
-          <label>Problem</label>
-          <textarea id="bpProblem" placeholder="What problem are you solving?"></textarea>
-        </div>
-        <div class="form-field full">
-          <label>Solution / Product</label>
-          <textarea id="bpSolution" placeholder="What are you offering?"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Monthly Revenue Target</label>
-          <input id="bpRevenue" type="number">
-        </div>
-        <div class="form-field">
-          <label>Target Margin %</label>
-          <input id="bpMargin" type="number" value="30">
-        </div>
-        <div class="form-field full">
-          <label>90-Day Growth Goal</label>
-          <textarea id="bpGoal"></textarea>
-        </div>
-        <button class="btn btn-primary full" type="submit">
-          Generate Business Plan
-        </button>
-      </form>
-    `
+updateHeader("Business Plan");
+setActiveNav("business-plan");
+const plan = state.businessPlan;
+setMain(`
+  ${pageHeader(
+    "Business Plan",
+    "Create a practical plan for your business."
   )}
-  <div id="businessPlanResult"></div>
-`);
-document.getElementById("businessPlanForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const business = document.getElementById("bpBusiness").value;
-  const customer = document.getElementById("bpCustomer").value;
-  const problem = document.getElementById("bpProblem").value;
-  const solution = document.getElementById("bpSolution").value;
-  const revenue = Number(document.getElementById("bpRevenue").value) || 0;
-  const margin = Number(document.getElementById("bpMargin").value) || 0;
-  const goal = document.getElementById("bpGoal").value;
-  state.planData = {
-    business,
-    customer,
-    problem,
-    solution,
-    revenue,
-    margin,
-    goal
-  };
-  save("aba_v16_business_plan", state.planData);
-  document.getElementById("businessPlanResult").innerHTML = `
-    <div class="business-plan-output">
-      <span class="badge">BUSINESS PLAN</span>
-      <h2>${esc(business || "My Business")}</h2>
-      <div class="plan-section">
-        <h3>Customer</h3>
-        <p>${esc(customer)}</p>
-      </div>
-      <div class="plan-section">
-        <h3>Problem</h3>
-        <p>${esc(problem)}</p>
-      </div>
-      <div class="plan-section">
-        <h3>Solution</h3>
-        <p>${esc(solution)}</p>
-      </div>
-      <div class="plan-metrics">
-        <div>
-          <small>Revenue Target</small>
-          <strong>${money(revenue)}</strong>
-        </div>
-        <div>
-          <small>Target Margin</small>
-          <strong>${pct(margin)}</strong>
-        </div>
-      </div>
-      <div class="plan-section">
-        <h3>90-Day Goal</h3>
-        <p>${esc(goal)}</p>
-      </div>
-      <div class="insight-box">
-        <strong>Next Step</strong>
-        <p>
-          ဒီ Plan ကို Action Planner ထဲမှာ 7-Day Action အဖြစ် ခွဲပြီး
-          Execution စတင်ပါ။
-        </p>
-      </div>
+  <div class="tool-card">
+    <div class="form-grid">
+      <input
+        id="bpName"
+        class="tool-input"
+        value="${esc(plan.name || "")}"
+        placeholder="Business Name"
+      >
+      <input
+        id="bpType"
+        class="tool-input"
+        value="${esc(plan.type || "")}"
+        placeholder="Business Type"
+      >
+      <input
+        id="bpCustomer"
+        class="tool-input"
+        value="${esc(plan.customer || "")}"
+        placeholder="Target Customer"
+      >
+      <input
+        id="bpBudget"
+        class="tool-input"
+        value="${esc(plan.budget || "")}"
+        placeholder="Starting Budget"
+      >
+      <input
+        id="bpGoal"
+        class="tool-input"
+        value="${esc(plan.goal || "")}"
+        placeholder="Business Goal"
+      >
+      <input
+        id="bpLocation"
+        class="tool-input"
+        value="${esc(plan.location || "")}"
+        placeholder="Market / Location"
+      >
     </div>
-  `;
-  toast("Business plan generated");
-});
+    <button
+      class="primary-button"
+      onclick="window.ABA.saveBusinessPlan()">
+      Save Business Plan
+    </button>
+  </div>
+  ${renderFooter()}
+`);
 
 }
 
-/* =======================================================
-PERFORMANCE
-======================================================= */
+function saveBusinessPlan() {
+state.businessPlan = {
+name: $(“bpName”)?.value.trim() || “”,
+type: $(“bpType”)?.value.trim() || “”,
+customer: $(“bpCustomer”)?.value.trim() || “”,
+budget: $(“bpBudget”)?.value.trim() || “”,
+goal: $(“bpGoal”)?.value.trim() || “”,
+location: $(“bpLocation”)?.value.trim() || “”
+};
+
+writeJSON(
+  STORAGE.businessPlan,
+  state.businessPlan
+);
+toast("Business Plan saved.");
+
+}
+
+/* ==========================================================
+22. PERFORMANCE
+========================================================== */
 
 function renderPerformance() {
-const lessons = getLessons();
-const completed = completedCount();
-const progress = overallProgress();
+state.currentPage = “performance”;
 
-const goalsDone = state.goals.filter((g) => g.done).length;
-const goalsTotal = state.goals.length;
+updateHeader("Performance");
+setActiveNav("performance");
 setMain(`
   ${pageHeader(
     "Performance",
-    "See your learning and execution performance."
+    "Understand what is working and what needs improvement."
   )}
-  <div class="stats-grid">
-    <div class="stat-card">
-      <small>Learning</small>
-      <strong>${progress}%</strong>
-      <span>${completed}/${lessons.length} lessons</span>
-    </div>
-    <div class="stat-card">
-      <small>Goals</small>
-      <strong>${goalsTotal ? Math.round(goalsDone / goalsTotal * 100) : 0}%</strong>
-      <span>${goalsDone}/${goalsTotal} completed</span>
-    </div>
-    <div class="stat-card">
-      <small>Tasks</small>
-      <strong>${state.tasks.filter(t => t.done).length}</strong>
-      <span>Completed actions</span>
-    </div>
-    <div class="stat-card">
-      <small>Plan</small>
-      <strong>${state.plan === "pro" ? "PRO" : "FREE"}</strong>
-      <span>Current membership</span>
-    </div>
+  <div class="card-grid">
+    ${card(
+      "Overall Performance",
+      `
+        <div class="metric-big">82%</div>
+        <div class="progress-bar">
+          <span style="width:82%"></span>
+        </div>
+      `
+    )}
+    ${card(
+      "Execution",
+      `
+        <div class="metric-big">76%</div>
+        <div class="progress-bar">
+          <span style="width:76%"></span>
+        </div>
+      `
+    )}
+    ${card(
+      "Growth",
+      `
+        <div class="metric-big">68%</div>
+        <div class="progress-bar">
+          <span style="width:68%"></span>
+        </div>
+      `
+    )}
   </div>
-  ${card(
-    "Growth Score",
-    `
-      <div class="growth-score">
-        <div class="score-ring large" style="--progress:${progress * 3.6}deg">
-          <div>
-            <strong>${progress}%</strong>
-            <span>Learning</span>
-          </div>
-        </div>
-        <div>
-          <h3>Your Growth System</h3>
-          <p>
-            Knowledge တစ်ခုတည်းမဟုတ်ဘဲ Learning + Goals + Execution
-            ကို အတူတကွတိုးတက်အောင်လုပ်ပါ။
-          </p>
-          <button class="btn btn-primary" data-page="today">
-            Continue Execution
-          </button>
-        </div>
-      </div>
-    `
-  )}
+  ${renderFooter()}
 `);
 
 }
 
-/* =======================================================
-SALES ANALYSIS
-======================================================= */
+/* ==========================================================
+23. SALES ANALYSIS
+========================================================== */
 
 function renderSalesAnalysis() {
-setMain(`
-${pageHeader(
-“Sales Analysis”,
-“Analyze sales performance using Target, Actual and Gap.”
-)}
+state.currentPage = “sales-analysis”;
 
-  ${card(
-    "Sales Performance Analyzer",
-    `
-      <form id="salesAnalysisForm" class="form-grid">
-        <div class="form-field">
-          <label>Target</label>
-          <input id="saTarget" type="number" value="100000000">
-        </div>
-        <div class="form-field">
-          <label>Actual</label>
-          <input id="saActual" type="number" value="85000000">
-        </div>
-        <div class="form-field">
-          <label>Previous Period</label>
-          <input id="saPrevious" type="number" value="80000000">
-        </div>
-        <button class="btn btn-primary full" type="submit">
-          Analyze
-        </button>
-      </form>
-    `
+updateHeader("Sales Analysis");
+setActiveNav("sales-analysis");
+setMain(`
+  ${pageHeader(
+    "Sales Analysis",
+    "Analyze target, actual, gap and growth."
   )}
-  <div id="salesAnalysisResult"></div>
+  <div class="analysis-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Target</th>
+          <th>Actual</th>
+          <th>Achievement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sales</td>
+          <td>100M</td>
+          <td>86M</td>
+          <td>86%</td>
+        </tr>
+        <tr>
+          <td>New Customers</td>
+          <td>30</td>
+          <td>24</td>
+          <td>80%</td>
+        </tr>
+        <tr>
+          <td>Collection</td>
+          <td>100%</td>
+          <td>92%</td>
+          <td>92%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  ${renderFooter()}
 `);
-document.getElementById("salesAnalysisForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const target = Number(document.getElementById("saTarget").value) || 0;
-  const actual = Number(document.getElementById("saActual").value) || 0;
-  const previous = Number(document.getElementById("saPrevious").value) || 0;
-  const achievement = calcAchievement(actual, target);
-  const gap = target - actual;
-  const growth = previous ? ((actual - previous) / previous) * 100 : 0;
-  document.getElementById("salesAnalysisResult").innerHTML = `
-    <div class="result-panel">
-      <span class="eyebrow">SALES ANALYSIS</span>
-      <div class="result-grid">
-        <div>
-          <small>Achievement</small>
-          <strong>${pct(achievement)}</strong>
-        </div>
-        <div>
-          <small>Gap</small>
-          <strong>${money(gap)}</strong>
-        </div>
-        <div>
-          <small>Growth</small>
-          <strong>${pct(growth)}</strong>
-        </div>
-      </div>
-      <div class="insight-box">
-        <strong>Manager Diagnosis</strong>
-        <p>
-          ${achievement >= 100
-            ? "Target achieved. Focus on sustainable growth and margin."
-            : "Target gap ရှိနေပါတယ်။ Customer, Coverage, Product, People နဲ့ Execution Root Cause တွေကို ခွဲခြမ်းပါ။"}
-        </p>
-      </div>
-    </div>
-  `;
-});
 
 }
 
-/* =======================================================
-PROFIT ANALYSIS
-======================================================= */
+/* ==========================================================
+24. PROFIT ANALYSIS
+========================================================== */
 
 function renderProfitAnalysis() {
-setMain(`
-${pageHeader(
-“Profit Analysis”,
-“Revenue ကောင်းရုံနဲ့ မလုံလောက်ပါဘူး — Profit ကို နားလည်ပါ။”
-)}
+state.currentPage = “profit-analysis”;
 
-  ${card(
-    "Profit Analyzer",
-    `
-      <form id="profitForm" class="form-grid">
-        <div class="form-field">
-          <label>Revenue</label>
-          <input id="profitRevenue" type="number" value="100000000">
-        </div>
-        <div class="form-field">
-          <label>Cost of Goods</label>
-          <input id="profitCOGS" type="number" value="70000000">
-        </div>
-        <div class="form-field">
-          <label>Operating Expenses</label>
-          <input id="profitExpense" type="number" value="15000000">
-        </div>
-        <button class="btn btn-primary full" type="submit">
-          Analyze Profit
-        </button>
-      </form>
-    `
+updateHeader("Profit Analysis");
+setActiveNav("profit-analysis");
+setMain(`
+  ${pageHeader(
+    "Profit Analysis",
+    "Understand Revenue, Cost, Gross Profit and Margin."
   )}
-  <div id="profitResult"></div>
+  <div class="card-grid">
+    ${card(
+      "Revenue",
+      `<div class="metric-big">100M</div>`
+    )}
+    ${card(
+      "Cost",
+      `<div class="metric-big">70M</div>`
+    )}
+    ${card(
+      "Gross Profit",
+      `<div class="metric-big">30M</div>`
+    )}
+    ${card(
+      "Gross Margin",
+      `<div class="metric-big">30%</div>`
+    )}
+  </div>
+  ${renderFooter()}
 `);
-document.getElementById("profitForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const revenue = Number(document.getElementById("profitRevenue").value) || 0;
-  const cogs = Number(document.getElementById("profitCOGS").value) || 0;
-  const expense = Number(document.getElementById("profitExpense").value) || 0;
-  const grossProfit = revenue - cogs;
-  const netProfit = grossProfit - expense;
-  const grossMargin = revenue ? grossProfit / revenue * 100 : 0;
-  const netMargin = revenue ? netProfit / revenue * 100 : 0;
-  document.getElementById("profitResult").innerHTML = `
-    <div class="result-panel">
-      <span class="eyebrow">PROFIT ANALYSIS</span>
-      <div class="result-grid">
-        <div>
-          <small>Gross Profit</small>
-          <strong>${money(grossProfit)}</strong>
-        </div>
-        <div>
-          <small>Gross Margin</small>
-          <strong>${pct(grossMargin)}</strong>
-        </div>
-        <div>
-          <small>Net Profit</small>
-          <strong>${money(netProfit)}</strong>
-        </div>
-        <div>
-          <small>Net Margin</small>
-          <strong>${pct(netMargin)}</strong>
-        </div>
-      </div>
-      <div class="insight-box">
-        <strong>Manager Insight</strong>
-        <p>
-          Revenue တိုးလာတာနဲ့အတူ Gross Margin နဲ့ Net Margin ကိုပါ
-          စောင့်ကြည့်ပါ။
-        </p>
-      </div>
-    </div>
-  `;
-});
 
 }
 
-/* =======================================================
-REPORTS
-======================================================= */
+/* ==========================================================
+25. REPORTS
+========================================================== */
 
 function renderReports() {
-const completed = completedCount();
-const total = getLessons().length;
+state.currentPage = “reports”;
 
+updateHeader("Reports");
+setActiveNav("reports");
 setMain(`
   ${pageHeader(
     "Reports",
-    "A simple management summary for your current workspace."
+    "Business reporting workspace."
   )}
-  <div class="report-grid">
-    <div class="report-card">
-      <span>📚</span>
-      <small>Academy</small>
-      <strong>${completed}/${total}</strong>
-      <p>Lessons completed</p>
-    </div>
-    <div class="report-card">
-      <span>🎯</span>
-      <small>Goals</small>
-      <strong>${state.goals.length}</strong>
-      <p>Business goals created</p>
-    </div>
-    <div class="report-card">
-      <span>⚡</span>
-      <small>Actions</small>
-      <strong>${state.tasks.length}</strong>
-      <p>Actions in workspace</p>
-    </div>
-    <div class="report-card">
-      <span>💎</span>
-      <small>Plan</small>
-      <strong>${state.plan === "pro" ? "PRO" : "FREE"}</strong>
-      <p>Current plan</p>
-    </div>
+  <div class="card-grid">
+    <button
+      class="report-card"
+      onclick="window.ABA.openPage('sales-analysis')">
+      <span>📈</span>
+      <strong>Sales Report</strong>
+      <small>Target vs Actual</small>
+    </button>
+    <button
+      class="report-card"
+      onclick="window.ABA.openPage('profit-analysis')">
+      <span>💰</span>
+      <strong>Profit Report</strong>
+      <small>Revenue and margin</small>
+    </button>
+    <button
+      class="report-card"
+      onclick="window.ABA.openPage('performance')">
+      <span>📊</span>
+      <strong>Performance Report</strong>
+      <small>Business performance</small>
+    </button>
   </div>
-  ${card(
-    "Management Review",
-    `
-      <div class="review-list">
-        <div><strong>1. Result</strong><span>What did we achieve?</span></div>
-        <div><strong>2. Gap</strong><span>Where are we below target?</span></div>
-        <div><strong>3. Cause</strong><span>Why did the gap happen?</span></div>
-        <div><strong>4. Action</strong><span>What will we do next?</span></div>
-        <div><strong>5. Measure</strong><span>How will we know it worked?</span></div>
-      </div>
-    `
-  )}
+  ${renderFooter()}
 `);
 
 }
 
-/* =======================================================
-AI PAGES
-======================================================= */
+/* ==========================================================
+26. AI PAGES
+========================================================== */
 
-function renderAI(title, subtitle) {
-const locked = state.plan !== “pro”;
+function renderAI(page, title, subtitle) {
+state.currentPage = page;
 
+updateHeader(title);
+setActiveNav(page);
 setMain(`
-  ${pageHeader(
-    title,
-    subtitle
-  )}
-  ${
-    locked
-      ? lockedCard(
-          title,
-          "Growth Pro မှာ AI Business Intelligence, coaching prompts နဲ့ practical decision support ပါဝင်ပါမယ်။"
-        )
-      : `
-        ${card(
-          "AI Coach",
-          `
-            <div class="ai-chat">
-              <div class="ai-welcome">
-                <span class="ai-avatar">🤖</span>
-                <div>
-                  <strong>မင်္ဂလာပါ ${esc(state.profile.name)}</strong>
-                  <p>သင့် Business Problem ကို ပြောပြပါ။</p>
-                </div>
-              </div>
-              <textarea id="aiQuestion"
-                placeholder="ဥပမာ — Sales target မရတာကို ဘယ်လိုရှာပြီး ဖြေရှင်းရမလဲ?"></textarea>
-              <button class="btn btn-primary" id="askAI">
-                Ask AI Coach
-              </button>
-              <div id="aiAnswer"></div>
-            </div>
-          `
-        )}
-      `
-  )}
-`);
-if (!locked) {
-  document.getElementById("askAI")?.addEventListener("click", () => {
-    const question = document.getElementById("aiQuestion").value.trim();
-    if (!question) {
-      toast("Please enter your question", "error");
-      return;
-    }
-    document.getElementById("aiAnswer").innerHTML = `
-      <div class="ai-answer">
-        <span class="eyebrow">BUSINESS COACH FRAMEWORK</span>
-        <h3>အရင်ဆုံး Problem ကို ၄ ပိုင်းခွဲပါ</h3>
-        <ol>
-          <li>Current Result — လက်ရှိ Result ဘယ်လောက်လဲ?</li>
-          <li>Gap — Target နဲ့ ဘယ်လောက်ကွာလဲ?</li>
-          <li>Root Cause — ဘာကြောင့်ဖြစ်တာလဲ?</li>
-          <li>Next Action — နောက် ၇ ရက်အတွင်း ဘာလုပ်မလဲ?</li>
-        </ol>
+  ${pageHeader(title, subtitle)}
+  <div class="ai-page">
+    <div class="ai-hero">
+      <div class="ai-icon">🤖</div>
+      <div>
+        <span class="section-label">AI BUSINESS INTELLIGENCE</span>
+        <h2>${esc(title)}</h2>
         <p>
-          AI API မချိတ်ဆက်ရသေးတဲ့ V16 base version ဖြစ်တဲ့အတွက်
-          အခုအချိန်မှာ ဒီနေရာက Business Coaching Framework အဖြစ်
-          အလုပ်လုပ်ပါတယ်။
+          Your AI assistant for practical business decisions.
         </p>
       </div>
-    `;
-  });
-}
-
-}
-
-/* =======================================================
-CV BUILDER
-======================================================= */
-
-function renderCVBuilder() {
-setMain(`
-${pageHeader(
-“CV Builder”,
-“Build a professional management CV.”
-)}
-
-  ${card(
-    "Professional CV Information",
-    `
-      <form id="cvForm" class="form-grid">
-        <div class="form-field">
-          <label>Full Name</label>
-          <input id="cvName" value="${esc(state.profile.name)}">
-        </div>
-        <div class="form-field">
-          <label>Professional Title</label>
-          <input id="cvTitle" value="Sales Manager | Business Growth">
-        </div>
-        <div class="form-field full">
-          <label>Professional Summary</label>
-          <textarea id="cvSummary">Experienced sales and business professional focused on revenue growth, team leadership, market expansion and execution excellence.</textarea>
-        </div>
-        <div class="form-field full">
-          <label>Key Skills</label>
-          <textarea id="cvSkills">Sales Management, Team Leadership, Distributor Management, Market Expansion, KPI Management, Business Analysis, Customer Development</textarea>
-        </div>
-        <button class="btn btn-primary full" type="submit">
-          Generate CV Preview
-        </button>
-      </form>
-    `
-  )}
-  <div id="cvResult"></div>
-`);
-document.getElementById("cvForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  document.getElementById("cvResult").innerHTML = `
-    <div class="cv-preview">
-      <h1>${esc(document.getElementById("cvName").value)}</h1>
-      <h3>${esc(document.getElementById("cvTitle").value)}</h3>
-      <hr>
-      <h2>Professional Summary</h2>
-      <p>${esc(document.getElementById("cvSummary").value)}</p>
-      <h2>Core Skills</h2>
-      <p>${esc(document.getElementById("cvSkills").value)}</p>
-      <button class="btn btn-secondary" onclick="window.print()">
-        Print / Save PDF
+    </div>
+    <div class="ai-chat-box" id="aiChat">
+      <div class="ai-message">
+        <strong>AI Business Coach</strong>
+        <p>
+          AI connection မချိတ်ဆက်ရသေးပါက
+          ဒီနေရာမှာ local business guidance ကို အသုံးပြုနိုင်ပါတယ်။
+        </p>
+      </div>
+    </div>
+    <div class="ai-input-row">
+      <input
+        id="aiQuestion"
+        class="tool-input"
+        placeholder="သင့် Business Problem ကိုရေးပါ..."
+      >
+      <button
+        class="primary-button"
+        onclick="window.ABA.askAI()">
+        Ask AI
       </button>
     </div>
-  `;
-  toast("CV preview generated");
-});
+    <div class="ai-quick-grid">
+      <button
+        class="secondary-button"
+        onclick="window.ABA.quickAI('Sales မတက်ရင် ဘာတွေစစ်ရမလဲ?')">
+        Sales Problem
+      </button>
+      <button
+        class="secondary-button"
+        onclick="window.ABA.quickAI('Team Performance တိုးအောင် ဘာလုပ်ရမလဲ?')">
+        Team Problem
+      </button>
+      <button
+        class="secondary-button"
+        onclick="window.ABA.quickAI('Profit Margin တိုးအောင် ဘာလုပ်ရမလဲ?')">
+        Profit Problem
+      </button>
+    </div>
+  </div>
+  ${renderFooter()}
+`);
 
 }
 
-/* =======================================================
-INTERVIEW COACH
-======================================================= */
+function askAI() {
+const input = $(“aiQuestion”);
 
-function renderInterview() {
-const questions = [
-{
-q: “Tell me about yourself.”,
-hint: “Career experience → strengths → current role → future goal”
-},
-{
-q: “How do you manage sales targets?”,
-hint: “Target → breakdown → field execution → review → action”
-},
-{
-q: “How do you handle an underperforming salesperson?”,
-hint: “Data → root cause → coaching → action plan → follow-up”
-},
-{
-q: “How do you motivate a sales team?”,
-hint: “Clear expectation → recognition → coaching → ownership”
-},
-{
-q: “How do you analyze a sales gap?”,
-hint: “Customer → coverage → product → people → competition”
-},
-{
-q: “Why should we hire you?”,
-hint: “Experience + measurable results + leadership + business mindset”
+if (!input) return;
+const question = input.value.trim();
+if (!question) {
+  toast("မေးခွန်းရေးပါ။");
+  return;
 }
-];
+appendAIMessage("You", question);
+const answer = localCoach(question);
+setTimeout(function () {
+  appendAIMessage(
+    "AI Business Coach",
+    answer
+  );
+}, 250);
 
+}
+
+function quickAI(question) {
+const input = $(“aiQuestion”);
+
+if (input) {
+  input.value = question;
+}
+askAI();
+
+}
+
+function appendAIMessage(sender, message) {
+const chat = $(“aiChat”);
+
+if (!chat) return;
+const div = document.createElement("div");
+div.className = "ai-message";
+div.innerHTML = `
+  <strong>${esc(sender)}</strong>
+  <p>${esc(message)}</p>
+`;
+chat.appendChild(div);
+chat.scrollTop = chat.scrollHeight;
+
+}
+
+function localCoach(question) {
+const q = question.toLowerCase();
+
+if (
+  q.includes("sales") ||
+  q.includes("ရောင်း") ||
+  q.includes("အရောင်း")
+) {
+  return "Sales မတက်ရင် Target → Actual → Gap ကိုအရင်စစ်ပါ။ ပြီးရင် Customer Coverage, Product Availability, Salesperson Activity, Conversion Rate နဲ့ Competition ကို Root Cause အဖြစ်ခွဲစစ်ပါ။";
+}
+if (
+  q.includes("team") ||
+  q.includes("staff") ||
+  q.includes("ဝန်ထမ်း")
+) {
+  return "Team Performance အတွက် Clear Expectation → Coaching → Regular Review → Accountability ဆိုတဲ့ Cycle ကိုအသုံးပြုပါ။";
+}
+if (
+  q.includes("profit") ||
+  q.includes("အမြတ်")
+) {
+  return "Profit တိုးချင်ရင် Revenue တိုးတာတစ်ခုတည်းမကြည့်ပါနဲ့။ Price, Cost, Gross Margin, Product Mix နဲ့ Operating Expense ကိုအတူတူစစ်ပါ။";
+}
+return "ဒီ Business Problem ကို Target → Current Result → Gap → Root Cause → Action ဆိုတဲ့ Framework နဲ့ စတင်ခွဲခြမ်းကြည့်ပါ။ ပြီးရင် 7-Day Action တစ်ခု သတ်မှတ်ပြီး Result ကိုပြန်တိုင်းပါ။";
+
+}
+
+/* ==========================================================
+27. CAREER
+========================================================== */
+
+function renderCVBuilder() {
+state.currentPage = “cv-builder”;
+
+updateHeader("CV Builder");
+setActiveNav("cv-builder");
 setMain(`
   ${pageHeader(
-    "Interview Coach",
-    "Practice management and sales interview questions."
+    "CV Builder",
+    "Build a professional management-focused CV."
   )}
-  <div class="interview-grid">
-    ${questions.map((item, index) => `
-      <div class="interview-card">
-        <span>Q${index + 1}</span>
-        <h3>${esc(item.q)}</h3>
-        <p><strong>Answer Framework:</strong> ${esc(item.hint)}</p>
-        <button class="btn btn-secondary"
-                data-interview="${index}">
-          Practice
-        </button>
-      </div>
-    `).join("")}
+  <div class="tool-card">
+    <div class="form-grid">
+      <input
+        id="cvName"
+        class="tool-input"
+        value="${esc(state.profile.name)}"
+        placeholder="Full Name"
+      >
+      <input
+        id="cvRole"
+        class="tool-input"
+        value="${esc(state.profile.role)}"
+        placeholder="Current Role"
+      >
+    </div>
+    <textarea
+      id="cvSummary"
+      class="tool-input"
+      rows="7"
+      placeholder="Professional Summary"></textarea>
+    <button
+      class="primary-button"
+      onclick="window.ABA.generateCV()">
+      Build CV Preview →
+    </button>
+    <div id="cvResult"></div>
   </div>
-  <div id="interviewPractice"></div>
+  ${renderFooter()}
 `);
-document.querySelectorAll("[data-interview]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const item = questions[Number(button.dataset.interview)];
-    document.getElementById("interviewPractice").innerHTML = `
-      <div class="practice-panel">
-        <span class="eyebrow">INTERVIEW PRACTICE</span>
-        <h2>${esc(item.q)}</h2>
-        <textarea id="interviewAnswer"
-          placeholder="Type your answer here..."></textarea>
-        <div class="insight-box">
-          <strong>Framework</strong>
-          <p>${esc(item.hint)}</p>
-        </div>
-        <button class="btn btn-primary" id="saveInterview">
-          Save Practice
-        </button>
-      </div>
-    `;
-    document.getElementById("saveInterview")?.addEventListener("click", () => {
-      toast("Interview practice saved");
-    });
-  });
-});
 
 }
 
-/* =======================================================
-CAREER
-======================================================= */
+function generateCV() {
+const name = $(“cvName”)?.value.trim() || state.profile.name;
+const role = $(“cvRole”)?.value.trim() || state.profile.role;
+const summary = $(“cvSummary”)?.value.trim() ||
+“Experienced business and sales management professional focused on revenue growth, team leadership, market expansion and execution.”;
 
-function renderCareer() {
+const result = $("cvResult");
+if (!result) return;
+result.innerHTML = `
+  <div class="cv-preview">
+    <h2>${esc(name)}</h2>
+    <h3>${esc(role)}</h3>
+    <hr>
+    <h4>PROFESSIONAL SUMMARY</h4>
+    <p>${esc(summary)}</p>
+    <h4>CORE CAPABILITIES</h4>
+    <p>
+      Sales Management • Team Leadership •
+      Business Development • Market Expansion •
+      KPI Management • Distributor Management •
+      Customer Management • Business Analysis
+    </p>
+  </div>
+`;
+
+}
+
+function renderInterviewCoach() {
+renderAI(
+“interview-coach”,
+“Interview Coach”,
+“Prepare strong answers for management interviews.”
+);
+}
+
+function renderCareerGrowth() {
+state.currentPage = “career-growth”;
+
+updateHeader("Career Growth");
+setActiveNav("career-growth");
 setMain(`
-${pageHeader(
-“Career Growth”,
-“Build the skills required for the next level of management.”
-)}
-
-  <div class="career-grid">
-    <div class="career-card">
+  ${pageHeader(
+    "Career Growth",
+    "Build the skills and results required for your next role."
+  )}
+  <div class="roadmap-grid">
+    <div class="roadmap-step">
       <span>01</span>
-      <h3>Sales Leadership</h3>
-      <p>Target, team management, coaching and execution.</p>
-      <button class="btn btn-secondary" data-page="sales">Learn</button>
+      <strong>Capability</strong>
+      <p>Strengthen management skills.</p>
     </div>
-    <div class="career-card">
+    <div class="roadmap-step">
       <span>02</span>
-      <h3>Business Finance</h3>
-      <p>Revenue, margin, profit and business decision making.</p>
-      <button class="btn btn-secondary" data-page="finance">Learn</button>
+      <strong>Results</strong>
+      <p>Document measurable achievements.</p>
     </div>
-    <div class="career-card">
+    <div class="roadmap-step">
       <span>03</span>
-      <h3>Strategic Thinking</h3>
-      <p>Understand market, competition and growth opportunities.</p>
-      <button class="btn btn-secondary" data-page="strategy">Learn</button>
+      <strong>Visibility</strong>
+      <p>Build professional credibility.</p>
     </div>
-    <div class="career-card">
+    <div class="roadmap-step">
       <span>04</span>
-      <h3>Executive Communication</h3>
-      <p>Present numbers, problems and decisions clearly.</p>
-      <button class="btn btn-secondary" data-page="interview">Practice</button>
+      <strong>Opportunity</strong>
+      <p>Target roles that match your value.</p>
     </div>
   </div>
-  ${card(
-    "Career Growth Formula",
-    `
-      <div class="formula-box">
-        <strong>VALUE = RESULTS + LEADERSHIP + BUSINESS THINKING + COMMUNICATION</strong>
-        <p>
-          Next-level Manager ဖြစ်ချင်ရင် ကိုယ်တိုင် Result ရတာတင်မက
-          Team Result နဲ့ Business Impact ကိုပါ ပြနိုင်ရပါမယ်။
-        </p>
-      </div>
-    `
-  )}
+  ${renderFooter()}
 `);
 
 }
 
-/* =======================================================
-PROFILE
-======================================================= */
+/* ==========================================================
+28. PROFILE
+========================================================== */
 
 function renderProfile() {
-setMain(`
-${pageHeader(
-“Profile”,
-“Manage your professional profile.”
-)}
+state.currentPage = “profile”;
 
-  ${card(
-    "Professional Profile",
-    `
-      <form id="profileForm" class="form-grid">
-        <div class="form-field">
-          <label>Name</label>
-          <input id="profileName" value="${esc(state.profile.name)}">
-        </div>
-        <div class="form-field">
-          <label>Role</label>
-          <input id="profileRole" value="${esc(state.profile.role)}">
-        </div>
-        <div class="form-field">
-          <label>Company</label>
-          <input id="profileCompany" value="${esc(state.profile.company)}">
-        </div>
-        <div class="form-field">
-          <label>Phone</label>
-          <input id="profilePhone" value="${esc(state.profile.phone)}">
-        </div>
-        <div class="form-field full">
-          <label>Email</label>
-          <input id="profileEmail" type="email" value="${esc(state.profile.email)}">
-        </div>
-        <div class="form-field full">
-          <label>Professional Bio</label>
-          <textarea id="profileBio">${esc(state.profile.bio)}</textarea>
-        </div>
-        <button class="btn btn-primary full" type="submit">
-          Save Profile
-        </button>
-      </form>
-    `
+updateHeader("Profile");
+setActiveNav("profile");
+setMain(`
+  ${pageHeader(
+    "My Profile",
+    "Manage your Academy profile."
   )}
+  <div class="profile-card">
+    <div class="avatar-large">
+      AZ
+    </div>
+    <div class="profile-form">
+      <label>Name</label>
+      <input
+        id="profileName"
+        class="tool-input"
+        value="${esc(state.profile.name)}"
+      >
+      <label>Role</label>
+      <input
+        id="profileRole"
+        class="tool-input"
+        value="${esc(state.profile.role)}"
+      >
+      <button
+        class="primary-button"
+        onclick="window.ABA.saveProfile()">
+        Save Profile
+      </button>
+    </div>
+  </div>
+  ${renderFooter()}
 `);
-document.getElementById("profileForm")?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  state.profile = {
-    name: document.getElementById("profileName").value,
-    role: document.getElementById("profileRole").value,
-    company: document.getElementById("profileCompany").value,
-    phone: document.getElementById("profilePhone").value,
-    email: document.getElementById("profileEmail").value,
-    bio: document.getElementById("profileBio").value
-  };
-  save(STORAGE.profile, state.profile);
-  updateProfileUI();
-  toast("Profile saved");
-});
+
+}
+
+function saveProfile() {
+state.profile = {
+name: $(“profileName”)?.value.trim() ||
+DEFAULT_PROFILE.name,
+
+  role: $("profileRole")?.value.trim() ||
+    DEFAULT_PROFILE.role
+};
+writeJSON(
+  STORAGE.profile,
+  state.profile
+);
+updateProfileUI();
+toast("Profile saved.");
 
 }
 
 function updateProfileUI() {
-document.querySelectorAll(”.profile-name”).forEach((el) => {
-el.textContent = state.profile.name;
-});
+document.querySelectorAll(”.profile-name”).forEach(
+function (element) {
+element.textContent = state.profile.name;
+}
+);
 
-document.querySelectorAll(".profile-role").forEach((el) => {
-  el.textContent = state.profile.role;
-});
+document.querySelectorAll(".profile-role").forEach(
+  function (element) {
+    element.textContent = state.profile.role;
+  }
+);
 
 }
 
-/* =======================================================
-SETTINGS
-======================================================= */
+/* ==========================================================
+29. SETTINGS
+========================================================== */
 
 function renderSettings() {
-setMain(`
-${pageHeader(
-“Settings”,
-“Customize your Business Academy workspace.”
-)}
+state.currentPage = “settings”;
 
-  ${card(
-    "Workspace Settings",
-    `
-      <div class="settings-list">
-        <div class="setting-row">
-          <div>
-            <strong>Notifications</strong>
-            <p>Show workspace notifications.</p>
-          </div>
-          <label class="switch">
-            <input id="settingNotifications"
-              type="checkbox"
-              ${state.settings.notifications ? "checked" : ""}>
-            <span></span>
-          </label>
-        </div>
-        <div class="setting-row">
-          <div>
-            <strong>Daily Learning Goal</strong>
-            <p>Minutes per day.</p>
-          </div>
-          <input
-            id="settingDailyGoal"
-            class="small-input"
-            type="number"
-            value="${state.settings.dailyGoal}">
-        </div>
-        <div class="setting-row">
-          <div>
-            <strong>Compact Mode</strong>
-            <p>Reduce workspace spacing.</p>
-          </div>
-          <label class="switch">
-            <input id="settingCompact"
-              type="checkbox"
-              ${state.settings.compactMode ? "checked" : ""}>
-            <span></span>
-          </label>
-        </div>
-      </div>
-      <button class="btn btn-primary" id="saveSettings">
-        Save Settings
-      </button>
-    `
+updateHeader("Settings");
+setActiveNav("settings");
+setMain(`
+  ${pageHeader(
+    "Settings",
+    "Manage your Academy preferences."
   )}
-  ${card(
-    "Data Management",
-    `
-      <div class="settings-actions">
-        <button class="btn btn-secondary" id="resetProgress">
-          Reset Learning Progress
-        </button>
-        <button class="btn btn-danger" id="resetAll">
-          Reset App Data
-        </button>
-      </div>
-    `
-  )}
+  <div class="settings-card">
+    <label class="setting-row">
+      <span>
+        <strong>Growth Mode</strong>
+        <small>Keep your workspace focused on growth.</small>
+      </span>
+      <input
+        type="checkbox"
+        ${
+          state.settings.growthMode
+            ? "checked"
+            : ""
+        }
+        onchange="window.ABA.toggleSetting('growthMode', this.checked)"
+      >
+    </label>
+    <label class="setting-row">
+      <span>
+        <strong>Notifications</strong>
+        <small>Enable Academy notifications.</small>
+      </span>
+      <input
+        type="checkbox"
+        ${
+          state.settings.notifications
+            ? "checked"
+            : ""
+        }
+        onchange="window.ABA.toggleSetting('notifications', this.checked)"
+      >
+    </label>
+  </div>
+  <div class="tool-card">
+    <span class="section-label">VERSION</span>
+    <h3>Aung Business Academy ${VERSION}</h3>
+    <p>
+      Business Growth OS
+    </p>
+  </div>
+  ${renderFooter()}
 `);
-document.getElementById("saveSettings")?.addEventListener("click", () => {
-  state.settings.notifications =
-    document.getElementById("settingNotifications").checked;
-  state.settings.dailyGoal =
-    Number(document.getElementById("settingDailyGoal").value) || 30;
-  state.settings.compactMode =
-    document.getElementById("settingCompact").checked;
-  save(STORAGE.settings, state.settings);
-  document.body.classList.toggle(
-    "compact-mode",
-    state.settings.compactMode
-  );
-  toast("Settings saved");
-});
-document.getElementById("resetProgress")?.addEventListener("click", () => {
-  if (!confirm("Reset all lesson progress?")) return;
-  state.progress = {};
-  save(STORAGE.progress, state.progress);
-  toast("Learning progress reset");
-  renderSettings();
-});
-document.getElementById("resetAll")?.addEventListener("click", () => {
-  if (!confirm("Reset all Aung Business Academy data?")) return;
-  Object.values(STORAGE).forEach((key) => {
-    localStorage.removeItem(key);
-  });
-  location.reload();
-});
 
 }
 
-/* =======================================================
-PREMIUM
-======================================================= */
+function toggleSetting(key, value) {
+state.settings[key] = !!value;
 
-function renderPremium() {
-const pro = state.plan === “pro”;
+writeJSON(
+  STORAGE.settings,
+  state.settings
+);
+toast("Setting updated.");
 
+}
+
+/* ==========================================================
+30. GROWTH PRO
+========================================================== */
+
+function renderGrowthPro() {
+state.currentPage = “growth-pro”;
+
+updateHeader("Growth Pro");
+setActiveNav("growth-pro");
 setMain(`
   ${pageHeader(
     "Growth Pro",
-    "Unlock the full Business Growth OS."
+    "Unlock advanced business capability."
   )}
-  <section class="premium-hero">
-    <span class="badge">AUNG BUSINESS ACADEMY</span>
-    <h1>Growth Pro</h1>
+  <div class="premium-hero">
+    <div class="premium-icon">👑</div>
+    <span class="section-label">AUNG BUSINESS ACADEMY</span>
+    <h2>Growth Pro</h2>
     <p>
-      Learn deeper. Plan smarter. Execute faster.
+      Advanced lessons, management tools,
+      AI coaching and business intelligence.
     </p>
-    ${
-      pro
-        ? `
-          <div class="pro-active">
-            <strong>✓ Growth Pro Active</strong>
-            <p>Your workspace is currently using the Pro plan.</p>
-          </div>
-        `
-        : `
-          <div class="pricing-highlight">
-            <span>COMING SOON</span>
-            <strong>Growth Pro</strong>
-            <p>Premium subscription system will be connected in the next release.</p>
-            <button class="btn btn-primary" id="activateDemoPro">
-              Activate Demo Pro
-            </button>
-          </div>
-        `
-    }
-  </section>
-  <div class="premium-feature-grid">
-    <div>
-      <span>📚</span>
-      <h3>Advanced Academy</h3>
-      <p>Advanced management lessons and frameworks.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <span>STARTER</span>
+      <strong>Free</strong>
+      <p>Core learning experience.</p>
+      <button class="secondary-button">Current Plan</button>
     </div>
-    <div>
-      <span>🤖</span>
-      <h3>AI Business Coach</h3>
-      <p>Business decision and planning support.</p>
+    <div class="pricing-card featured">
+      <span>GROWTH PRO</span>
+      <strong>Premium</strong>
+      <p>Advanced lessons + tools + AI.</p>
+      <button
+        class="primary-button"
+        onclick="window.ABA.showComingSoon()">
+        Upgrade →
+      </button>
     </div>
-    <div>
-      <span>📊</span>
-      <h3>Advanced Analytics</h3>
-      <p>Performance, sales and profit analysis.</p>
-    </div>
-    <div>
-      <span>💼</span>
-      <h3>Career Tools</h3>
-      <p>Professional CV and interview tools.</p>
-    </div>
+  </div>
+  ${renderFooter()}
+`);
+
+}
+
+function showComingSoon() {
+showModal(`
+    <div class="premium-icon">🚀</div>
+    <h2>Growth Pro</h2>
+    <p>
+      Premium subscription system ကို
+      နောက်အဆင့်မှာ ချိတ်ဆက်ပေးပါမယ်။
+    </p>
+    <p>
+      အခုအချိန်မှာ Academy ရဲ့ learning,
+      tools နဲ့ local progress system ကို အသုံးပြုနိုင်ပါတယ်။
+    </p>
+    <button
+      class="primary-button"
+      onclick="window.ABA.closeModal()">
+      Continue
+    </button>
   </div>
 `);
-document.getElementById("activateDemoPro")?.addEventListener("click", () => {
-  state.plan = "pro";
-  save(STORAGE.plan, state.plan);
-  toast("Demo Growth Pro activated");
-  renderPremium();
-});
 
 }
 
-/* =======================================================
-MODAL
-======================================================= */
+/* ==========================================================
+31. PAGE ROUTER
+========================================================== */
 
-function showModal(title, content) {
-const modal = document.getElementById(“globalModal”);
+function openPage(page) {
+closeMobileMenu();
 
-if (!modal) return;
-modal.innerHTML = `
-  <div class="modal-backdrop" data-close-modal></div>
-  <div class="modal-dialog">
-    <div class="modal-header">
-      <h2>${esc(title)}</h2>
-      <button class="modal-close" data-close-modal>×</button>
-    </div>
-    <div class="modal-content">
-      ${content}
-    </div>
+try {
+  switch (page) {
+    case "dashboard":
+      renderDashboard();
+      break;
+    case "today":
+      renderToday();
+      break;
+    case "goals":
+      renderGoals();
+      break;
+    case "academy":
+    case "business-foundation":
+    case "leadership":
+    case "strategy":
+    case "marketing":
+    case "sales":
+    case "finance":
+    case "people":
+    case "operations":
+      renderAcademy();
+      break;
+    case "lessons":
+      renderLessons();
+      break;
+    case "progress":
+      renderProgress();
+      break;
+    case "sales-target":
+      renderSalesTarget();
+      break;
+    case "pricing":
+      renderPricing();
+      break;
+    case "kpi":
+      renderKPI();
+      break;
+    case "customer-plan":
+      renderCustomerPlan();
+      break;
+    case "action-planner":
+      renderActionPlanner();
+      break;
+    case "business-plan":
+      renderBusinessPlan();
+      break;
+    case "performance":
+      renderPerformance();
+      break;
+    case "sales-analysis":
+      renderSalesAnalysis();
+      break;
+    case "profit-analysis":
+      renderProfitAnalysis();
+      break;
+    case "reports":
+      renderReports();
+      break;
+    case "ai-business-coach":
+      renderAI(
+        "ai-business-coach",
+        "AI Business Coach",
+        "Think through your business decisions."
+      );
+      break;
+    case "ai-sales-coach":
+      renderAI(
+        "ai-sales-coach",
+        "AI Sales Coach",
+        "Improve sales execution and team performance."
+      );
+      break;
+    case "ai-problem-solver":
+      renderAI(
+        "ai-problem-solver",
+        "AI Problem Solver",
+        "Break down business problems into practical actions."
+      );
+      break;
+    case "cv-builder":
+      renderCVBuilder();
+      break;
+    case "interview-coach":
+      renderInterviewCoach();
+      break;
+    case "career-growth":
+      renderCareerGrowth();
+      break;
+    case "profile":
+      renderProfile();
+      break;
+    case "settings":
+      renderSettings();
+      break;
+    case "growth-pro":
+      renderGrowthPro();
+      break;
+    default:
+      console.warn(
+        "[ABA] Unknown page:",
+        page
+      );
+      renderDashboard();
+  }
+} catch (error) {
+  console.error(
+    "[ABA] Page render error:",
+    page,
+    error
+  );
+  renderErrorPage(error, page);
+}
+
+}
+
+/* ==========================================================
+32. ERROR PAGE
+========================================================== */
+
+function renderErrorPage(error, page) {
+
+updateHeader("Dashboard");
+setMain(`
+  <div class="error-state">
+    <div class="error-icon">⚠️</div>
+    <h1>Workspace Loading Error</h1>
+    <p>
+      Page "${esc(page)}" ကိုဖွင့်ရာမှာ
+      ပြဿနာတစ်ခုဖြစ်သွားပါတယ်။
+    </p>
+    <p>
+      Your saved learning progress ကို မဖျက်ထားပါဘူး။
+    </p>
+    <button
+      class="primary-button"
+      onclick="window.ABA.openPage('dashboard')">
+      Return to Dashboard
+    </button>
+    <button
+      class="secondary-button"
+      onclick="window.location.reload()">
+      Reload App
+    </button>
   </div>
-`;
-modal.classList.add("show");
-modal.querySelectorAll("[data-close-modal]").forEach((el) => {
-  el.addEventListener("click", closeModal);
-});
-
-}
-
-function closeModal() {
-const modal = document.getElementById(“globalModal”);
-if (!modal) return;
-
-modal.classList.remove("show");
-modal.innerHTML = "";
-
-}
-
-/* =======================================================
-GLOBAL EVENTS
-======================================================= */
-
-function setupEvents() {
-
-document.addEventListener("click", (event) => {
-  const pageButton = event.target.closest("[data-page]");
-  if (pageButton) {
-    const page = pageButton.dataset.page;
-    if (page) {
-      event.preventDefault();
-      navigate(page);
-      return;
-    }
-  }
-  const lessonButton = event.target.closest("[data-lesson]");
-  if (lessonButton) {
-    event.preventDefault();
-    openLesson(lessonButton.dataset.lesson);
-  }
-  const menuButton = event.target.closest("[data-menu-toggle]");
-  if (menuButton) {
-    event.preventDefault();
-    openMobileMenu();
-  }
-  const closeButton = event.target.closest("[data-menu-close]");
-  if (closeButton) {
-    event.preventDefault();
-    closeMobileMenu();
-  }
-});
-document.querySelector(".mobile-overlay")?.addEventListener(
-  "click",
-  closeMobileMenu
+`);
+console.error(
+  "[ABA] Fatal page error:",
+  error
 );
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeModal();
-    closeMobileMenu();
-  }
-});
 
 }
 
-/* =======================================================
-TOPBAR / MOBILE BUTTON COMPATIBILITY
-======================================================= */
+/* ==========================================================
+33. FOOTER
+========================================================== */
 
-function ensureMobileMenuButton() {
-const sidebar = document.querySelector(”.sidebar”);
-const topbar = document.querySelector(”.topbar”);
-
-if (!sidebar || !topbar) return;
-let button = topbar.querySelector("[data-menu-toggle]");
-if (!button) {
-  button = document.createElement("button");
-  button.className = "mobile-menu-btn";
-  button.setAttribute("data-menu-toggle", "true");
-  button.setAttribute("aria-label", "Open menu");
-  button.innerHTML = "☰";
-  topbar.prepend(button);
-}
-let close = sidebar.querySelector("[data-menu-close]");
-if (!close) {
-  close = document.createElement("button");
-  close.className = "sidebar-close";
-  close.setAttribute("data-menu-close", "true");
-  close.setAttribute("aria-label", "Close menu");
-  close.innerHTML = "×";
-  sidebar.prepend(close);
-}
-
-}
-
-/* =======================================================
-NAVIGATION COMPATIBILITY
-======================================================= */
-
-function normalizeNavigation() {
-document.querySelectorAll(”[data-page]”).forEach((item) => {
-item.setAttribute(“role”, “button”);
-});
-}
-
-/* =======================================================
-FOOTER
-======================================================= */
-
-function ensureFooter() {
-const main = document.getElementById(“app-main”);
-
-if (!main) return;
-let footer = document.querySelector(".app-footer");
-if (!footer) {
-  footer = document.createElement("footer");
-  footer.className = "app-footer";
-  footer.innerHTML = `
+function renderFooter() {
+return `
     <strong>Aung Business Academy</strong>
     <span>Business Growth OS</span>
-    <small>Learn • Plan • Execute • Measure • Improve</small>
-    <small>© 2026 Aung Business Academy</small>
-  `;
-  main.parentNode.appendChild(footer);
+    <small>
+      Learn • Plan • Execute • Measure • Improve
+    </small>
+    <small>
+      © 2026 Aung Business Academy
+    </small>
+  </footer>
+`;
+
+}
+
+/* ==========================================================
+34. NAVIGATION EVENTS
+========================================================== */
+
+function bindNavigation() {
+
+document.addEventListener(
+  "click",
+  function (event) {
+    const nav = event.target.closest("[data-page]");
+    if (nav) {
+      event.preventDefault();
+      const page = nav.dataset.page;
+      if (page) {
+        openPage(page);
+      }
+      return;
+    }
+    const menuButton =
+      event.target.closest(
+        "[data-mobile-menu], .menu-button, .hamburger"
+      );
+    if (menuButton) {
+      event.preventDefault();
+      openMobileMenu();
+    }
+    const overlay =
+      event.target.closest("#mobileOverlay");
+    if (overlay) {
+      closeMobileMenu();
+    }
+  },
+  false
+);
+const overlay = $("mobileOverlay");
+if (overlay) {
+  overlay.addEventListener(
+    "click",
+    closeMobileMenu
+  );
 }
 
 }
 
-/* =======================================================
-INITIAL TASKS
-======================================================= */
+/* ==========================================================
+35. GLOBAL ERROR PROTECTION
+========================================================== */
 
-function initializeTasks() {
-if (!Array.isArray(state.tasks)) {
-state.tasks = [];
+window.addEventListener(
+“error”,
+function (event) {
+
+  console.error(
+    "[ABA] Global JavaScript error:",
+    event.error || event.message
+  );
+  const main = $("app-main");
+  if (
+    main &&
+    main.innerText.includes(
+      "Building your growth workspace"
+    )
+  ) {
+    renderErrorPage(
+      event.error || event.message,
+      "initialization"
+    );
+  }
 }
 
-if (!Array.isArray(state.goals)) {
-  state.goals = [];
-}
-if (!state.profile || typeof state.profile !== "object") {
-  state.profile = { ...DEFAULT_PROFILE };
-}
-if (!state.settings || typeof state.settings !== "object") {
-  state.settings = { ...DEFAULT_SETTINGS };
+);
+
+window.addEventListener(
+“unhandledrejection”,
+function (event) {
+
+  console.error(
+    "[ABA] Promise error:",
+    event.reason
+  );
 }
 
-}
+);
 
-/* =======================================================
-INITIALIZE
-======================================================= */
+/* ==========================================================
+36. SAFE INITIALIZATION
+========================================================== */
 
 function init() {
-initializeTasks();
-ensureMobileMenuButton();
-normalizeNavigation();
-setupEvents();
-ensureFooter();
-updateProfileUI();
 
-document.body.classList.toggle(
-  "compact-mode",
-  state.settings.compactMode
+console.log(
+  "[ABA] Initializing Aung Business Academy",
+  VERSION
 );
-render();
+try {
+  loadLessons();
+  bindNavigation();
+  updateProfileUI();
+  openPage("dashboard");
+  console.log(
+    "[ABA] Initialization complete."
+  );
+} catch (error) {
+  console.error(
+    "[ABA] Initialization failed:",
+    error
+  );
+  renderErrorPage(
+    error,
+    "initialization"
+  );
+}
 
 }
 
-/* =======================================================
-GLOBAL API
-======================================================= */
+/* ==========================================================
+37. PUBLIC API
+========================================================== */
 
-window.AungBusinessAcademy = {
-navigate,
-render,
-openLesson,
-getLessons,
-state,
-completeLesson(id) {
-state.progress[id] = {
-completedAt: new Date().toISOString()
-};
+window.ABA = {
+VERSION: VERSION,
 
-  save(STORAGE.progress, state.progress);
-  render();
-},
-resetProgress() {
-  state.progress = {};
-  save(STORAGE.progress, state.progress);
-  render();
+state: state,
+init: init,
+openPage: openPage,
+openLesson: openLesson,
+closeModal: closeModal,
+addTask: addTask,
+toggleTask: toggleTask,
+addGoal: addGoal,
+updateGoal: updateGoal,
+filterLessons: filterLessons,
+completeLesson: completeLesson,
+calculateSalesTarget: calculateSalesTarget,
+calculatePricing: calculatePricing,
+saveCustomerPlan: saveCustomerPlan,
+saveBusinessPlan: saveBusinessPlan,
+askAI: askAI,
+quickAI: quickAI,
+generateCV: generateCV,
+saveProfile: saveProfile,
+toggleSetting: toggleSetting,
+showComingSoon: showComingSoon,
+openCategory: function (category) {
+  renderCategory(category);
 }
 
 };
 
-/* =======================================================
-START
-======================================================= */
+/* ==========================================================
+38. START
+========================================================== */
 
-if (document.readyState === “loading”) {
-document.addEventListener(“DOMContentLoaded”, init);
+if (
+document.readyState === “loading”
+) {
+
+document.addEventListener(
+  "DOMContentLoaded",
+  init,
+  { once: true }
+);
+
 } else {
+
 init();
+
 }
 
 })();
