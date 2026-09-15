@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>Aung Business Academy V16</title>
+  <meta
+    name="description"
+    content="Aung Business Academy — Business Growth OS for Managers and Entrepreneurs."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- =====================================================
+       MOBILE OVERLAY
+  ====================================================== -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+  <!-- =====================================================
+       APP SHELL
+  ====================================================== -->
+  <div id="app" class="app-shell">
+    <!-- ===================================================
+         SIDEBAR
+    ==================================================== -->
+    <aside id="sidebar" class="sidebar">
+      <!-- BRAND -->
+      <div class="brand-area">
+        <div class="brand-mark">
+          <span>AB</span>
+        </div>
+        <div class="brand-text">
+          <h1>Aung Business</h1>
+          <span>ACADEMY</span>
+        </div>
+        <button
+          id="closeSidebar"
+          class="mobile-close"
+          type="button"
+          aria-label="Close menu"
+        >
+          ×
+        </button>
+      </div>
+      <!-- USER MINI PROFILE -->
+      <div class="sidebar-profile">
+        <div class="profile-avatar">
+          AZ
+        </div>
+        <div class="profile-info">
+          <strong>Aung Zar Ni Win</strong>
+          <span>Business Manager</span>
+        </div>
+        <span class="online-dot"></span>
+      </div>
+      <!-- NAVIGATION -->
+      <nav class="sidebar-nav" id="sidebarNav">
+        <!-- HOME -->
+        <div class="nav-section">
+          <div class="nav-label">
+            GROWTH HUB
+          </div>
+          <button class="nav-item active" data-page="dashboard">
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" data-page="today">
+            <span class="nav-icon">◷</span>
+            <span>Today</span>
+          </button>
+          <button class="nav-item" data-page="goals">
+            <span class="nav-icon">◎</span>
+            <span>My Goals</span>
+          </button>
+        </div>
+        <!-- LEARNING -->
+        <div class="nav-section">
+          <div class="nav-label">
+            MASTER BUSINESS
+          </div>
+          <button class="nav-item" data-page="foundation">
+            <span class="nav-icon">▣</span>
+            <span>Business Foundation</span>
+          </button>
+          <button class="nav-item" data-page="leadership">
+            <span class="nav-icon">♙</span>
+            <span>Leadership</span>
+          </button>
+          <button class="nav-item" data-page="strategy">
+            <span class="nav-icon">◇</span>
+            <span>Strategy</span>
+          </button>
+          <button class="nav-item" data-page="marketing">
+            <span class="nav-icon">◈</span>
+            <span>Marketing</span>
+          </button>
+          <button class="nav-item" data-page="sales">
+            <span class="nav-icon">↗</span>
+            <span>Sales</span>
+          </button>
+          <button class="nav-item" data-page="finance">
+            <span class="nav-icon">₿</span>
+            <span>Finance</span>
+          </button>
+          <button class="nav-item" data-page="people">
+            <span class="nav-icon">♧</span>
+            <span>People</span>
+          </button>
+          <button class="nav-item" data-page="operations">
+            <span class="nav-icon">⚙</span>
+            <span>Operations</span>
+          </button>
+        </div>
+        <!-- EXECUTION -->
+        <div class="nav-section">
+          <div class="nav-label">
+            EXECUTE
+          </div>
+          <button class="nav-item" data-page="sales-target">
+            <span class="nav-icon">▥</span>
+            <span>Sales Target</span>
+          </button>
+          <button class="nav-item" data-page="pricing">
+            <span class="nav-icon">◇</span>
+            <span>Pricing</span>
+          </button>
+          <button class="nav-item" data-page="kpi">
+            <span class="nav-icon">◒</span>
+            <span>KPI & Scorecard</span>
+          </button>
+          <button class="nav-item" data-page="customer-plan">
+            <span class="nav-icon">♧</span>
+            <span>Customer Plan</span>
+          </button>
+          <button class="nav-item" data-page="action-planner">
+            <span class="nav-icon">✓</span>
+            <span>Action Planner</span>
+          </button>
+          <button class="nav-item" data-page="business-plan">
+            <span class="nav-icon">▤</span>
+            <span>Business Plan</span>
+          </button>
+        </div>
+        <!-- INSIGHT -->
+        <div class="nav-section">
+          <div class="nav-label">
+            INSIGHT
+          </div>
+          <button class="nav-item" data-page="performance">
+            <span class="nav-icon">◉</span>
+            <span>Performance</span>
+          </button>
+          <button class="nav-item" data-page="sales-analysis">
+            <span class="nav-icon">↗</span>
+            <span>Sales Analysis</span>
+          </button>
+          <button class="nav-item" data-page="profit-analysis">
+            <span class="nav-icon">₿</span>
+            <span>Profit Analysis</span>
+          </button>
+          <button class="nav-item" data-page="reports">
+            <span class="nav-icon">▤</span>
+            <span>Reports</span>
+          </button>
+        </div>
+        <!-- AI -->
+        <div class="nav-section">
+          <div class="nav-label">
+            INTELLIGENCE
+          </div>
+          <button class="nav-item" data-page="ai-business">
+            <span class="nav-icon ai-icon">✦</span>
+            <span>AI Business Coach</span>
+            <span class="premium-dot">PRO</span>
+          </button>
+          <button class="nav-item" data-page="ai-sales">
+            <span class="nav-icon ai-icon">✦</span>
+            <span>AI Sales Coach</span>
+            <span class="premium-dot">PRO</span>
+          </button>
+          <button class="nav-item" data-page="ai-problem">
+            <span class="nav-icon ai-icon">✦</span>
+            <span>AI Problem Solver</span>
+            <span class="premium-dot">PRO</span>
+          </button>
+        </div>
+        <!-- CAREER -->
+        <div class="nav-section">
+          <div class="nav-label">
+            CAREER
+          </div>
+          <button class="nav-item" data-page="cv-builder">
+            <span class="nav-icon">▤</span>
+            <span>CV Builder</span>
+          </button>
+          <button class="nav-item" data-page="interview">
+            <span class="nav-icon">◉</span>
+            <span>Interview Coach</span>
+          </button>
+          <button class="nav-item" data-page="career-growth">
+            <span class="nav-icon">↗</span>
+            <span>Career Growth</span>
+          </button>
+        </div>
+        <!-- ACCOUNT -->
+        <div class="nav-section">
+          <div class="nav-label">
+            ACCOUNT
+          </div>
+          <button class="nav-item" data-page="profile">
+            <span class="nav-icon">○</span>
+            <span>Profile</span>
+          </button>
+          <button class="nav-item" data-page="settings">
+            <span class="nav-icon">⚙</span>
+            <span>Settings</span>
+          </button>
+        </div>
+      </nav>
+      <!-- PREMIUM CARD -->
+      <div class="sidebar-premium">
+        <div class="premium-symbol">
+          ✦
+        </div>
+        <div class="premium-copy">
+          <strong>Growth Pro</strong>
+          <span>Unlock the full system</span>
+        </div>
+        <button
+          type="button"
+          class="premium-button"
+          data-page="premium"
+        >
+          Upgrade
+        </button>
+      </div>
+      <!-- SIDEBAR FOOTER -->
+      <div class="sidebar-footer">
+        <span>Aung Business Academy</span>
+        <small>V16.0 • Business Growth OS</small>
+      </div>
+    </aside>
+    <!-- ===================================================
+         MAIN AREA
+    ==================================================== -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button
+            id="openSidebar"
+            class="mobile-menu"
+            type="button"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
+          <div>
+            <div class="breadcrumb">
+              AUNG BUSINESS ACADEMY
+            </div>
+            <h2 id="pageTitle">
+              Dashboard
+            </h2>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="growth-status">
+            <span class="status-dot"></span>
+            <span>Growth Mode</span>
+          </div>
+          <button
+            class="top-icon-button"
+            type="button"
+            data-page="notifications"
+            aria-label="Notifications"
+          >
+            ♢
+            <span class="notification-badge">2</span>
+          </button>
+          <button
+            class="top-profile"
+            type="button"
+            data-page="profile"
+          >
+            <span class="top-avatar">AZ</span>
+            <span class="top-profile-text">
+              <strong>Aung Zar Ni Win</strong>
+              <small>Business Manager</small>
+            </span>
+            <span class="top-chevron">⌄</span>
+          </button>
+        </div>
+      </header>
+      <!-- MAIN CONTENT -->
+      <main id="app-main" class="content-area">
+        <!-- Initial Loading -->
+        <section class="loading-screen">
+          <div class="loading-logo">
+            AB
+          </div>
+          <h3>Building your growth workspace...</h3>
+          <p>
+            Aung Business Academy V16
+          </p>
+          <div class="loading-line">
+            <span></span>
+          </div>
+        </section>
+      </main>
+      <!-- FOOTER -->
+      <footer class="main-footer">
+        <div>
+          <strong>Aung Business Academy</strong>
+          <span>Business Growth OS</span>
+        </div>
+        <div>
+          <span>Learn • Plan • Execute • Measure • Improve</span>
+        </div>
+        <div>
+          <span>© 2026 Aung Business Academy</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!-- =====================================================
+       GLOBAL MODAL
+  ====================================================== -->
+  <div id="globalModal" class="modal hidden">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <button
+        class="modal-close"
+        type="button"
+        data-close-modal
+      >
+        ×
+      </button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  <!-- =====================================================
+       TOAST
+  ====================================================== -->
+  <div id="toastContainer" class="toast-container"></div>
+  <!-- =====================================================
+       APP DATA
+  ====================================================== -->
+  <script src="academy-business-fundamentals.js"></script>
+  <script src="academy-leadership.js"></script>
+  <script src="academy-strategy.js"></script>
+  <script src="academy-marketing.js"></script>
+  <script src="academy-sales.js"></script>
+  <script src="academy-finance.js"></script>
+  <script src="academy-people.js"></script>
+  <script src="academy-operations.js"></script>
+  <!-- =====================================================
+       MAIN APP
+  ====================================================== -->
+  <script src="app.js"></script>
+</body>
+</html>
