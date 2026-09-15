@@ -1,2744 +1,2104 @@
-/* ============================================================
-AUNG BUSINESS ACADEMY V16
-BUSINESS GROWTH OS
-ERROR-SAFE FULL REPLACEMENT
-============================================================ */
+/* =========================================================
+   AUNG BUSINESS ACADEMY V16
+   BUSINESS GROWTH OS
+   ERROR-SAFE APPLICATION CORE
+   ========================================================= */
 
-(function () {
-“use strict”;
+var APP_VERSION = "16.1";
+var initialized = false;
+var rendering = false;
 
-/* ==========================================================
-1. CONFIG
-========================================================== */
-
-const VERSION = “V16.1”;
-const STORAGE = {
-progress: “aba_v16_progress”,
-goals: “aba_v16_goals”,
-tasks: “aba_v16_tasks”,
-profile: “aba_v16_profile”,
-settings: “aba_v16_settings”,
-businessPlan: “aba_v16_business_plan”
+var KEYS = {
+    progress: "aba_v16_progress",
+    goals: "aba_v16_goals",
+    tasks: "aba_v16_tasks",
+    profile: "aba_v16_profile",
+    settings: "aba_v16_settings",
+    plan: "aba_v16_business_plan"
 };
 
-const DEFAULT_PROFILE = {
-name: “Aung Zar Ni Win”,
-role: “Business Manager”
+var DEFAULT_PROFILE = {
+    name: "Aung Zar Ni Win",
+    role: "Business Manager"
 };
 
-const DEFAULT_SETTINGS = {
-growthMode: true,
-notifications: true
+var DEFAULT_SETTINGS = {
+    growthMode: true,
+    notifications: true
 };
 
-/* ==========================================================
-2. SAFE STORAGE
-========================================================== */
-
-function readJSON(key, fallback) {
-try {
-const value = localStorage.getItem(key);
-if (!value) return fallback;
-const parsed = JSON.parse(value);
-return parsed ?? fallback;
-} catch (error) {
-console.warn(”[ABA] Storage read error:”, key, error);
-return fallback;
-}
-}
-
-function writeJSON(key, value) {
-try {
-localStorage.setItem(key, JSON.stringify(value));
-return true;
-} catch (error) {
-console.warn(”[ABA] Storage write error:”, key, error);
-return false;
-}
-}
-
-/* ==========================================================
-3. APPLICATION STATE
-========================================================== */
-
-const state = {
-currentPage: “dashboard”,
-currentLesson: null,
-
-profile: readJSON(STORAGE.profile, DEFAULT_PROFILE),
-settings: readJSON(STORAGE.settings, DEFAULT_SETTINGS),
-progress: readJSON(STORAGE.progress, {}),
-goals: readJSON(STORAGE.goals, []),
-tasks: readJSON(STORAGE.tasks, []),
-businessPlan: readJSON(STORAGE.businessPlan, {}),
-lessons: [],
-lessonSources: {
-  fundamentals: false,
-  leadership: false,
-  strategy: false,
-  marketing: false,
-  sales: false,
-  finance: false,
-  people: false,
-  operations: false
-}
-
-};
-
-/* ==========================================================
-4. FALLBACK LESSONS
-========================================================== */
-
-const fallbackLessons = [
-{
-id: “foundation-01”,
-category: “Business Foundation”,
-course: “Business Management Foundation”,
-lessonNumber: 1,
-title: “Manager တစ်ယောက်ရဲ့ အဓိကတာဝန်က ဘာလဲ?”,
-subtitle: “Result ကို လူ၊ အချိန်၊ ငွေကြေးနဲ့ Resource တွေကနေ ဖန်တီးခြင်း”,
-duration: “15 min”,
-isPremium: false,
-sections: [
-{
-type: “situation”,
-title: “၁။ Real Business Situation”,
-content: “Manager ဆိုတာ Title တစ်ခုမဟုတ်ဘဲ Business Result ကို လူတွေနဲ့အတူ ဖန်တီးပေးနိုင်သူ ဖြစ်ပါတယ်။”
-},
-{
-type: “why”,
-title: “၂။ Why It Matters”,
-content: “Manager က အလုပ်အားလုံးကို ကိုယ်တိုင်လုပ်တာမဟုတ်ပါဘူး။ Direction, People, Numbers နဲ့ Execution ကို စီမံရပါတယ်။”
-},
-{
-type: “framework”,
-title: “၃။ Manager Framework”,
-content: “PLAN → EXECUTE → MEASURE → ANALYZE → IMPROVE → REPEAT”
-},
-{
-type: “example”,
-title: “၄။ Real Example”,
-content: “Target 500M ဖြစ်ပြီး Actual 430M ဆိုရင် Achievement 86% ဖြစ်ပါတယ်။ Manager က Excuse မရှာဘဲ Gap ရဲ့ Root Cause ကိုရှာရပါတယ်။”
-},
-{
-type: “exercise”,
-title: “၅။ Practical Exercise”,
-content: “Target, Actual, Achievement, Gap နဲ့ Root Cause ကိုရေးပြီး 7-Day Action Plan တစ်ခုရေးပါ။”
-},
-{
-type: “challenge”,
-title: “၆။ Decision Challenge”,
-content: “Result တစ်ခုတည်းမကြည့်ဘဲ RESULT + BEHAVIOR + FUTURE POTENTIAL နဲ့ Team Member ကို အကဲဖြတ်ပါ။”
-},
-{
-type: “takeaways”,
-title: “၇။ Key Takeaways”,
-content: “Target → Actual → Gap → Root Cause → 7-Day Action”
-},
-{
-type: “tomorrow”,
-title: “၈။ Apply Tomorrow”,
-content: “Team Member တစ်ယောက်နဲ့ 15 မိနစ်စကားပြောပြီး Result, Problem, Action ဆိုတဲ့ မေးခွန်း 3 ခုကို အသုံးပြုပါ။”
-}
-]
-},
-
-{
-  id: "foundation-02",
-  category: "Business Foundation",
-  course: "Business Management Foundation",
-  lessonNumber: 2,
-  title: "Business ကို Numbers နဲ့ ဘယ်လိုစီမံမလဲ?",
-  subtitle: "Business Decision ကို Feeling မဟုတ်ဘဲ Data နဲ့ ချမှတ်ခြင်း",
-  duration: "15 min",
-  isPremium: false,
-  sections: [
+var FALLBACK_LESSONS = [
     {
-      type: "situation",
-      title: "၁။ Real Business Situation",
-      content: "Sales တက်နေသော်လည်း Profit မတက်တဲ့ Business တွေရှိပါတယ်။ ဒါကြောင့် Sales တစ်ခုတည်းနဲ့ Business ကို မဆုံးဖြတ်သင့်ပါဘူး။"
+        id: "foundation-01",
+        course: "Business Foundation",
+        category: "Business Foundation",
+        title: "Manager တစ်ယောက်ရဲ့ အဓိကတာဝန်က ဘာလဲ?",
+        duration: 15,
+        premium: false,
+        description: "Manager တစ်ယောက်အနေနဲ့ လူ၊ နံပါတ်နဲ့ Execution ကို ဘယ်လိုစီမံမလဲ?",
+        sections: [
+            {
+                title: "Real Business Situation",
+                content: "Sales Target 500 သိန်းရှိတဲ့ Team တစ်ခုက Actual 430 သိန်းပဲ ရရှိနေတယ်ဆိုပါစို့။ Manager ရဲ့တာဝန်က ကိုယ်တိုင်အကုန်လိုက်ရောင်းဖို့မဟုတ်ဘဲ Gap ရဲ့ Root Cause ကိုရှာပြီး Team ကို Action ချမှတ်ပေးဖို့ ဖြစ်ပါတယ်။"
+            },
+            {
+                title: "Why It Matters",
+                content: "Excellent Staff ဖြစ်တာနဲ့ Excellent Manager ဖြစ်တာ မတူပါဘူး။ Manager က ကိုယ်တိုင် Result ထုတ်တာထက် Team ကနေ Result ထွက်လာအောင် System တည်ဆောက်ရပါတယ်။"
+            },
+            {
+                title: "Manager Framework",
+                content: "Manager ရဲ့ အဓိကအလုပ်တွေက Direction, People, Numbers, Execution ဖြစ်ပါတယ်။ Target → Actual → Gap → Root Cause → Action ဆိုတဲ့ Cycle ကို အမြဲအသုံးပြုပါ။"
+            },
+            {
+                title: "Real Example",
+                content: "Target 500M၊ Actual 430M ဖြစ်ရင် Achievement = 86% ဖြစ်ပါတယ်။ Gap = 70M ဖြစ်ပါတယ်။ Customer coverage၊ Stock availability၊ Team productivity၊ Competition စတာတွေကို Root Cause အနေနဲ့ စစ်ဆေးရပါမယ်။"
+            },
+            {
+                title: "Practical Exercise",
+                content: "သင့် Team ရဲ့ လက်ရှိ Target နဲ့ Actual ကိုရေးပါ။ Gap ကိုတွက်ပါ။ Gap ဖြစ်ရတဲ့ အကြောင်းရင်း 3 ခုရေးပြီး နောက် 7 ရက်အတွင်း လုပ်မယ့် Action 3 ခု သတ်မှတ်ပါ။"
+            },
+            {
+                title: "Decision Challenge",
+                content: "Team Member တစ်ယောက်ရဲ့ Sales ကျနေတယ်ဆိုရင် Manager က သူ့အစား အလုပ်လုပ်ပေးမလား၊ ဒါမှမဟုတ် Root Cause ရှာပြီး Coaching လုပ်မလား? ရေရှည်အတွက် Coaching + Accountability ကိုရွေးပါ။"
+            },
+            {
+                title: "Key Takeaways",
+                content: "Manager = Direction + People + Numbers + Execution. Manager က အလုပ်အားလုံးကို ကိုယ်တိုင်လုပ်သူမဟုတ်ပါ။ Team ကို Result ထုတ်နိုင်အောင် System တည်ဆောက်သူဖြစ်ပါတယ်။"
+            },
+            {
+                title: "Apply Tomorrow",
+                content: "မနက်ဖြန် Team Meeting မှာ Target → Actual → Gap → Root Cause → Action ကို 15 မိနစ်အတွင်း ပြန်လည်သုံးသပ်ပါ။"
+            }
+        ]
     },
     {
-      type: "why",
-      title: "၂။ Why It Matters",
-      content: "Target, Actual, Achievement, Growth, Profit, Margin, Customer, Distribution, Collection နဲ့ Expense တွေကို သိထားရပါမယ်။"
+        id: "foundation-02",
+        course: "Business Foundation",
+        category: "Business Foundation",
+        title: "Business ကို Numbers နဲ့ ဘယ်လိုစီမံမလဲ?",
+        duration: 15,
+        premium: false,
+        description: "Business Decision တွေကို Data နဲ့ချမှတ်နိုင်အောင် အခြေခံ Numbers တွေကို လေ့လာပါ။",
+        sections: [
+            {
+                title: "Real Business Situation",
+                content: "Sales တက်နေသော်လည်း Profit ကျနေတဲ့ Business တွေရှိပါတယ်။ Revenue တစ်ခုတည်းကိုကြည့်ပြီး Business ကောင်းတယ်လို့ မဆုံးဖြတ်သင့်ပါဘူး။"
+            },
+            {
+                title: "Why It Matters",
+                content: "Manager တစ်ယောက်အနေနဲ့ Revenue, Cost, Profit, Margin, Cash Flow, Achievement စတဲ့ Numbers တွေကို နားလည်ရပါမယ်။"
+            },
+            {
+                title: "Manager Framework",
+                content: "Target, Actual, Achievement %, Growth %, Gross Profit, Margin, Customer, Distribution, Collection နဲ့ Expense ကို ပုံမှန်စောင့်ကြည့်ပါ။"
+            },
+            {
+                title: "Real Example",
+                content: "Target 100M၊ Actual 90M ဆိုရင် Achievement = 90% ဖြစ်ပါတယ်။ Gap = 10M ဖြစ်ပါတယ်။ Gap ကို Product, People, Customer, Territory နဲ့ Execution အလိုက် ခွဲခြမ်းပါ။"
+            },
+            {
+                title: "Practical Exercise",
+                content: "သင့် Business ရဲ့ Target, Actual, Achievement နဲ့ Gap ကို ဒီနေ့တွက်ကြည့်ပါ။"
+            },
+            {
+                title: "Decision Challenge",
+                content: "Sales 20% တက်ပေမယ့် Margin 5% ကျနေတယ်ဆိုရင် Sales တက်တာကိုပဲ ကြည့်မလား? မကြည့်သင့်ပါဘူး။ Revenue နဲ့ Profit နှစ်ခုလုံးကို ကြည့်ရပါမယ်။"
+            },
+            {
+                title: "Key Takeaways",
+                content: "Numbers က Business ရဲ့ Language ဖြစ်ပါတယ်။ Data မရှိရင် Decision က Guess ဖြစ်နိုင်ပါတယ်။"
+            },
+            {
+                title: "Apply Tomorrow",
+                content: "Daily Dashboard တစ်ခုမှာ Target, Actual, Achievement, Gap နဲ့ Profit ကို ထည့်သွင်းစောင့်ကြည့်ပါ။"
+            }
+        ]
     },
     {
-      type: "framework",
-      title: "၃။ Manager Framework",
-      content: "TARGET → ACTUAL → GAP → CAUSE → ACTION → RESULT"
-    },
-    {
-      type: "example",
-      title: "၄။ Real Example",
-      content: "Monthly Target 100M၊ Actual 90M ဆိုရင် Achievement 90% ဖြစ်ပြီး Gap 10M ဖြစ်ပါတယ်။ Gap ရဲ့အကြောင်းရင်းကို Customer, People, Product, Competition အလိုက်ခွဲပါ။"
-    },
-    {
-      type: "exercise",
-      title: "၅။ Practical Exercise",
-      content: "သင့်လုပ်ငန်းရဲ့ Target, Actual, Achievement %, Gap နဲ့ Profit ကို တစ်ပတ်စာ စာရင်းပြုစုပါ။"
-    },
-    {
-      type: "challenge",
-      title: "၆။ Decision Challenge",
-      content: "Sales 20% တက်ပေမယ့် Margin 5% ကျနေတယ်ဆိုရင် Sales တက်တာကိုသာ အောင်မြင်မှုလို့ မသတ်မှတ်ပါနဲ့။"
-    },
-    {
-      type: "takeaways",
-      title: "၇။ Key Takeaways",
-      content: "Business Manager တစ်ယောက်ဟာ Numbers ကို သိရုံမက Numbers နောက်က အကြောင်းရင်းကို နားလည်ရပါတယ်။"
-    },
-    {
-      type: "tomorrow",
-      title: "၈။ Apply Tomorrow",
-      content: "မနက်ဖြန် Daily Business Dashboard တစ်ခုတည်ဆောက်ပြီး Target, Actual, Achievement, Gap, Action ၅ ခုကို နေ့တိုင်းကြည့်ပါ။"
+        id: "leadership-01",
+        course: "Leadership",
+        category: "Leadership",
+        title: "Team Performance တိုးအောင် ဘယ်လိုဦးဆောင်မလဲ?",
+        duration: 15,
+        premium: false,
+        description: "Team ကို Micromanage မလုပ်ဘဲ Performance တိုးတက်အောင် ဦးဆောင်နည်း။",
+        sections: [
+            {
+                title: "Real Business Situation",
+                content: "Team Performance မကောင်းတဲ့အခါ Manager က အလုပ်အားလုံးကို ကိုယ်တိုင်လိုက်လုပ်ရင် ရေရှည်မှာ Team မတိုးတက်ပါဘူး။"
+            },
+            {
+                title: "Why It Matters",
+                content: "Strong Manager ဆိုတာ လူတိုင်းကို ကိုယ်တိုင်ထိန်းချုပ်သူမဟုတ်ဘဲ Team Member တစ်ယောက်ချင်းစီကို Ownership ရှိလာအောင်လုပ်ပေးနိုင်သူ ဖြစ်ပါတယ်။"
+            },
+            {
+                title: "Manager Framework",
+                content: "Clear Expectations → Coaching → Regular Review → Feedback → Accountability ဆိုတဲ့ Leadership Cycle ကို အသုံးပြုပါ။"
+            },
+            {
+                title: "Real Example",
+                content: "Sales Representative တစ်ယောက်ရဲ့ Target မပြည့်ရင် သူ့အစား Customer Visit လိုက်မလုပ်ပေးဘဲ ဘယ် Customer တွေ၊ ဘယ် Product တွေ၊ ဘယ် Activity တွေမှာ Gap ဖြစ်နေလဲ ရှာဖွေပါ။"
+            },
+            {
+                title: "Practical Exercise",
+                content: "Team Member တစ်ယောက်ကိုရွေးပြီး သူ့ရဲ့ Strength 2 ခု၊ Improvement Area 2 ခုနဲ့ Next Action 2 ခုရေးပါ။"
+            },
+            {
+                title: "Decision Challenge",
+                content: "Manager က Team ကို အမြဲပြောပြပြီး အမြဲစစ်ဆေးနေရမလား? မဟုတ်ပါဘူး။ Clear Expectation ပေးပြီး Ownership ပေးရပါမယ်။"
+            },
+            {
+                title: "Key Takeaways",
+                content: "Leadership ရဲ့ ရည်ရွယ်ချက်က Team ကို Manager မရှိလည်း အလုပ်ကောင်းကောင်းလုပ်နိုင်အောင် တည်ဆောက်ပေးခြင်း ဖြစ်ပါတယ်။"
+            },
+            {
+                title: "Apply Tomorrow",
+                content: "Team Member တစ်ယောက်နဲ့ 15 မိနစ် Coaching Conversation လုပ်ပြီး သူ့ရဲ့ Next Action ကို သတ်မှတ်ပေးပါ။"
+            }
+        ]
     }
-  ]
-},
-{
-  id: "leadership-01",
-  category: "Leadership",
-  course: "Leadership Mastery",
-  lessonNumber: 5,
-  title: "Team Performance တိုးအောင် ဘယ်လိုဦးဆောင်မလဲ?",
-  subtitle: "Micromanagement မလုပ်ဘဲ Accountability နဲ့ Performance တည်ဆောက်ခြင်း",
-  duration: "15 min",
-  isPremium: true,
-  sections: [
-    {
-      type: "situation",
-      title: "၁။ Real Business Situation",
-      content: "Manager က Team Member တစ်ယောက်ချင်းစီကို အလုပ်တိုင်းလိုက်စစ်နေရင် Manager ကိုယ်တိုင် Bottleneck ဖြစ်လာနိုင်ပါတယ်။"
-    },
-    {
-      type: "why",
-      title: "၂။ Why It Matters",
-      content: "Team Performance က Clear Expectation, Coaching, Accountability နဲ့ Regular Review ပေါ်မှာ အခြေခံပါတယ်။"
-    },
-    {
-      type: "framework",
-      title: "၃။ Manager Framework",
-      content: "CLEAR EXPECTATION → COACH → REVIEW → ACCOUNTABILITY → IMPROVE"
-    },
-    {
-      type: "example",
-      title: "၄။ Real Example",
-      content: "Salesperson တစ်ယောက်ရဲ့ Target 20M ဆိုရင် Result Target အပြင် Customer Visit, New Customer, Collection စတဲ့ Leading Activities တွေပါ သတ်မှတ်ပါ။"
-    },
-    {
-      type: "exercise",
-      title: "၅။ Practical Exercise",
-      content: "Team Member တစ်ယောက်အတွက် Result KPI 2 ခုနဲ့ Activity KPI 3 ခုရေးပါ။"
-    },
-    {
-      type: "challenge",
-      title: "၆။ Decision Challenge",
-      content: "Manager က Staff ရဲ့အလုပ်ကို ကိုယ်တိုင်ဝင်လုပ်ပေးတာထက် Staff ကို Problem Solve လုပ်နိုင်အောင် Coaching ပေးပါ။"
-    },
-    {
-      type: "takeaways",
-      title: "၇။ Key Takeaways",
-      content: "Clear Expectation + Coaching + Accountability = Strong Team"
-    },
-    {
-      type: "tomorrow",
-      title: "၈။ Apply Tomorrow",
-      content: "Team Member တစ်ယောက်ကို 15 မိနစ် Coaching Session လုပ်ပြီး Goal, Current Result, Blocker, Next Action ကို ဆွေးနွေးပါ။"
-    }
-  ]
-}
-
 ];
 
-/* ==========================================================
-5. SAFE LESSON LOADING
-========================================================== */
-
-function addLessonSource(globalName, sourceName) {
-try {
-const data = window[globalName];
-
-  if (Array.isArray(data)) {
-    data.forEach(function (lesson) {
-      if (lesson && lesson.id) {
-        state.lessons.push(lesson);
-      }
-    });
-    state.lessonSources[sourceName] = true;
-    return true;
-  }
-} catch (error) {
-  console.warn("[ABA] Lesson source error:", globalName, error);
-}
-return false;
-
-}
-
-function loadLessons() {
-state.lessons = [];
-
-const sources = [
-  ["ABA_BUSINESS_FUNDAMENTALS", "fundamentals"],
-  ["ABA_LEADERSHIP", "leadership"],
-  ["ABA_STRATEGY", "strategy"],
-  ["ABA_MARKETING", "marketing"],
-  ["ABA_SALES", "sales"],
-  ["ABA_FINANCE", "finance"],
-  ["ABA_PEOPLE", "people"],
-  ["ABA_OPERATIONS", "operations"]
+var CATEGORIES = [
+    "Business Foundation",
+    "Leadership",
+    "Strategy",
+    "Marketing",
+    "Sales",
+    "Finance",
+    "People",
+    "Operations"
 ];
-sources.forEach(function (item) {
-  addLessonSource(item[0], item[1]);
-});
-const loadedIds = {};
-state.lessons.forEach(function (lesson) {
-  loadedIds[lesson.id] = true;
-});
-fallbackLessons.forEach(function (lesson) {
-  if (!loadedIds[lesson.id]) {
-    state.lessons.push(lesson);
-  }
-});
-state.lessons.sort(function (a, b) {
-  return Number(a.lessonNumber || 0) - Number(b.lessonNumber || 0);
-});
-console.log(
-  "[ABA] Lessons loaded:",
-  state.lessons.length
-);
 
+var state = {
+    currentPage: "dashboard",
+    currentLesson: null,
+    profile: DEFAULT_PROFILE,
+    settings: DEFAULT_SETTINGS,
+    progress: {},
+    goals: [],
+    tasks: [],
+    plan: {
+        target: "",
+        strategy: "",
+        actions: ""
+    }
+};
+
+/* =========================================================
+   SAFE UTILITIES
+   ========================================================= */
+
+function $(selector) {
+    try {
+        return document.querySelector(selector);
+    } catch (error) {
+        return null;
+    }
 }
 
-/* ==========================================================
-6. HELPERS
-========================================================== */
+function $all(selector) {
+    try {
+        return Array.prototype.slice.call(document.querySelectorAll(selector));
+    } catch (error) {
+        return [];
+    }
+}
 
-function $(id) {
-return document.getElementById(id);
+function safeParse(value, fallback) {
+    if (!value) return fallback;
+
+    try {
+        var parsed = JSON.parse(value);
+        return parsed === null || parsed === undefined ? fallback : parsed;
+    } catch (error) {
+        return fallback;
+    }
+}
+
+function safeStorageGet(key, fallback) {
+    try {
+        var value = localStorage.getItem(key);
+        return value === null ? fallback : safeParse(value, fallback);
+    } catch (error) {
+        return fallback;
+    }
+}
+
+function safeStorageSet(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+    } catch (error) {
+        return false;
+    }
 }
 
 function esc(value) {
-return String(value ?? “”)
-.replace(/&/g, “&”)
-.replace(/</g, “<”)
-.replace(/>/g, “>”)
-.replace(/”/g, “"”)
-.replace(/’/g, “'”);
+    var text = value === null || value === undefined ? "" : String(value);
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 function money(value) {
-const number = Number(value) || 0;
-return number.toLocaleString(“en-US”);
+    var number = Number(value);
+
+    if (!Number.isFinite(number)) {
+        number = 0;
+    }
+
+    return number.toLocaleString("en-US");
 }
 
 function pct(value) {
-const number = Number(value) || 0;
-return Math.max(0, Math.min(100, number));
-}
+    var number = Number(value);
 
-function achievement(target, actual) {
-const t = Number(target) || 0;
-const a = Number(actual) || 0;
+    if (!Number.isFinite(number)) {
+        number = 0;
+    }
 
-if (!t) return 0;
-return Math.round((a / t) * 100);
-
+    return Math.max(0, Math.min(100, Math.round(number)));
 }
 
 function today() {
-const d = new Date();
+    try {
+        return new Date().toISOString().slice(0, 10);
+    } catch (error) {
+        return "";
+    }
+}
 
-return d.getFullYear() +
-  "-" +
-  String(d.getMonth() + 1).padStart(2, "0") +
-  "-" +
-  String(d.getDate()).padStart(2, "0");
+function slug(value) {
+    return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+}
 
+/* =========================================================
+   LOAD / SAVE
+   ========================================================= */
+
+function loadState() {
+    var savedProfile = safeStorageGet(KEYS.profile, DEFAULT_PROFILE);
+    var savedSettings = safeStorageGet(KEYS.settings, DEFAULT_SETTINGS);
+    var savedProgress = safeStorageGet(KEYS.progress, {});
+    var savedGoals = safeStorageGet(KEYS.goals, []);
+    var savedTasks = safeStorageGet(KEYS.tasks, []);
+    var savedPlan = safeStorageGet(KEYS.plan, {
+        target: "",
+        strategy: "",
+        actions: ""
+    });
+
+    state.profile = {
+        name: savedProfile && savedProfile.name ? savedProfile.name : DEFAULT_PROFILE.name,
+        role: savedProfile && savedProfile.role ? savedProfile.role : DEFAULT_PROFILE.role
+    };
+
+    state.settings = {
+        growthMode: savedSettings && savedSettings.growthMode !== false,
+        notifications: savedSettings && savedSettings.notifications !== false
+    };
+
+    state.progress = savedProgress && typeof savedProgress === "object"
+        ? savedProgress
+        : {};
+
+    state.goals = Array.isArray(savedGoals) ? savedGoals : [];
+    state.tasks = Array.isArray(savedTasks) ? savedTasks : [];
+
+    state.plan = savedPlan && typeof savedPlan === "object"
+        ? savedPlan
+        : {
+            target: "",
+            strategy: "",
+            actions: ""
+        };
+}
+
+function saveState() {
+    safeStorageSet(KEYS.profile, state.profile);
+    safeStorageSet(KEYS.settings, state.settings);
+    safeStorageSet(KEYS.progress, state.progress);
+    safeStorageSet(KEYS.goals, state.goals);
+    safeStorageSet(KEYS.tasks, state.tasks);
+    safeStorageSet(KEYS.plan, state.plan);
+}
+
+/* =========================================================
+   LESSON ENGINE
+   ========================================================= */
+
+function normalizeLesson(raw, index) {
+    if (!raw || typeof raw !== "object") {
+        return null;
+    }
+
+    var lesson = {
+        id: raw.id || ("lesson-" + (index + 1)),
+        course: raw.course || raw.category || "Business Academy",
+        category: raw.category || "Business Foundation",
+        title: raw.title || ("Business Lesson " + (index + 1)),
+        duration: Number(raw.duration) || 15,
+        premium: raw.premium === true,
+        description: raw.description || "",
+        sections: Array.isArray(raw.sections) ? raw.sections : []
+    };
+
+    lesson.sections = lesson.sections.map(function (section) {
+        if (!section || typeof section !== "object") {
+            return null;
+        }
+
+        return {
+            title: section.title || "Lesson",
+            content: section.content || ""
+        };
+    }).filter(Boolean);
+
+    if (!lesson.sections.length) {
+        lesson.sections = [
+            {
+                title: "Lesson Content",
+                content: lesson.description || "ဒီ Lesson ရဲ့ Content ကို ပြသပေးပါမယ်။"
+            }
+        ];
+    }
+
+    return lesson;
+}
+
+function getExternalLessons(globalName) {
+    try {
+        var data = window[globalName];
+
+        if (Array.isArray(data)) {
+            return data;
+        }
+
+        if (data && Array.isArray(data.lessons)) {
+            return data.lessons;
+        }
+
+        return [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function getLessons() {
+    var list = [];
+
+    var globals = [
+        "ABA_BUSINESS_FUNDAMENTALS",
+        "ABA_LEADERSHIP",
+        "ABA_STRATEGY",
+        "ABA_MARKETING",
+        "ABA_SALES",
+        "ABA_FINANCE",
+        "ABA_PEOPLE",
+        "ABA_OPERATIONS"
+    ];
+
+    globals.forEach(function (name) {
+        var external = getExternalLessons(name);
+
+        external.forEach(function (lesson) {
+            var normalized = normalizeLesson(lesson, list.length);
+
+            if (normalized) {
+                list.push(normalized);
+            }
+        });
+    });
+
+    FALLBACK_LESSONS.forEach(function (fallback) {
+        var exists = list.some(function (lesson) {
+            return lesson.id === fallback.id;
+        });
+
+        if (!exists) {
+            var normalized = normalizeLesson(fallback, list.length);
+
+            if (normalized) {
+                list.push(normalized);
+            }
+        }
+    });
+
+    return list;
+}
+
+function findLesson(id) {
+    var lessons = getLessons();
+
+    for (var i = 0; i < lessons.length; i++) {
+        if (lessons[i].id === id) {
+            return lessons[i];
+        }
+    }
+
+    return null;
 }
 
 function isComplete(id) {
-return !!state.progress[id];
+    return state.progress[id] === true;
 }
 
 function completedCount() {
-return state.lessons.filter(function (lesson) {
-return isComplete(lesson.id);
-}).length;
+    var lessons = getLessons();
+
+    return lessons.filter(function (lesson) {
+        return isComplete(lesson.id);
+    }).length;
 }
 
 function overallProgress() {
-if (!state.lessons.length) return 0;
+    var lessons = getLessons();
 
-return Math.round(
-  (completedCount() / state.lessons.length) * 100
-);
+    if (!lessons.length) return 0;
 
+    return Math.round((completedCount() / lessons.length) * 100);
 }
 
-function getCategoryLessons(category) {
-return state.lessons.filter(function (lesson) {
-return lesson.category === category;
-});
+function markComplete(id) {
+    if (!id) return;
+
+    state.progress[id] = true;
+    saveState();
+
+    toast("Lesson Completed ✓", "success");
+    renderCurrentPage();
 }
 
-function categories() {
-const map = {};
+/* =========================================================
+   UI
+   ========================================================= */
 
-state.lessons.forEach(function (lesson) {
-  if (lesson.category) {
-    map[lesson.category] = true;
-  }
-});
-return Object.keys(map);
+function toast(message, type) {
+    try {
+        var container = $("#toastContainer");
 
-}
+        if (!container) {
+            container = document.createElement("div");
+            container.id = "toastContainer";
+            document.body.appendChild(container);
+        }
 
-function iconForCategory(category) {
-const icons = {
-“Business Foundation”: “📘”,
-“Leadership”: “👥”,
-“Strategy”: “🎯”,
-“Marketing”: “📣”,
-“Sales”: “💼”,
-“Finance”: “💰”,
-“People”: “👤”,
-“Operations”: “⚙️”
-};
+        var item = document.createElement("div");
 
-return icons[category] || "📚";
+        item.className = "toast " + (type || "info");
+        item.textContent = message;
 
-}
+        container.appendChild(item);
 
-/* ==========================================================
-7. UI HELPERS
-========================================================== */
-
-function setMain(html) {
-const main = $(“app-main”);
-
-if (!main) {
-  console.error("[ABA] #app-main not found.");
-  return;
-}
-main.innerHTML = html;
-
-}
-
-function toast(message) {
-const container = $(“toastContainer”);
-
-if (!container) {
-  console.log("[ABA]", message);
-  return;
-}
-const item = document.createElement("div");
-item.className = "toast";
-item.textContent = message;
-container.appendChild(item);
-setTimeout(function () {
-  item.remove();
-}, 3000);
-
-}
-
-function closeModal() {
-const modal = $(“globalModal”);
-
-if (modal) {
-  modal.classList.remove("open");
-  modal.innerHTML = "";
-}
-
-}
-
-function showModal(content) {
-const modal = $(“globalModal”);
-
-if (!modal) return;
-modal.innerHTML = `
-  <div class="modal-backdrop" onclick="window.ABA.closeModal()"></div>
-  <div class="modal-panel">
-    <button class="modal-close" onclick="window.ABA.closeModal()">×</button>
-    ${content}
-  </div>
-`;
-modal.classList.add("open");
-
+        setTimeout(function () {
+            try {
+                item.remove();
+            } catch (error) {}
+        }, 2800);
+    } catch (error) {
+        console.log(message);
+    }
 }
 
 function closeMobileMenu() {
-document.body.classList.remove(“menu-open”);
+    var sidebar = $(".sidebar");
+    var overlay = $(".mobile-overlay");
 
-const overlay = $("mobileOverlay");
-if (overlay) {
-  overlay.classList.remove("active");
-}
+    if (sidebar) {
+        sidebar.classList.remove("open");
+    }
 
+    if (overlay) {
+        overlay.classList.remove("show");
+    }
 }
 
 function openMobileMenu() {
-document.body.classList.add(“menu-open”);
+    var sidebar = $(".sidebar");
+    var overlay = $(".mobile-overlay");
 
-const overlay = $("mobileOverlay");
-if (overlay) {
-  overlay.classList.add("active");
-}
+    if (sidebar) {
+        sidebar.classList.add("open");
+    }
 
+    if (overlay) {
+        overlay.classList.add("show");
+    }
 }
 
 function updateHeader(title) {
-const titleElement = document.querySelector(
-“.topbar-title”
-);
+    var titleElement = $("#topbarTitle");
+    var breadcrumb = $("#topbarBreadcrumb");
 
-if (titleElement) {
-  titleElement.textContent = title;
-}
+    if (titleElement) {
+        titleElement.textContent = title || "Dashboard";
+    }
 
+    if (breadcrumb) {
+        breadcrumb.textContent = "AUNG BUSINESS ACADEMY";
+    }
 }
 
 function setActiveNav(page) {
-document.querySelectorAll(”[data-page]”).forEach(
-function (item) {
-item.classList.toggle(
-“active”,
-item.dataset.page === page
-);
-}
-);
+    $all("[data-page]").forEach(function (item) {
+        var target = item.getAttribute("data-page");
+
+        if (target === page) {
+            item.classList.add("active");
+        } else {
+            item.classList.remove("active");
+        }
+    });
 }
 
-function pageHeader(title, subtitle) {
-return <div class="page-header"> <div> <div class="eyebrow">AUNG BUSINESS ACADEMY</div> <h1>${esc(title)}</h1> <p>${esc(subtitle || "")}</p> </div> </div>;
+function setMain(html) {
+    var main = $("#app-main");
+
+    if (!main) {
+        main = document.createElement("main");
+        main.id = "app-main";
+
+        var root = document.body;
+
+        if (root) {
+            root.appendChild(main);
+        }
+    }
+
+    if (main) {
+        main.innerHTML = html;
+    }
+
+    return main;
 }
 
-function card(title, body, extraClass) {
-return <div class="aba-card ${extraClass || ""}"> <div class="card-title">${esc(title)}</div> <div class="card-body">${body}</div> </div>;
+function pageHeader(title, subtitle, actions) {
+    return (
+        '<div class="page-header">' +
+            '<div>' +
+                '<div class="eyebrow">AUNG BUSINESS ACADEMY</div>' +
+                '<h1>' + esc(title) + '</h1>' +
+                '<p>' + esc(subtitle || "") + '</p>' +
+            '</div>' +
+            '<div class="page-actions">' +
+                (actions || "") +
+            '</div>' +
+        '</div>'
+    );
 }
 
-/* ==========================================================
-8. DASHBOARD
-========================================================== */
+function card(title, content, extraClass) {
+    return (
+        '<div class="card ' + (extraClass || "") + '">' +
+            '<div class="card-title">' + esc(title) + '</div>' +
+            '<div class="card-body">' + content + '</div>' +
+        '</div>'
+    );
+}
+
+function emptyState(title, text) {
+    return (
+        '<div class="empty-state">' +
+            '<div class="empty-icon">◈</div>' +
+            '<h3>' + esc(title) + '</h3>' +
+            '<p>' + esc(text) + '</p>' +
+        '</div>'
+    );
+}
+
+/* =========================================================
+   SAFE RENDER
+   ========================================================= */
+
+function renderPageSafely(renderer, title) {
+    if (rendering) return;
+
+    rendering = true;
+
+    try {
+        var html = renderer();
+
+        if (typeof html !== "string") {
+            throw new Error("Page renderer returned invalid content.");
+        }
+
+        setMain(html);
+        updateHeader(title);
+        setActiveNav(state.currentPage);
+    } catch (error) {
+        console.error("Aung Business Academy render error:", error);
+
+        showPageError(title || "Workspace");
+    } finally {
+        rendering = false;
+    }
+}
+
+function showPageError(title) {
+    setMain(
+        '<div class="page-content">' +
+            pageHeader(
+                title || "Workspace",
+                "ဒီ Page ကို ဖွင့်ရာမှာ အခက်အခဲတစ်ခု ဖြစ်နေပါတယ်။"
+            ) +
+            '<div class="card">' +
+                '<div class="card-body">' +
+                    '<div class="empty-state">' +
+                        '<div class="empty-icon">!</div>' +
+                        '<h3>Workspace ကို မဖွင့်နိုင်သေးပါ</h3>' +
+                        '<p>App ကို ပြန်ဖွင့်ပြီး ထပ်မံကြိုးစားပါ။ သင့် Data တွေကို မဖျက်ထားပါဘူး။</p>' +
+                        '<button class="btn btn-primary" data-action="retry">↻ Retry</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>'
+    );
+}
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
 
 function renderDashboard() {
-state.currentPage = “dashboard”;
+    var lessons = getLessons();
+    var progress = overallProgress();
+    var completed = completedCount();
 
-updateHeader("Dashboard");
-setActiveNav("dashboard");
-const progress = overallProgress();
-const completed = completedCount();
-const recentLesson = state.lessons.find(function (lesson) {
-  return !isComplete(lesson.id);
-}) || state.lessons[0];
-setMain(`
-  ${pageHeader(
-    "Business Growth Dashboard",
-    "Learn • Plan • Execute • Measure • Improve"
-  )}
-  <section class="dashboard-hero">
-    <div>
-      <span class="hero-label">GROWTH MODE</span>
-      <h2>Build a stronger business.</h2>
-      <p>
-        Your workspace for practical business learning,
-        execution and performance management.
-      </p>
-      <div class="hero-actions">
-        <button class="primary-button"
-          onclick="window.ABA.openPage('today')">
-          Start Today's Plan →
-        </button>
-        <button class="secondary-button"
-          onclick="window.ABA.openPage('lessons')">
-          Continue Learning
-        </button>
-      </div>
-    </div>
-    <div class="score-ring" style="--progress:${progress * 3.6}deg">
-      <div>
-        <strong>${progress}%</strong>
-        <span>Progress</span>
-      </div>
-    </div>
-  </section>
-  <div class="stats-grid">
-    <div class="stat-card">
-      <span>Courses</span>
-      <strong>8</strong>
-      <small>Business areas</small>
-    </div>
-    <div class="stat-card">
-      <span>Lessons</span>
-      <strong>${state.lessons.length}</strong>
-      <small>Available lessons</small>
-    </div>
-    <div class="stat-card">
-      <span>Completed</span>
-      <strong>${completed}</strong>
-      <small>Lessons completed</small>
-    </div>
-    <div class="stat-card">
-      <span>Progress</span>
-      <strong>${progress}%</strong>
-      <small>Overall learning</small>
-    </div>
-  </div>
-  <div class="dashboard-grid">
-    ${recentLesson ? `
-      <div class="continue-card">
-        <div class="section-label">CONTINUE LEARNING</div>
-        <h3>
-          Lesson ${Number(recentLesson.lessonNumber || "")}:
-          ${esc(recentLesson.title)}
-        </h3>
-        <p>
-          ${esc(
-            recentLesson.subtitle ||
-            "Continue your business growth journey."
-          )}
-        </p>
-        <button class="primary-button"
-          onclick="window.ABA.openLesson('${esc(recentLesson.id)}')">
-          Open Lesson →
-        </button>
-      </div>
-    ` : ""}
-    <div class="today-card">
-      <div class="section-label">TODAY</div>
-      <h3>Today's Business Focus</h3>
-      <ul class="clean-list">
-        <li>🎯 Review your most important target</li>
-        <li>📊 Check yesterday's numbers</li>
-        <li>👥 Coach one team member</li>
-        <li>⚙️ Improve one process</li>
-      </ul>
-      <button class="secondary-button"
-        onclick="window.ABA.openPage('today')">
-        Open Today
-      </button>
-    </div>
-  </div>
-  <div class="growth-roadmap">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">GROWTH ROADMAP</span>
-        <h2>Learn → Execute → Improve</h2>
-      </div>
-    </div>
-    <div class="roadmap-grid">
-      <div class="roadmap-step">
-        <span>01</span>
-        <strong>Learn</strong>
-        <p>Build practical business knowledge.</p>
-      </div>
-      <div class="roadmap-step">
-        <span>02</span>
-        <strong>Plan</strong>
-        <p>Turn knowledge into clear goals.</p>
-      </div>
-      <div class="roadmap-step">
-        <span>03</span>
-        <strong>Execute</strong>
-        <p>Convert plans into daily actions.</p>
-      </div>
-      <div class="roadmap-step">
-        <span>04</span>
-        <strong>Measure</strong>
-        <p>Use numbers to understand results.</p>
-      </div>
-      <div class="roadmap-step">
-        <span>05</span>
-        <strong>Improve</strong>
-        <p>Fix bottlenecks and repeat.</p>
-      </div>
-    </div>
-  </div>
-  ${renderFooter()}
-`);
+    var nextLesson = lessons.find(function (lesson) {
+        return !isComplete(lesson.id);
+    }) || lessons[0];
 
+    return (
+        '<div class="page-content">' +
+
+            pageHeader(
+                "Business Growth Dashboard",
+                "Learn • Plan • Execute • Measure • Improve",
+                '<button class="btn btn-primary" data-page="today">+ Today Plan</button>'
+            ) +
+
+            '<section class="dashboard-hero">' +
+                '<div class="dashboard-hero-content">' +
+                    '<div class="eyebrow">GROWTH MODE</div>' +
+                    '<h2>Build a Better Business.</h2>' +
+                    '<p>သင့် Business ကို Knowledge, Strategy, Execution နဲ့ တစ်ဆင့်ချင်းတိုးတက်အောင် စီမံပါ။</p>' +
+                    '<div class="hero-actions">' +
+                        '<button class="btn btn-primary" data-page="academy">Start Learning</button>' +
+                        '<button class="btn btn-secondary" data-page="business-plan">Build Business Plan</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="score-ring">' +
+                    '<strong>' + progress + '%</strong>' +
+                    '<span>Progress</span>' +
+                '</div>' +
+            '</section>' +
+
+            '<section class="stats-grid">' +
+                statCard("Courses", "8", "Business Areas") +
+                statCard("Lessons", String(lessons.length), "Available") +
+                statCard("Completed", String(completed), "Lessons") +
+                statCard("Progress", progress + "%", "Overall") +
+            '</section>' +
+
+            '<section class="content-grid two">' +
+                card(
+                    "Continue Learning",
+                    nextLesson
+                        ? '<div class="continue-lesson">' +
+                            '<span class="badge">NEXT LESSON</span>' +
+                            '<h3>' + esc(nextLesson.title) + '</h3>' +
+                            '<p>' + esc(nextLesson.description) + '</p>' +
+                            '<button class="btn btn-primary" data-lesson="' + esc(nextLesson.id) + '">Open Lesson →</button>' +
+                          '</div>'
+                        : emptyState("All Lessons Completed", "သင်ခန်းစာအားလုံး ပြီးဆုံးပါပြီ။")
+                ) +
+
+                card(
+                    "Today's Focus",
+                    '<div class="task-list">' +
+                        '<div class="task-item"><span>01</span><div><strong>Learn</strong><small>Lesson တစ်ခုလေ့လာပါ</small></div></div>' +
+                        '<div class="task-item"><span>02</span><div><strong>Plan</strong><small>Business Goal တစ်ခုချပါ</small></div></div>' +
+                        '<div class="task-item"><span>03</span><div><strong>Execute</strong><small>Action တစ်ခုလုပ်ပါ</small></div></div>' +
+                    '</div>'
+                ) +
+            '</section>' +
+
+            '<section>' +
+                '<div class="section-heading">' +
+                    '<div><h2>Growth Roadmap</h2><p>Business Growth ကို Step-by-Step တည်ဆောက်ပါ။</p></div>' +
+                '</div>' +
+                '<div class="roadmap">' +
+                    roadmapStep("01", "Learn", "Knowledge & Skills", true) +
+                    roadmapStep("02", "Plan", "Strategy & Goals", progress >= 25) +
+                    roadmapStep("03", "Execute", "Actions & Discipline", progress >= 50) +
+                    roadmapStep("04", "Measure", "Numbers & KPI", progress >= 75) +
+                    roadmapStep("05", "Improve", "Scale & Growth", progress >= 100) +
+                '</div>' +
+            '</section>' +
+
+            footerHtml() +
+        '</div>'
+    );
 }
 
-/* ==========================================================
-9. TODAY
-========================================================== */
+function statCard(label, value, sub) {
+    return (
+        '<div class="stat-card">' +
+            '<div class="stat-label">' + esc(label) + '</div>' +
+            '<div class="stat-value">' + esc(value) + '</div>' +
+            '<div class="stat-sub">' + esc(sub) + '</div>' +
+        '</div>'
+    );
+}
+
+function roadmapStep(number, title, text, active) {
+    return (
+        '<div class="roadmap-step ' + (active ? "active" : "") + '">' +
+            '<span>' + number + '</span>' +
+            '<strong>' + esc(title) + '</strong>' +
+            '<small>' + esc(text) + '</small>' +
+        '</div>'
+    );
+}
+
+/* =========================================================
+   TODAY
+   ========================================================= */
 
 function renderToday() {
-state.currentPage = “today”;
+    var tasks = state.tasks.filter(function (task) {
+        return task.date === today();
+    });
 
-updateHeader("Today");
-setActiveNav("today");
-const todayTasks = state.tasks.filter(function (task) {
-  return task.date === today();
-});
-setMain(`
-  ${pageHeader(
-    "Today's Execution",
-    "Turn your priorities into measurable actions."
-  )}
-  <div class="tool-card">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">DAILY ACTION</span>
-        <h2>What must get done today?</h2>
-      </div>
-    </div>
-    <div class="inline-form">
-      <input
-        id="todayTaskInput"
-        class="tool-input"
-        type="text"
-        placeholder="Enter today's important action..."
-      >
-      <button
-        class="primary-button"
-        onclick="window.ABA.addTask()">
-        Add Task
-      </button>
-    </div>
-  </div>
-  <div class="list-card">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">TODAY'S TASKS</span>
-        <h2>${todayTasks.length} Actions</h2>
-      </div>
-    </div>
-    ${
-      todayTasks.length
-        ? todayTasks.map(function (task) {
-            return `
-              <div class="task-row">
-                <button
-                  class="check-button ${task.done ? "done" : ""}"
-                  onclick="window.ABA.toggleTask('${esc(task.id)}')">
-                  ${task.done ? "✓" : ""}
-                </button>
-                <span class="${task.done ? "task-done" : ""}">
-                  ${esc(task.title)}
-                </span>
-              </div>
-            `;
-          }).join("")
-        : `
-          <div class="empty-state">
-            <div class="empty-icon">✓</div>
-            <h3>No tasks yet</h3>
-            <p>Add one important action for today.</p>
-          </div>
-        `
-    }
-  </div>
-  ${renderFooter()}
-`);
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "Today",
+                "ဒီနေ့အတွက် Business Growth Action တွေကို စီမံပါ။",
+                '<button class="btn btn-primary" data-action="add-task">+ Add Task</button>'
+            ) +
 
+            '<div class="content-grid two">' +
+                card(
+                    "Today's Tasks",
+                    tasks.length
+                        ? '<div class="task-list">' +
+                            tasks.map(function (task) {
+                                return (
+                                    '<div class="task-item">' +
+                                        '<span>' + (task.done ? "✓" : "○") + '</span>' +
+                                        '<div>' +
+                                            '<strong>' + esc(task.title) + '</strong>' +
+                                            '<small>' + esc(task.priority || "Normal") + '</small>' +
+                                        '</div>' +
+                                        '<button class="icon-btn" data-task="' + esc(task.id) + '">' + (task.done ? "↺" : "✓") + '</button>' +
+                                    '</div>'
+                                );
+                            }).join("") +
+                          '</div>'
+                        : emptyState("No Tasks Yet", "ဒီနေ့လုပ်ဆောင်မယ့် Action တစ်ခုထည့်ပါ။")
+                ) +
+
+                card(
+                    "Daily Growth Formula",
+                    '<div class="formula-box">' +
+                        '<strong>LEARN → PLAN → EXECUTE → REVIEW</strong>' +
+                        '<p>နေ့တိုင်း Business ကို အနည်းဆုံး 1% တိုးတက်အောင်လုပ်ပါ။</p>' +
+                    '</div>'
+                ) +
+            '</div>' +
+
+            footerHtml() +
+        '</div>'
+    );
 }
 
 function addTask() {
-const input = $(“todayTaskInput”);
+    var title = window.prompt("ဒီနေ့လုပ်မယ့် Task ကိုရေးပါ");
 
-if (!input) return;
-const title = input.value.trim();
-if (!title) {
-  toast("Task တစ်ခုရေးပါ။");
-  return;
-}
-state.tasks.push({
-  id: "task-" + Date.now(),
-  title: title,
-  date: today(),
-  done: false
-});
-writeJSON(STORAGE.tasks, state.tasks);
-toast("Task added.");
-renderToday();
+    if (!title) return;
 
+    state.tasks.push({
+        id: "task-" + Date.now(),
+        title: title,
+        date: today(),
+        priority: "High",
+        done: false
+    });
+
+    saveState();
+    toast("Task Added ✓", "success");
+    renderCurrentPage();
 }
 
 function toggleTask(id) {
-const task = state.tasks.find(function (item) {
-return item.id === id;
-});
+    state.tasks = state.tasks.map(function (task) {
+        if (task.id === id) {
+            task.done = !task.done;
+        }
 
-if (!task) return;
-task.done = !task.done;
-writeJSON(STORAGE.tasks, state.tasks);
-renderToday();
+        return task;
+    });
 
+    saveState();
+    renderCurrentPage();
 }
 
-/* ==========================================================
-10. GOALS
-========================================================== */
+/* =========================================================
+   GOALS
+   ========================================================= */
 
 function renderGoals() {
-state.currentPage = “goals”;
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "My Goals",
+                "Business နဲ့ Career Growth အတွက် အရေးကြီးဆုံး Goal တွေကို သတ်မှတ်ပါ။",
+                '<button class="btn btn-primary" data-action="add-goal">+ Add Goal</button>'
+            ) +
 
-updateHeader("My Goals");
-setActiveNav("goals");
-setMain(`
-  ${pageHeader(
-    "My Goals",
-    "Set measurable goals and track execution."
-  )}
-  <div class="tool-card">
-    <h2>Add Business Goal</h2>
-    <div class="form-grid">
-      <input
-        id="goalTitle"
-        class="tool-input"
-        placeholder="Goal title"
-      >
-      <input
-        id="goalTarget"
-        class="tool-input"
-        type="number"
-        placeholder="Target number"
-      >
-    </div>
-    <button
-      class="primary-button"
-      onclick="window.ABA.addGoal()">
-      Add Goal
-    </button>
-  </div>
-  <div class="card-grid">
-    ${
-      state.goals.length
-        ? state.goals.map(function (goal) {
-            const achievementValue =
-              achievement(goal.target, goal.actual);
-            return `
-              <div class="kpi-card">
-                <span class="section-label">GOAL</span>
-                <h3>${esc(goal.title)}</h3>
-                <div class="kpi-number">
-                  ${money(goal.actual)} /
-                  ${money(goal.target)}
-                </div>
-                <div class="progress-bar">
-                  <span style="width:${pct(achievementValue)}%"></span>
-                </div>
-                <small>
-                  ${achievementValue}% achieved
-                </small>
-                <button
-                  class="secondary-button"
-                  onclick="window.ABA.updateGoal('${esc(goal.id)}')">
-                  Update
-                </button>
-              </div>
-            `;
-          }).join("")
-        : `
-          <div class="empty-state">
-            <div class="empty-icon">🎯</div>
-            <h3>No goals yet</h3>
-            <p>Create your first measurable business goal.</p>
-          </div>
-        `
-    }
-  </div>
-  ${renderFooter()}
-`);
+            card(
+                "Goal Board",
+                state.goals.length
+                    ? '<div class="goal-list">' +
+                        state.goals.map(function (goal) {
+                            return (
+                                '<div class="goal-card">' +
+                                    '<span class="badge">GOAL</span>' +
+                                    '<h3>' + esc(goal.title) + '</h3>' +
+                                    '<p>' + esc(goal.deadline || "No deadline") + '</p>' +
+                                '</div>'
+                            );
+                        }).join("") +
+                      '</div>'
+                    : emptyState("No Goals Yet", "သင့်ရဲ့ အရေးကြီးဆုံး Business Goal တစ်ခုကို စတင်သတ်မှတ်ပါ။")
+            ) +
 
+            footerHtml() +
+        '</div>'
+    );
 }
 
 function addGoal() {
-const titleInput = $(“goalTitle”);
-const targetInput = $(“goalTarget”);
+    var title = window.prompt("သင့် Goal ကိုရေးပါ");
 
-if (!titleInput || !targetInput) return;
-const title = titleInput.value.trim();
-const target = Number(targetInput.value);
-if (!title || !target) {
-  toast("Goal title နဲ့ target ထည့်ပါ။");
-  return;
-}
-state.goals.push({
-  id: "goal-" + Date.now(),
-  title: title,
-  target: target,
-  actual: 0
-});
-writeJSON(STORAGE.goals, state.goals);
-toast("Goal added.");
-renderGoals();
+    if (!title) return;
 
+    state.goals.push({
+        id: "goal-" + Date.now(),
+        title: title,
+        deadline: "Open"
+    });
+
+    saveState();
+    toast("Goal Added ✓", "success");
+    renderCurrentPage();
 }
 
-function updateGoal(id) {
-const goal = state.goals.find(function (item) {
-return item.id === id;
-});
-
-if (!goal) return;
-const value = prompt(
-  "Current actual number ထည့်ပါ။",
-  String(goal.actual || 0)
-);
-if (value === null) return;
-const actual = Number(value);
-if (Number.isNaN(actual)) {
-  toast("Number မှန်မှန်ထည့်ပါ။");
-  return;
-}
-goal.actual = actual;
-writeJSON(STORAGE.goals, state.goals);
-renderGoals();
-
-}
-
-/* ==========================================================
-11. ACADEMY
-========================================================== */
+/* =========================================================
+   ACADEMY
+   ========================================================= */
 
 function renderAcademy() {
-state.currentPage = “academy”;
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "Master Business",
+                "Business Management ရဲ့ Core Areas 8 ခုကို လေ့လာပါ။"
+            ) +
 
-updateHeader("Business Academy");
-setActiveNav("academy");
-const cats = categories();
-setMain(`
-  ${pageHeader(
-    "Master Business",
-    "Practical business lessons designed for managers and entrepreneurs."
-  )}
-  <div class="academy-hero">
-    <div>
-      <span class="section-label">30-LESSON BUSINESS PROGRAM</span>
-      <h2>Build your Business Management capability.</h2>
-      <p>
-        Foundation → Leadership → Strategy → Marketing →
-        Sales → Finance → People → Operations
-      </p>
-    </div>
-    <div class="hero-stat">
-      <strong>${state.lessons.length}</strong>
-      <span>Lessons</span>
-    </div>
-  </div>
-  <div class="category-grid">
-    ${cats.map(function (category) {
-      const lessons = getCategoryLessons(category);
-      const done = lessons.filter(function (lesson) {
-        return isComplete(lesson.id);
-      }).length;
-      return `
-        <button
-          class="category-card"
-          onclick="window.ABA.openCategory('${esc(category)}')">
-          <span class="category-icon">
-            ${iconForCategory(category)}
-          </span>
-          <strong>${esc(category)}</strong>
-          <small>
-            ${done}/${lessons.length} completed
-          </small>
-        </button>
-      `;
-    }).join("")}
-  </div>
-  ${renderFooter()}
-`);
+            '<div class="category-grid">' +
+                CATEGORIES.map(function (category, index) {
+                    var count = getLessons().filter(function (lesson) {
+                        return lesson.category === category;
+                    }).length;
 
+                    return (
+                        '<div class="category-card" data-category="' + esc(category) + '">' +
+                            '<div class="category-number">0' + (index + 1) + '</div>' +
+                            '<h3>' + esc(category) + '</h3>' +
+                            '<p>' + count + ' Lessons</p>' +
+                            '<button class="btn btn-secondary" data-category="' + esc(category) + '">Explore →</button>' +
+                        '</div>'
+                    );
+                }).join("") +
+            '</div>' +
+
+            '<div class="section-heading">' +
+                '<div><h2>All Lessons</h2><p>Business Growth Curriculum</p></div>' +
+            '</div>' +
+
+            renderLessonCards(getLessons()) +
+
+            footerHtml() +
+        '</div>'
+    );
 }
-
-/* ==========================================================
-12. LESSON LIST
-========================================================== */
 
 function renderLessons() {
-state.currentPage = “lessons”;
-
-updateHeader("Lessons");
-setActiveNav("lessons");
-setMain(`
-  ${pageHeader(
-    "All Lessons",
-    "Choose a lesson and apply it directly to your business."
-  )}
-  <div class="lesson-toolbar">
-    <input
-      id="lessonSearch"
-      class="tool-input"
-      placeholder="Search lessons..."
-      oninput="window.ABA.filterLessons(this.value)"
-    >
-  </div>
-  <div id="lessonList" class="lesson-grid">
-    ${lessonCards(state.lessons)}
-  </div>
-  ${renderFooter()}
-`);
-
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "Lessons",
+                "15-minute practical business lessons."
+            ) +
+            renderLessonCards(getLessons()) +
+            footerHtml() +
+        '</div>'
+    );
 }
 
-function lessonCards(list) {
-if (!list.length) {
-return <div class="empty-state"> <div class="empty-icon">📚</div> <h3>No lessons found</h3> <p>Try another search.</p> </div>;
+function renderLessonCards(lessons) {
+    if (!lessons.length) {
+        return emptyState("No Lessons", "Lesson မတွေ့ပါ။");
+    }
+
+    return (
+        '<div class="lesson-grid">' +
+            lessons.map(function (lesson, index) {
+                return (
+                    '<div class="lesson-card">' +
+                        '<div class="lesson-card-top">' +
+                            '<span class="badge">' + esc(lesson.category) + '</span>' +
+                            '<span>' + lesson.duration + ' min</span>' +
+                        '</div>' +
+                        '<div class="lesson-number">' + String(index + 1).padStart(2, "0") + '</div>' +
+                        '<h3>' + esc(lesson.title) + '</h3>' +
+                        '<p>' + esc(lesson.description) + '</p>' +
+                        '<div class="lesson-card-footer">' +
+                            '<span>' + (isComplete(lesson.id) ? "✓ Completed" : "Not Started") + '</span>' +
+                            '<button class="btn btn-secondary" data-lesson="' + esc(lesson.id) + '">Open →</button>' +
+                        '</div>' +
+                    '</div>'
+                );
+            }).join("") +
+        '</div>'
+    );
 }
-
-return list.map(function (lesson) {
-  const locked = !!lesson.isPremium;
-  const done = isComplete(lesson.id);
-  return `
-    <article class="lesson-card ${locked ? "premium-lesson" : ""}">
-      <div class="lesson-number">
-        ${String(lesson.lessonNumber || "").padStart(2, "0")}
-      </div>
-      <div class="lesson-content">
-        <div class="lesson-meta">
-          <span>${esc(lesson.category || "Business")}</span>
-          <span>${esc(lesson.duration || "15 min")}</span>
-          ${
-            locked
-              ? `<span class="premium-badge">PRO</span>`
-              : ""
-          }
-          ${
-            done
-              ? `<span class="complete-badge">✓ Done</span>`
-              : ""
-          }
-        </div>
-        <h3>${esc(lesson.title)}</h3>
-        <p>
-          ${esc(
-            lesson.subtitle ||
-            lesson.description ||
-            "Practical business lesson."
-          )}
-        </p>
-        <button
-          class="${
-            locked
-              ? "secondary-button"
-              : "primary-button"
-          }"
-          onclick="window.ABA.openLesson('${esc(lesson.id)}')">
-          ${
-            locked
-              ? "View Lesson 🔒"
-              : done
-                ? "Review Lesson"
-                : "Start Lesson →"
-          }
-        </button>
-      </div>
-    </article>
-  `;
-}).join("");
-
-}
-
-function filterLessons(value) {
-const search = String(value || “”).toLowerCase();
-
-const filtered = state.lessons.filter(function (lesson) {
-  return (
-    String(lesson.title || "")
-      .toLowerCase()
-      .includes(search) ||
-    String(lesson.category || "")
-      .toLowerCase()
-      .includes(search) ||
-    String(lesson.subtitle || "")
-      .toLowerCase()
-      .includes(search)
-  );
-});
-const list = $("lessonList");
-if (list) {
-  list.innerHTML = lessonCards(filtered);
-}
-
-}
-
-/* ==========================================================
-13. CATEGORY
-========================================================== */
 
 function renderCategory(category) {
-state.currentPage = “category”;
+    var lessons = getLessons().filter(function (lesson) {
+        return lesson.category === category;
+    });
 
-updateHeader(category);
-setMain(`
-  ${pageHeader(
-    category,
-    "Practical lessons and business management skills."
-  )}
-  <div class="lesson-grid">
-    ${lessonCards(getCategoryLessons(category))}
-  </div>
-  <button
-    class="secondary-button"
-    onclick="window.ABA.openPage('lessons')">
-    ← All Lessons
-  </button>
-  ${renderFooter()}
-`);
-
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                category,
+                "ဒီ Business Area ရဲ့ Lessons တွေကို လေ့လာပါ။",
+                '<button class="btn btn-secondary" data-page="academy">← Academy</button>'
+            ) +
+            renderLessonCards(lessons) +
+            footerHtml() +
+        '</div>'
+    );
 }
 
-/* ==========================================================
-14. OPEN LESSON
-========================================================== */
+/* =========================================================
+   LESSON DETAIL
+   ========================================================= */
 
-function openLesson(id) {
-const lesson = state.lessons.find(function (item) {
-return String(item.id) === String(id);
-});
+function renderLessonDetail() {
+    var lesson = findLesson(state.currentLesson);
 
-if (!lesson) {
-  toast("Lesson မတွေ့ပါ။");
-  return;
-}
-state.currentLesson = lesson;
-closeMobileMenu();
-if (lesson.isPremium) {
-  showPremiumLesson(lesson);
-  return;
-}
-renderLessonDetail(lesson);
+    if (!lesson) {
+        return (
+            '<div class="page-content">' +
+                pageHeader("Lesson Not Found", "ဒီ Lesson ကို မတွေ့ပါ။") +
+                emptyState("Lesson Not Found", "Academy ကိုပြန်သွားပြီး Lesson တစ်ခုရွေးပါ။") +
+            '</div>'
+        );
+    }
 
-}
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                lesson.title,
+                lesson.category + " • " + lesson.duration + " minutes",
+                '<button class="btn btn-secondary" data-page="academy">← Back</button>'
+            ) +
 
-function showPremiumLesson(lesson) {
-showModal(`
-    <div class="premium-icon">👑</div>
-    <span class="section-label">GROWTH PRO</span>
-    <h2>Premium Lesson</h2>
-    <p>
-      <strong>${esc(lesson.title)}</strong>
-      သည် Growth Pro content ဖြစ်ပါတယ်။
-    </p>
-    <p>
-      Advanced lessons, tools နဲ့ AI Business Coaching
-      တွေကို Premium အဖြစ် unlock လုပ်နိုင်ပါမယ်။
-    </p>
-    <button
-      class="primary-button"
-      onclick="window.ABA.closeModal();window.ABA.openPage('growth-pro')">
-      View Growth Pro →
-    </button>
-    <button
-      class="secondary-button"
-      onclick="window.ABA.closeModal()">
-      Maybe Later
-    </button>
-  </div>
-`);
+            '<div class="lesson-layout">' +
+                '<article class="lesson-content">' +
 
-}
+                    '<div class="lesson-intro">' +
+                        '<span class="badge">15-MINUTE BUSINESS LESSON</span>' +
+                        '<h2>' + esc(lesson.title) + '</h2>' +
+                        '<p>' + esc(lesson.description) + '</p>' +
+                    '</div>' +
 
-function renderLessonDetail(lesson) {
-state.currentPage = “lesson”;
+                    lesson.sections.map(function (section, index) {
+                        return (
+                            '<section class="lesson-section">' +
+                                '<div class="section-number">0' + (index + 1) + '</div>' +
+                                '<div>' +
+                                    '<h3>' + esc(section.title) + '</h3>' +
+                                    '<p>' + esc(section.content) + '</p>' +
+                                '</div>' +
+                            '</section>'
+                        );
+                    }).join("") +
 
-updateHeader(
-  "Lesson " + String(lesson.lessonNumber || "")
-);
-const index = state.lessons.findIndex(function (item) {
-  return item.id === lesson.id;
-});
-const previous = state.lessons[index - 1];
-const next = state.lessons[index + 1];
-setMain(`
-  <div class="lesson-detail-page">
-    <button
-      class="back-button"
-      onclick="window.ABA.openPage('lessons')">
-      ← Back to Lessons
-    </button>
-    <div class="lesson-detail-header">
-      <span class="section-label">
-        ${esc(lesson.category || "Business")}
-      </span>
-      <h1>
-        Lesson ${Number(lesson.lessonNumber || "")}:
-        ${esc(lesson.title)}
-      </h1>
-      <p>
-        ${esc(lesson.subtitle || "")}
-      </p>
-      <div class="lesson-info">
-        <span>⏱ ${esc(lesson.duration || "15 min")}</span>
-        <span>
-          ${isComplete(lesson.id) ? "✓ Completed" : "In Progress"}
-        </span>
-      </div>
-    </div>
-    <div class="lesson-layout">
-      <article class="lesson-main-content">
-        ${
-          Array.isArray(lesson.sections)
-            ? lesson.sections.map(function (section) {
-                return `
-                  <section class="lesson-section">
-                    <h2>
-                      ${esc(section.title || "")}
-                    </h2>
-                    <div class="lesson-text">
-                      ${formatLessonText(section.content || "")}
-                    </div>
-                  </section>
-                `;
-              }).join("")
-            : `
-              <section class="lesson-section">
-                <div class="lesson-text">
-                  ${formatLessonText(
-                    lesson.content ||
-                    "ဒီ Lesson ရဲ့ Content မရှိသေးပါ။"
-                  )}
-                </div>
-              </section>
-            `
-        }
-        <div class="lesson-complete-box">
-          ${
-            isComplete(lesson.id)
-              ? `
-                <div class="completed-message">
-                  ✓ Lesson Completed
-                </div>
-              `
-              : `
-                <button
-                  class="primary-button"
-                  onclick="window.ABA.completeLesson('${esc(lesson.id)}')">
-                  ✓ Mark Lesson Complete
-                </button>
-              `
-          }
-        </div>
-        <div class="lesson-navigation">
-          ${
-            previous
-              ? `
-                <button
-                  class="secondary-button"
-                  onclick="window.ABA.openLesson('${esc(previous.id)}')">
-                  ← Previous
-                </button>
-              `
-              : `<span></span>`
-          }
-          ${
-            next
-              ? `
-                <button
-                  class="primary-button"
-                  onclick="window.ABA.openLesson('${esc(next.id)}')">
-                  Next Lesson →
-                </button>
-              `
-              : `
-                <button
-                  class="primary-button"
-                  onclick="window.ABA.openPage('progress')">
-                  View My Progress →
-                </button>
-              `
-          }
-        </div>
-      </article>
-      <aside class="lesson-sidebar">
-        <div class="lesson-sidebar-card">
-          <span class="section-label">YOUR PROGRESS</span>
-          <strong>
-            ${overallProgress()}%
-          </strong>
-          <div class="progress-bar">
-            <span style="width:${overallProgress()}%"></span>
-          </div>
-          <small>
-            ${completedCount()} of
-            ${state.lessons.length} lessons completed
-          </small>
-        </div>
-        <div class="lesson-sidebar-card">
-          <span class="section-label">NEXT ACTION</span>
-          <p>
-            ဒီ Lesson မှာသင်ယူထားတာကို
-            မနက်ဖြန် Business ထဲမှာ အသုံးချပါ။
-          </p>
-        </div>
-      </aside>
-    </div>
-    ${renderFooter()}
-  </div>
-`);
+                    '<div class="lesson-complete-box">' +
+                        '<div>' +
+                            '<strong>' + (isComplete(lesson.id) ? "Lesson Completed ✓" : "Finish This Lesson") + '</strong>' +
+                            '<p>လေ့လာပြီးရင် Completed အဖြစ် မှတ်ထားပါ။</p>' +
+                        '</div>' +
+                        '<button class="btn btn-primary" data-complete="' + esc(lesson.id) + '">' +
+                            (isComplete(lesson.id) ? "Completed ✓" : "Mark Complete") +
+                        '</button>' +
+                    '</div>' +
 
+                '</article>' +
+
+                '<aside class="lesson-sidebar">' +
+                    '<div class="card">' +
+                        '<div class="card-title">Your Progress</div>' +
+                        '<div class="card-body">' +
+                            '<div class="progress-bar"><span style="width:' + overallProgress() + '%"></span></div>' +
+                            '<strong>' + overallProgress() + '%</strong>' +
+                            '<p>' + completedCount() + ' lessons completed</p>' +
+                        '</div>' +
+                    '</div>' +
+                '</aside>' +
+            '</div>' +
+
+            footerHtml() +
+        '</div>'
+    );
 }
 
-function formatLessonText(text) {
-return esc(text)
-.replace(/\n\n/g, “”)
-.replace(/\n/g, “”);
+/* =========================================================
+   TOOLS
+   ========================================================= */
+
+function renderToolsHome() {
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "Manager Tools",
+                "Business Decision တွေအတွက် Practical Tools"
+            ) +
+
+            '<div class="tool-grid">' +
+                toolCard("Sales Target", "Target & Achievement Calculator", "sales-target") +
+                toolCard("Pricing", "Margin & Selling Price Calculator", "pricing") +
+                toolCard("KPI & Scorecard", "Team Performance Tracking", "kpi") +
+                toolCard("Customer Plan", "Customer Growth Planning", "customer-plan") +
+                toolCard("Action Planner", "7-Day Execution Plan", "action-planner") +
+                toolCard("Business Plan", "Business Growth Planning", "business-plan") +
+            '</div>' +
+
+            footerHtml() +
+        '</div>'
+    );
 }
 
-function completeLesson(id) {
-state.progress[id] = true;
-
-writeJSON(STORAGE.progress, state.progress);
-toast("Lesson completed ✓");
-const lesson = state.lessons.find(function (item) {
-  return item.id === id;
-});
-if (lesson) {
-  renderLessonDetail(lesson);
-} else {
-  renderLessons();
+function toolCard(title, description, page) {
+    return (
+        '<div class="tool-card">' +
+            '<div class="tool-icon">◆</div>' +
+            '<h3>' + esc(title) + '</h3>' +
+            '<p>' + esc(description) + '</p>' +
+            '<button class="btn btn-secondary" data-page="' + esc(page) + '">Open Tool →</button>' +
+        '</div>'
+    );
 }
-
-}
-
-/* ==========================================================
-15. PROGRESS
-========================================================== */
-
-function renderProgress() {
-state.currentPage = “progress”;
-
-updateHeader("My Progress");
-setActiveNav("progress");
-const progress = overallProgress();
-const catProgress = categories().map(function (category) {
-  const lessons = getCategoryLessons(category);
-  const done = lessons.filter(function (lesson) {
-    return isComplete(lesson.id);
-  }).length;
-  const value = lessons.length
-    ? Math.round((done / lessons.length) * 100)
-    : 0;
-  return `
-    <div class="progress-category">
-      <div class="progress-category-header">
-        <strong>
-          ${iconForCategory(category)}
-          ${esc(category)}
-        </strong>
-        <span>${value}%</span>
-      </div>
-      <div class="progress-bar">
-        <span style="width:${value}%"></span>
-      </div>
-      <small>
-        ${done}/${lessons.length} lessons completed
-      </small>
-    </div>
-  `;
-}).join("");
-setMain(`
-  ${pageHeader(
-    "My Progress",
-    "Track your learning and business growth journey."
-  )}
-  <div class="progress-hero">
-    <div>
-      <span class="section-label">OVERALL PROGRESS</span>
-      <h2>${progress}%</h2>
-      <p>
-        ${completedCount()} of
-        ${state.lessons.length} lessons completed.
-      </p>
-    </div>
-    <div class="progress-bar large">
-      <span style="width:${progress}%"></span>
-    </div>
-  </div>
-  <div class="progress-list">
-    ${catProgress}
-  </div>
-  ${renderFooter()}
-`);
-
-}
-
-/* ==========================================================
-16. SALES TARGET
-========================================================== */
 
 function renderSalesTarget() {
-state.currentPage = “sales-target”;
-
-updateHeader("Sales Target");
-setActiveNav("sales-target");
-setMain(`
-  ${pageHeader(
-    "Sales Target Calculator",
-    "Break your monthly target into practical execution numbers."
-  )}
-  <div class="calculator-card">
-    <div class="form-grid">
-      <div>
-        <label>Monthly Target</label>
-        <input
-          id="salesTarget"
-          class="tool-input"
-          type="number"
-          placeholder="100000000"
-        >
-      </div>
-      <div>
-        <label>Working Days</label>
-        <input
-          id="salesDays"
-          class="tool-input"
-          type="number"
-          value="26"
-        >
-      </div>
-      <div>
-        <label>Salespeople</label>
-        <input
-          id="salesPeople"
-          class="tool-input"
-          type="number"
-          value="5"
-        >
-      </div>
-    </div>
-    <button
-      class="primary-button"
-      onclick="window.ABA.calculateSalesTarget()">
-      Calculate →
-    </button>
-    <div id="salesTargetResult"></div>
-  </div>
-  ${renderFooter()}
-`);
-
+    return calculatorPage(
+        "Sales Target Calculator",
+        "Target, Actual နဲ့ Achievement ကိုတွက်ပါ။",
+        '<div class="form-grid">' +
+            inputField("targetInput", "Target", "0") +
+            inputField("actualInput", "Actual", "0") +
+        '</div>' +
+        '<button class="btn btn-primary" data-action="calculate-target">Calculate</button>' +
+        '<div id="targetResult" class="calculator-result"></div>'
+    );
 }
-
-function calculateSalesTarget() {
-const target = Number($(“salesTarget”)?.value) || 0;
-const days = Number($(“salesDays”)?.value) || 1;
-const people = Number($(“salesPeople”)?.value) || 1;
-
-const daily = target / days;
-const perPerson = target / people;
-const perPersonDaily = target / people / days;
-const result = $("salesTargetResult");
-if (!result) return;
-result.innerHTML = `
-  <div class="result-grid">
-    <div class="result-card">
-      <span>Daily Team Target</span>
-      <strong>${money(daily)}</strong>
-    </div>
-    <div class="result-card">
-      <span>Monthly / Person</span>
-      <strong>${money(perPerson)}</strong>
-    </div>
-    <div class="result-card">
-      <span>Daily / Person</span>
-      <strong>${money(perPersonDaily)}</strong>
-    </div>
-  </div>
-`;
-
-}
-
-/* ==========================================================
-17. PRICING
-========================================================== */
 
 function renderPricing() {
-state.currentPage = “pricing”;
-
-updateHeader("Pricing");
-setActiveNav("pricing");
-setMain(`
-  ${pageHeader(
-    "Pricing Calculator",
-    "Understand cost, margin and selling price."
-  )}
-  <div class="calculator-card">
-    <div class="form-grid">
-      <div>
-        <label>Cost</label>
-        <input
-          id="priceCost"
-          class="tool-input"
-          type="number"
-          placeholder="10000"
-        >
-      </div>
-      <div>
-        <label>Desired Margin %</label>
-        <input
-          id="priceMargin"
-          class="tool-input"
-          type="number"
-          value="30"
-        >
-      </div>
-    </div>
-    <button
-      class="primary-button"
-      onclick="window.ABA.calculatePricing()">
-      Calculate Price →
-    </button>
-    <div id="pricingResult"></div>
-  </div>
-  ${renderFooter()}
-`);
-
+    return calculatorPage(
+        "Pricing Calculator",
+        "Cost, Margin နဲ့ Selling Price ကိုတွက်ပါ။",
+        '<div class="form-grid">' +
+            inputField("costInput", "Cost", "0") +
+            inputField("marginInput", "Target Margin %", "20") +
+        '</div>' +
+        '<button class="btn btn-primary" data-action="calculate-price">Calculate</button>' +
+        '<div id="priceResult" class="calculator-result"></div>'
+    );
 }
-
-function calculatePricing() {
-const cost = Number($(“priceCost”)?.value) || 0;
-const margin = Number($(“priceMargin”)?.value) || 0;
-
-if (margin >= 100) {
-  toast("Margin 100% ထက်နည်းရပါမယ်။");
-  return;
-}
-const sellingPrice = cost / (1 - margin / 100);
-const grossProfit = sellingPrice - cost;
-const result = $("pricingResult");
-if (!result) return;
-result.innerHTML = `
-  <div class="result-grid">
-    <div class="result-card">
-      <span>Recommended Selling Price</span>
-      <strong>${money(sellingPrice)}</strong>
-    </div>
-    <div class="result-card">
-      <span>Gross Profit</span>
-      <strong>${money(grossProfit)}</strong>
-    </div>
-    <div class="result-card">
-      <span>Margin</span>
-      <strong>${margin}%</strong>
-    </div>
-  </div>
-`;
-
-}
-
-/* ==========================================================
-18. KPI SCORECARD
-========================================================== */
 
 function renderKPI() {
-state.currentPage = “kpi”;
-
-updateHeader("KPI & Scorecard");
-setActiveNav("kpi");
-setMain(`
-  ${pageHeader(
-    "KPI & Scorecard",
-    "Manage performance with clear numbers."
-  )}
-  <div class="card-grid">
-    ${card(
-      "Sales Achievement",
-      `
-        <div class="metric-big">86%</div>
-        <div class="progress-bar">
-          <span style="width:86%"></span>
-        </div>
-        <small>Target vs Actual</small>
-      `
-    )}
-    ${card(
-      "New Customers",
-      `
-        <div class="metric-big">24</div>
-        <small>Monthly new customers</small>
-      `
-    )}
-    ${card(
-      "Collection",
-      `
-        <div class="metric-big">92%</div>
-        <div class="progress-bar">
-          <span style="width:92%"></span>
-        </div>
-        <small>Collection achievement</small>
-      `
-    )}
-    ${card(
-      "Team Productivity",
-      `
-        <div class="metric-big">78%</div>
-        <div class="progress-bar">
-          <span style="width:78%"></span>
-        </div>
-        <small>Activity effectiveness</small>
-      `
-    )}
-  </div>
-  ${renderFooter()}
-`);
-
+    return calculatorPage(
+        "KPI & Scorecard",
+        "Team KPI ကို ရိုးရှင်းစွာ စောင့်ကြည့်ပါ။",
+        '<div class="form-grid">' +
+            inputField("kpiTarget", "Target", "0") +
+            inputField("kpiActual", "Actual", "0") +
+        '</div>' +
+        '<button class="btn btn-primary" data-action="calculate-kpi">Calculate</button>' +
+        '<div id="kpiResult" class="calculator-result"></div>'
+    );
 }
-
-/* ==========================================================
-19. CUSTOMER PLAN
-========================================================== */
 
 function renderCustomerPlan() {
-state.currentPage = “customer-plan”;
-
-updateHeader("Customer Plan");
-setActiveNav("customer-plan");
-setMain(`
-  ${pageHeader(
-    "Customer Plan",
-    "Manage key customers with structured actions."
-  )}
-  <div class="tool-card">
-    <div class="form-grid">
-      <input
-        id="customerName"
-        class="tool-input"
-        placeholder="Customer name"
-      >
-      <input
-        id="customerValue"
-        class="tool-input"
-        placeholder="Monthly value"
-      >
-      <input
-        id="customerAction"
-        class="tool-input"
-        placeholder="Next action"
-      >
-    </div>
-    <button
-      class="primary-button"
-      onclick="window.ABA.saveCustomerPlan()">
-      Save Customer Plan
-    </button>
-  </div>
-  <div class="empty-state">
-    <div class="empty-icon">👥</div>
-    <h3>Customer planning workspace</h3>
-    <p>
-      Add customer plans as you execute your business strategy.
-    </p>
-  </div>
-  ${renderFooter()}
-`);
-
+    return simplePlanner(
+        "Customer Plan",
+        "Key Customer တစ်ခုအတွက် Growth Plan ရေးပါ။",
+        ["Customer Name", "Current Sales", "Growth Opportunity", "Next Action"]
+    );
 }
-
-function saveCustomerPlan() {
-toast(“Customer plan saved locally.”);
-}
-
-/* ==========================================================
-20. ACTION PLANNER
-========================================================== */
 
 function renderActionPlanner() {
-state.currentPage = “action-planner”;
-
-updateHeader("Action Planner");
-setActiveNav("action-planner");
-setMain(`
-  ${pageHeader(
-    "Action Planner",
-    "Convert business goals into clear actions."
-  )}
-  <div class="planner-grid">
-    ${[
-      ["01", "Priority", "What matters most?"],
-      ["02", "Owner", "Who is responsible?"],
-      ["03", "Deadline", "When must it happen?"],
-      ["04", "Measure", "How will success be measured?"]
-    ].map(function (item) {
-      return `
-        <div class="planner-card">
-          <span>${item[0]}</span>
-          <strong>${item[1]}</strong>
-          <p>${item[2]}</p>
-        </div>
-      `;
-    }).join("")}
-  </div>
-  ${renderFooter()}
-`);
-
+    return simplePlanner(
+        "7-Day Action Planner",
+        "Business Goal ကို 7-Day Execution Plan အဖြစ် ပြောင်းပါ။",
+        ["Business Goal", "Day 1 Action", "Day 2 Action", "Day 3–7 Action"]
+    );
 }
 
-/* ==========================================================
-21. BUSINESS PLAN
-========================================================== */
-
 function renderBusinessPlan() {
-state.currentPage = “business-plan”;
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "Business Plan",
+                "သင့် Business Growth Plan ကို တည်ဆောက်ပါ။"
+            ) +
 
-updateHeader("Business Plan");
-setActiveNav("business-plan");
-const plan = state.businessPlan;
-setMain(`
-  ${pageHeader(
-    "Business Plan",
-    "Create a practical plan for your business."
-  )}
-  <div class="tool-card">
-    <div class="form-grid">
-      <input
-        id="bpName"
-        class="tool-input"
-        value="${esc(plan.name || "")}"
-        placeholder="Business Name"
-      >
-      <input
-        id="bpType"
-        class="tool-input"
-        value="${esc(plan.type || "")}"
-        placeholder="Business Type"
-      >
-      <input
-        id="bpCustomer"
-        class="tool-input"
-        value="${esc(plan.customer || "")}"
-        placeholder="Target Customer"
-      >
-      <input
-        id="bpBudget"
-        class="tool-input"
-        value="${esc(plan.budget || "")}"
-        placeholder="Starting Budget"
-      >
-      <input
-        id="bpGoal"
-        class="tool-input"
-        value="${esc(plan.goal || "")}"
-        placeholder="Business Goal"
-      >
-      <input
-        id="bpLocation"
-        class="tool-input"
-        value="${esc(plan.location || "")}"
-        placeholder="Market / Location"
-      >
-    </div>
-    <button
-      class="primary-button"
-      onclick="window.ABA.saveBusinessPlan()">
-      Save Business Plan
-    </button>
-  </div>
-  ${renderFooter()}
-`);
+            '<div class="card">' +
+                '<div class="card-body">' +
+                    '<div class="form-stack">' +
+                        textareaField("planTarget", "Business Target", state.plan.target) +
+                        textareaField("planStrategy", "Growth Strategy", state.plan.strategy) +
+                        textareaField("planActions", "Key Actions", state.plan.actions) +
+                        '<button class="btn btn-primary" data-action="save-plan">Save Business Plan</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
 
+            footerHtml() +
+        '</div>'
+    );
+}
+
+function calculatorPage(title, subtitle, body) {
+    return (
+        '<div class="page-content">' +
+            pageHeader(title, subtitle) +
+            '<div class="calculator-wrap">' +
+                '<div class="card">' +
+                    '<div class="card-body">' +
+                        body +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            footerHtml() +
+        '</div>'
+    );
+}
+
+function inputField(id, label, value) {
+    return (
+        '<label class="form-field">' +
+            '<span>' + esc(label) + '</span>' +
+            '<input id="' + esc(id) + '" type="number" value="' + esc(value || "") + '">' +
+        '</label>'
+    );
+}
+
+function textareaField(id, label, value) {
+    return (
+        '<label class="form-field">' +
+            '<span>' + esc(label) + '</span>' +
+            '<textarea id="' + esc(id) + '" rows="5">' + esc(value || "") + '</textarea>' +
+        '</label>'
+    );
+}
+
+function simplePlanner(title, subtitle, fields) {
+    return (
+        '<div class="page-content">' +
+            pageHeader(title, subtitle) +
+            '<div class="card">' +
+                '<div class="card-body">' +
+                    '<div class="form-stack">' +
+                        fields.map(function (field, index) {
+                            return textareaField(
+                                "planner-" + index,
+                                field,
+                                ""
+                            );
+                        }).join("") +
+                        '<button class="btn btn-primary" data-action="save-planner">Save Plan</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            footerHtml() +
+        '</div>'
+    );
+}
+
+function calculateTarget() {
+    var target = Number($("#targetInput") ? $("#targetInput").value : 0);
+    var actual = Number($("#actualInput") ? $("#actualInput").value : 0);
+
+    if (!Number.isFinite(target) || target <= 0) {
+        toast("Target ထည့်ပါ", "error");
+        return;
+    }
+
+    var achievement = (actual / target) * 100;
+    var gap = target - actual;
+
+    var result = $("#targetResult");
+
+    if (result) {
+        result.innerHTML =
+            '<strong>Achievement: ' + pct(achievement) + '%</strong>' +
+            '<p>Gap: ' + money(gap) + '</p>';
+    }
+}
+
+function calculatePrice() {
+    var cost = Number($("#costInput") ? $("#costInput").value : 0);
+    var margin = Number($("#marginInput") ? $("#marginInput").value : 0);
+
+    if (!Number.isFinite(cost) || cost <= 0) {
+        toast("Cost ထည့်ပါ", "error");
+        return;
+    }
+
+    if (!Number.isFinite(margin) || margin >= 100) {
+        toast("Margin % မှန်ကန်စွာထည့်ပါ", "error");
+        return;
+    }
+
+    var price = cost / (1 - margin / 100);
+
+    var result = $("#priceResult");
+
+    if (result) {
+        result.innerHTML =
+            '<strong>Selling Price: ' + money(price) + '</strong>' +
+            '<p>Target Margin: ' + margin + '%</p>';
+    }
+}
+
+function calculateKPI() {
+    var target = Number($("#kpiTarget") ? $("#kpiTarget").value : 0);
+    var actual = Number($("#kpiActual") ? $("#kpiActual").value : 0);
+
+    if (!Number.isFinite(target) || target <= 0) {
+        toast("KPI Target ထည့်ပါ", "error");
+        return;
+    }
+
+    var achievement = (actual / target) * 100;
+
+    var result = $("#kpiResult");
+
+    if (result) {
+        result.innerHTML =
+            '<strong>KPI Achievement: ' + pct(achievement) + '%</strong>';
+    }
 }
 
 function saveBusinessPlan() {
-state.businessPlan = {
-name: $(“bpName”)?.value.trim() || “”,
-type: $(“bpType”)?.value.trim() || “”,
-customer: $(“bpCustomer”)?.value.trim() || “”,
-budget: $(“bpBudget”)?.value.trim() || “”,
-goal: $(“bpGoal”)?.value.trim() || “”,
-location: $(“bpLocation”)?.value.trim() || “”
-};
+    state.plan.target = $("#planTarget") ? $("#planTarget").value : "";
+    state.plan.strategy = $("#planStrategy") ? $("#planStrategy").value : "";
+    state.plan.actions = $("#planActions") ? $("#planActions").value : "";
 
-writeJSON(
-  STORAGE.businessPlan,
-  state.businessPlan
-);
-toast("Business Plan saved.");
-
+    saveState();
+    toast("Business Plan Saved ✓", "success");
 }
 
-/* ==========================================================
-22. PERFORMANCE
-========================================================== */
+/* =========================================================
+   INSIGHT
+   ========================================================= */
 
 function renderPerformance() {
-state.currentPage = “performance”;
-
-updateHeader("Performance");
-setActiveNav("performance");
-setMain(`
-  ${pageHeader(
-    "Performance",
-    "Understand what is working and what needs improvement."
-  )}
-  <div class="card-grid">
-    ${card(
-      "Overall Performance",
-      `
-        <div class="metric-big">82%</div>
-        <div class="progress-bar">
-          <span style="width:82%"></span>
-        </div>
-      `
-    )}
-    ${card(
-      "Execution",
-      `
-        <div class="metric-big">76%</div>
-        <div class="progress-bar">
-          <span style="width:76%"></span>
-        </div>
-      `
-    )}
-    ${card(
-      "Growth",
-      `
-        <div class="metric-big">68%</div>
-        <div class="progress-bar">
-          <span style="width:68%"></span>
-        </div>
-      `
-    )}
-  </div>
-  ${renderFooter()}
-`);
-
+    return analyticsPage(
+        "Performance",
+        "Business Performance Snapshot",
+        [
+            ["Learning Progress", overallProgress() + "%"],
+            ["Completed Lessons", completedCount()],
+            ["Today's Tasks", state.tasks.filter(function (t) { return t.date === today(); }).length],
+            ["Goals", state.goals.length]
+        ]
+    );
 }
-
-/* ==========================================================
-23. SALES ANALYSIS
-========================================================== */
 
 function renderSalesAnalysis() {
-state.currentPage = “sales-analysis”;
-
-updateHeader("Sales Analysis");
-setActiveNav("sales-analysis");
-setMain(`
-  ${pageHeader(
-    "Sales Analysis",
-    "Analyze target, actual, gap and growth."
-  )}
-  <div class="analysis-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Metric</th>
-          <th>Target</th>
-          <th>Actual</th>
-          <th>Achievement</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Sales</td>
-          <td>100M</td>
-          <td>86M</td>
-          <td>86%</td>
-        </tr>
-        <tr>
-          <td>New Customers</td>
-          <td>30</td>
-          <td>24</td>
-          <td>80%</td>
-        </tr>
-        <tr>
-          <td>Collection</td>
-          <td>100%</td>
-          <td>92%</td>
-          <td>92%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  ${renderFooter()}
-`);
-
+    return analyticsPage(
+        "Sales Analysis",
+        "Sales Performance ကို Numbers နဲ့ သုံးသပ်ပါ။",
+        [
+            ["Target", "—"],
+            ["Actual", "—"],
+            ["Achievement", "—"],
+            ["Growth", "—"]
+        ]
+    );
 }
-
-/* ==========================================================
-24. PROFIT ANALYSIS
-========================================================== */
 
 function renderProfitAnalysis() {
-state.currentPage = “profit-analysis”;
-
-updateHeader("Profit Analysis");
-setActiveNav("profit-analysis");
-setMain(`
-  ${pageHeader(
-    "Profit Analysis",
-    "Understand Revenue, Cost, Gross Profit and Margin."
-  )}
-  <div class="card-grid">
-    ${card(
-      "Revenue",
-      `<div class="metric-big">100M</div>`
-    )}
-    ${card(
-      "Cost",
-      `<div class="metric-big">70M</div>`
-    )}
-    ${card(
-      "Gross Profit",
-      `<div class="metric-big">30M</div>`
-    )}
-    ${card(
-      "Gross Margin",
-      `<div class="metric-big">30%</div>`
-    )}
-  </div>
-  ${renderFooter()}
-`);
-
+    return analyticsPage(
+        "Profit Analysis",
+        "Revenue, Cost နဲ့ Margin ကို သုံးသပ်ပါ။",
+        [
+            ["Revenue", "—"],
+            ["Cost", "—"],
+            ["Gross Profit", "—"],
+            ["Margin", "—"]
+        ]
+    );
 }
-
-/* ==========================================================
-25. REPORTS
-========================================================== */
 
 function renderReports() {
-state.currentPage = “reports”;
-
-updateHeader("Reports");
-setActiveNav("reports");
-setMain(`
-  ${pageHeader(
-    "Reports",
-    "Business reporting workspace."
-  )}
-  <div class="card-grid">
-    <button
-      class="report-card"
-      onclick="window.ABA.openPage('sales-analysis')">
-      <span>📈</span>
-      <strong>Sales Report</strong>
-      <small>Target vs Actual</small>
-    </button>
-    <button
-      class="report-card"
-      onclick="window.ABA.openPage('profit-analysis')">
-      <span>💰</span>
-      <strong>Profit Report</strong>
-      <small>Revenue and margin</small>
-    </button>
-    <button
-      class="report-card"
-      onclick="window.ABA.openPage('performance')">
-      <span>📊</span>
-      <strong>Performance Report</strong>
-      <small>Business performance</small>
-    </button>
-  </div>
-  ${renderFooter()}
-`);
-
+    return analyticsPage(
+        "Reports",
+        "Business Review အတွက် Management Summary",
+        [
+            ["Learning", overallProgress() + "%"],
+            ["Goals", state.goals.length],
+            ["Tasks", state.tasks.length],
+            ["Completed", completedCount()]
+        ]
+    );
 }
 
-/* ==========================================================
-26. AI PAGES
-========================================================== */
-
-function renderAI(page, title, subtitle) {
-state.currentPage = page;
-
-updateHeader(title);
-setActiveNav(page);
-setMain(`
-  ${pageHeader(title, subtitle)}
-  <div class="ai-page">
-    <div class="ai-hero">
-      <div class="ai-icon">🤖</div>
-      <div>
-        <span class="section-label">AI BUSINESS INTELLIGENCE</span>
-        <h2>${esc(title)}</h2>
-        <p>
-          Your AI assistant for practical business decisions.
-        </p>
-      </div>
-    </div>
-    <div class="ai-chat-box" id="aiChat">
-      <div class="ai-message">
-        <strong>AI Business Coach</strong>
-        <p>
-          AI connection မချိတ်ဆက်ရသေးပါက
-          ဒီနေရာမှာ local business guidance ကို အသုံးပြုနိုင်ပါတယ်။
-        </p>
-      </div>
-    </div>
-    <div class="ai-input-row">
-      <input
-        id="aiQuestion"
-        class="tool-input"
-        placeholder="သင့် Business Problem ကိုရေးပါ..."
-      >
-      <button
-        class="primary-button"
-        onclick="window.ABA.askAI()">
-        Ask AI
-      </button>
-    </div>
-    <div class="ai-quick-grid">
-      <button
-        class="secondary-button"
-        onclick="window.ABA.quickAI('Sales မတက်ရင် ဘာတွေစစ်ရမလဲ?')">
-        Sales Problem
-      </button>
-      <button
-        class="secondary-button"
-        onclick="window.ABA.quickAI('Team Performance တိုးအောင် ဘာလုပ်ရမလဲ?')">
-        Team Problem
-      </button>
-      <button
-        class="secondary-button"
-        onclick="window.ABA.quickAI('Profit Margin တိုးအောင် ဘာလုပ်ရမလဲ?')">
-        Profit Problem
-      </button>
-    </div>
-  </div>
-  ${renderFooter()}
-`);
-
+function analyticsPage(title, subtitle, metrics) {
+    return (
+        '<div class="page-content">' +
+            pageHeader(title, subtitle) +
+            '<div class="stats-grid">' +
+                metrics.map(function (item) {
+                    return statCard(item[0], item[1], "Management View");
+                }).join("") +
+            '</div>' +
+            '<div class="card">' +
+                '<div class="card-body">' +
+                    '<div class="formula-box">' +
+                        '<strong>MANAGEMENT REVIEW</strong>' +
+                        '<p>Numbers → Analysis → Decision → Action → Review</p>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            footerHtml() +
+        '</div>'
+    );
 }
 
-function askAI() {
-const input = $(“aiQuestion”);
+/* =========================================================
+   AI
+   ========================================================= */
 
-if (!input) return;
-const question = input.value.trim();
-if (!question) {
-  toast("မေးခွန်းရေးပါ။");
-  return;
-}
-appendAIMessage("You", question);
-const answer = localCoach(question);
-setTimeout(function () {
-  appendAIMessage(
-    "AI Business Coach",
-    answer
-  );
-}, 250);
+function renderAI(title, subtitle) {
+    return (
+        '<div class="page-content">' +
+            pageHeader(title, subtitle) +
 
-}
+            '<div class="ai-page">' +
+                '<div class="ai-hero">' +
+                    '<span class="badge">AI BUSINESS INTELLIGENCE</span>' +
+                    '<h2>Think Better. Decide Faster.</h2>' +
+                    '<p>AI Coach ကိုအသုံးပြုပြီး Business Problem တွေကို Framework နဲ့ စဉ်းစားပါ။</p>' +
+                '</div>' +
 
-function quickAI(question) {
-const input = $(“aiQuestion”);
+                '<div class="card">' +
+                    '<div class="card-body">' +
+                        '<label class="form-field">' +
+                            '<span>Your Business Question</span>' +
+                            '<textarea id="aiQuestion" rows="6" placeholder="ဥပမာ - Sales မတက်တာ ဘာကြောင့်လဲ?"></textarea>' +
+                        '</label>' +
+                        '<button class="btn btn-primary" data-action="ai-coach">Get Framework</button>' +
+                        '<div id="aiResult" class="calculator-result"></div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
 
-if (input) {
-  input.value = question;
-}
-askAI();
-
-}
-
-function appendAIMessage(sender, message) {
-const chat = $(“aiChat”);
-
-if (!chat) return;
-const div = document.createElement("div");
-div.className = "ai-message";
-div.innerHTML = `
-  <strong>${esc(sender)}</strong>
-  <p>${esc(message)}</p>
-`;
-chat.appendChild(div);
-chat.scrollTop = chat.scrollHeight;
-
+            footerHtml() +
+        '</div>'
+    );
 }
 
-function localCoach(question) {
-const q = question.toLowerCase();
+function runAICoach() {
+    var question = $("#aiQuestion") ? $("#aiQuestion").value.trim() : "";
 
-if (
-  q.includes("sales") ||
-  q.includes("ရောင်း") ||
-  q.includes("အရောင်း")
-) {
-  return "Sales မတက်ရင် Target → Actual → Gap ကိုအရင်စစ်ပါ။ ပြီးရင် Customer Coverage, Product Availability, Salesperson Activity, Conversion Rate နဲ့ Competition ကို Root Cause အဖြစ်ခွဲစစ်ပါ။";
-}
-if (
-  q.includes("team") ||
-  q.includes("staff") ||
-  q.includes("ဝန်ထမ်း")
-) {
-  return "Team Performance အတွက် Clear Expectation → Coaching → Regular Review → Accountability ဆိုတဲ့ Cycle ကိုအသုံးပြုပါ။";
-}
-if (
-  q.includes("profit") ||
-  q.includes("အမြတ်")
-) {
-  return "Profit တိုးချင်ရင် Revenue တိုးတာတစ်ခုတည်းမကြည့်ပါနဲ့။ Price, Cost, Gross Margin, Product Mix နဲ့ Operating Expense ကိုအတူတူစစ်ပါ။";
-}
-return "ဒီ Business Problem ကို Target → Current Result → Gap → Root Cause → Action ဆိုတဲ့ Framework နဲ့ စတင်ခွဲခြမ်းကြည့်ပါ။ ပြီးရင် 7-Day Action တစ်ခု သတ်မှတ်ပြီး Result ကိုပြန်တိုင်းပါ။";
+    if (!question) {
+        toast("Business Question ရေးပါ", "error");
+        return;
+    }
 
+    var result = $("#aiResult");
+
+    if (result) {
+        result.innerHTML =
+            '<strong>Manager Framework</strong>' +
+            '<p>1. Problem ကို တိတိကျကျ သတ်မှတ်ပါ။</p>' +
+            '<p>2. Data နဲ့ Actual Situation ကို စစ်ပါ။</p>' +
+            '<p>3. Root Cause 3 ခုရှာပါ။</p>' +
+            '<p>4. အကျိုးသက်ရောက်မှုအများဆုံး Action တစ်ခုရွေးပါ။</p>' +
+            '<p>5. 7 ရက်အတွင်း Result ကို ပြန်တိုင်းပါ။</p>' +
+            '<hr>' +
+            '<p><strong>Your Question:</strong> ' + esc(question) + '</p>';
+    }
 }
 
-/* ==========================================================
-27. CAREER
-========================================================== */
+/* =========================================================
+   CAREER
+   ========================================================= */
 
-function renderCVBuilder() {
-state.currentPage = “cv-builder”;
-
-updateHeader("CV Builder");
-setActiveNav("cv-builder");
-setMain(`
-  ${pageHeader(
-    "CV Builder",
-    "Build a professional management-focused CV."
-  )}
-  <div class="tool-card">
-    <div class="form-grid">
-      <input
-        id="cvName"
-        class="tool-input"
-        value="${esc(state.profile.name)}"
-        placeholder="Full Name"
-      >
-      <input
-        id="cvRole"
-        class="tool-input"
-        value="${esc(state.profile.role)}"
-        placeholder="Current Role"
-      >
-    </div>
-    <textarea
-      id="cvSummary"
-      class="tool-input"
-      rows="7"
-      placeholder="Professional Summary"></textarea>
-    <button
-      class="primary-button"
-      onclick="window.ABA.generateCV()">
-      Build CV Preview →
-    </button>
-    <div id="cvResult"></div>
-  </div>
-  ${renderFooter()}
-`);
-
+function renderCV() {
+    return simplePlanner(
+        "CV Builder",
+        "Professional Manager CV အတွက် အချက်အလက်စုစည်းပါ။",
+        ["Professional Summary", "Key Achievements", "Leadership Experience", "Skills"]
+    );
 }
 
-function generateCV() {
-const name = $(“cvName”)?.value.trim() || state.profile.name;
-const role = $(“cvRole”)?.value.trim() || state.profile.role;
-const summary = $(“cvSummary”)?.value.trim() ||
-“Experienced business and sales management professional focused on revenue growth, team leadership, market expansion and execution.”;
-
-const result = $("cvResult");
-if (!result) return;
-result.innerHTML = `
-  <div class="cv-preview">
-    <h2>${esc(name)}</h2>
-    <h3>${esc(role)}</h3>
-    <hr>
-    <h4>PROFESSIONAL SUMMARY</h4>
-    <p>${esc(summary)}</p>
-    <h4>CORE CAPABILITIES</h4>
-    <p>
-      Sales Management • Team Leadership •
-      Business Development • Market Expansion •
-      KPI Management • Distributor Management •
-      Customer Management • Business Analysis
-    </p>
-  </div>
-`;
-
+function renderInterview() {
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "Interview Coach",
+                "Manager / Sales Manager Interview Preparation"
+            ) +
+            '<div class="card">' +
+                '<div class="card-body">' +
+                    '<h3>Practice Question</h3>' +
+                    '<p>Tell me about your experience in driving sales performance.</p>' +
+                    '<textarea id="interviewAnswer" rows="7" placeholder="Your answer..."></textarea>' +
+                    '<button class="btn btn-primary" data-action="review-interview">Review Answer</button>' +
+                    '<div id="interviewResult" class="calculator-result"></div>' +
+                '</div>' +
+            '</div>' +
+            footerHtml() +
+        '</div>'
+    );
 }
 
-function renderInterviewCoach() {
-renderAI(
-“interview-coach”,
-“Interview Coach”,
-“Prepare strong answers for management interviews.”
-);
+function reviewInterview() {
+    var answer = $("#interviewAnswer") ? $("#interviewAnswer").value.trim() : "";
+    var result = $("#interviewResult");
+
+    if (!answer) {
+        toast("Answer ရေးပါ", "error");
+        return;
+    }
+
+    if (result) {
+        result.innerHTML =
+            '<strong>Answer Framework</strong>' +
+            '<p>Situation → Action → Result → Learning</p>' +
+            '<p>သင့် Answer မှာ Numbers, Team Leadership နဲ့ Business Result ပါအောင် ထည့်ပါ။</p>';
+    }
 }
 
-function renderCareerGrowth() {
-state.currentPage = “career-growth”;
-
-updateHeader("Career Growth");
-setActiveNav("career-growth");
-setMain(`
-  ${pageHeader(
-    "Career Growth",
-    "Build the skills and results required for your next role."
-  )}
-  <div class="roadmap-grid">
-    <div class="roadmap-step">
-      <span>01</span>
-      <strong>Capability</strong>
-      <p>Strengthen management skills.</p>
-    </div>
-    <div class="roadmap-step">
-      <span>02</span>
-      <strong>Results</strong>
-      <p>Document measurable achievements.</p>
-    </div>
-    <div class="roadmap-step">
-      <span>03</span>
-      <strong>Visibility</strong>
-      <p>Build professional credibility.</p>
-    </div>
-    <div class="roadmap-step">
-      <span>04</span>
-      <strong>Opportunity</strong>
-      <p>Target roles that match your value.</p>
-    </div>
-  </div>
-  ${renderFooter()}
-`);
-
+function renderCareer() {
+    return analyticsPage(
+        "Career Growth",
+        "Management Career ကို Strategic အနေနဲ့ တိုးတက်အောင်လုပ်ပါ။",
+        [
+            ["Leadership", "Build"],
+            ["Business Skills", "Grow"],
+            ["Numbers", "Master"],
+            ["Career Value", "Increase"]
+        ]
+    );
 }
 
-/* ==========================================================
-28. PROFILE
-========================================================== */
+/* =========================================================
+   ACCOUNT
+   ========================================================= */
 
 function renderProfile() {
-state.currentPage = “profile”;
-
-updateHeader("Profile");
-setActiveNav("profile");
-setMain(`
-  ${pageHeader(
-    "My Profile",
-    "Manage your Academy profile."
-  )}
-  <div class="profile-card">
-    <div class="avatar-large">
-      AZ
-    </div>
-    <div class="profile-form">
-      <label>Name</label>
-      <input
-        id="profileName"
-        class="tool-input"
-        value="${esc(state.profile.name)}"
-      >
-      <label>Role</label>
-      <input
-        id="profileRole"
-        class="tool-input"
-        value="${esc(state.profile.role)}"
-      >
-      <button
-        class="primary-button"
-        onclick="window.ABA.saveProfile()">
-        Save Profile
-      </button>
-    </div>
-  </div>
-  ${renderFooter()}
-`);
-
+    return (
+        '<div class="page-content">' +
+            pageHeader("Profile", "သင့် Professional Profile") +
+            '<div class="card">' +
+                '<div class="card-body">' +
+                    '<div class="profile-large">' +
+                        '<div class="avatar-large">AZ</div>' +
+                        '<h2>' + esc(state.profile.name) + '</h2>' +
+                        '<p>' + esc(state.profile.role) + '</p>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            footerHtml() +
+        '</div>'
+    );
 }
-
-function saveProfile() {
-state.profile = {
-name: $(“profileName”)?.value.trim() ||
-DEFAULT_PROFILE.name,
-
-  role: $("profileRole")?.value.trim() ||
-    DEFAULT_PROFILE.role
-};
-writeJSON(
-  STORAGE.profile,
-  state.profile
-);
-updateProfileUI();
-toast("Profile saved.");
-
-}
-
-function updateProfileUI() {
-document.querySelectorAll(”.profile-name”).forEach(
-function (element) {
-element.textContent = state.profile.name;
-}
-);
-
-document.querySelectorAll(".profile-role").forEach(
-  function (element) {
-    element.textContent = state.profile.role;
-  }
-);
-
-}
-
-/* ==========================================================
-29. SETTINGS
-========================================================== */
 
 function renderSettings() {
-state.currentPage = “settings”;
+    return (
+        '<div class="page-content">' +
+            pageHeader("Settings", "Aung Business Academy Settings") +
 
-updateHeader("Settings");
-setActiveNav("settings");
-setMain(`
-  ${pageHeader(
-    "Settings",
-    "Manage your Academy preferences."
-  )}
-  <div class="settings-card">
-    <label class="setting-row">
-      <span>
-        <strong>Growth Mode</strong>
-        <small>Keep your workspace focused on growth.</small>
-      </span>
-      <input
-        type="checkbox"
-        ${
-          state.settings.growthMode
-            ? "checked"
-            : ""
-        }
-        onchange="window.ABA.toggleSetting('growthMode', this.checked)"
-      >
-    </label>
-    <label class="setting-row">
-      <span>
-        <strong>Notifications</strong>
-        <small>Enable Academy notifications.</small>
-      </span>
-      <input
-        type="checkbox"
-        ${
-          state.settings.notifications
-            ? "checked"
-            : ""
-        }
-        onchange="window.ABA.toggleSetting('notifications', this.checked)"
-      >
-    </label>
-  </div>
-  <div class="tool-card">
-    <span class="section-label">VERSION</span>
-    <h3>Aung Business Academy ${VERSION}</h3>
-    <p>
-      Business Growth OS
-    </p>
-  </div>
-  ${renderFooter()}
-`);
+            '<div class="card">' +
+                '<div class="card-body">' +
 
+                    '<div class="setting-row">' +
+                        '<div><strong>Growth Mode</strong><p>Business Growth workspace ကို အသုံးပြုမယ်။</p></div>' +
+                        '<button class="btn btn-secondary" data-action="toggle-growth">' +
+                            (state.settings.growthMode ? "ON" : "OFF") +
+                        '</button>' +
+                    '</div>' +
+
+                    '<div class="setting-row">' +
+                        '<div><strong>Notifications</strong><p>App Notifications</p></div>' +
+                        '<button class="btn btn-secondary" data-action="toggle-notifications">' +
+                            (state.settings.notifications ? "ON" : "OFF") +
+                        '</button>' +
+                    '</div>' +
+
+                    '<div class="setting-row">' +
+                        '<div><strong>Reset App</strong><p>Local data ကို ပြန်လည်စတင်မယ်။</p></div>' +
+                        '<button class="btn btn-danger" data-action="reset-app">Reset</button>' +
+                    '</div>' +
+
+                '</div>' +
+            '</div>' +
+
+            footerHtml() +
+        '</div>'
+    );
 }
 
-function toggleSetting(key, value) {
-state.settings[key] = !!value;
-
-writeJSON(
-  STORAGE.settings,
-  state.settings
-);
-toast("Setting updated.");
-
-}
-
-/* ==========================================================
-30. GROWTH PRO
-========================================================== */
+/* =========================================================
+   PREMIUM
+   ========================================================= */
 
 function renderGrowthPro() {
-state.currentPage = “growth-pro”;
+    return (
+        '<div class="page-content">' +
+            pageHeader(
+                "Growth Pro",
+                "Advanced Business Growth Workspace"
+            ) +
 
-updateHeader("Growth Pro");
-setActiveNav("growth-pro");
-setMain(`
-  ${pageHeader(
-    "Growth Pro",
-    "Unlock advanced business capability."
-  )}
-  <div class="premium-hero">
-    <div class="premium-icon">👑</div>
-    <span class="section-label">AUNG BUSINESS ACADEMY</span>
-    <h2>Growth Pro</h2>
-    <p>
-      Advanced lessons, management tools,
-      AI coaching and business intelligence.
-    </p>
-  </div>
-  <div class="pricing-grid">
-    <div class="pricing-card">
-      <span>STARTER</span>
-      <strong>Free</strong>
-      <p>Core learning experience.</p>
-      <button class="secondary-button">Current Plan</button>
-    </div>
-    <div class="pricing-card featured">
-      <span>GROWTH PRO</span>
-      <strong>Premium</strong>
-      <p>Advanced lessons + tools + AI.</p>
-      <button
-        class="primary-button"
-        onclick="window.ABA.showComingSoon()">
-        Upgrade →
-      </button>
-    </div>
-  </div>
-  ${renderFooter()}
-`);
+            '<div class="premium-hero">' +
+                '<span class="badge">PREMIUM</span>' +
+                '<h2>Build. Execute. Scale.</h2>' +
+                '<p>Advanced tools, AI coaching, business analytics နဲ့ professional learning ကို တစ်နေရာတည်းမှာ အသုံးပြုနိုင်မယ့် Growth Pro experience.</p>' +
+                '<button class="btn btn-primary" data-action="premium-info">Coming Soon</button>' +
+            '</div>' +
 
-}
+            '<div class="feature-grid">' +
+                featureCard("AI Business Coach", "Business decision support") +
+                featureCard("Advanced Reports", "Performance analytics") +
+                featureCard("Business Planning", "Strategic planning") +
+                featureCard("Premium Academy", "Advanced lessons") +
+            '</div>' +
 
-function showComingSoon() {
-showModal(`
-    <div class="premium-icon">🚀</div>
-    <h2>Growth Pro</h2>
-    <p>
-      Premium subscription system ကို
-      နောက်အဆင့်မှာ ချိတ်ဆက်ပေးပါမယ်။
-    </p>
-    <p>
-      အခုအချိန်မှာ Academy ရဲ့ learning,
-      tools နဲ့ local progress system ကို အသုံးပြုနိုင်ပါတယ်။
-    </p>
-    <button
-      class="primary-button"
-      onclick="window.ABA.closeModal()">
-      Continue
-    </button>
-  </div>
-`);
-
-}
-
-/* ==========================================================
-31. PAGE ROUTER
-========================================================== */
-
-function openPage(page) {
-closeMobileMenu();
-
-try {
-  switch (page) {
-    case "dashboard":
-      renderDashboard();
-      break;
-    case "today":
-      renderToday();
-      break;
-    case "goals":
-      renderGoals();
-      break;
-    case "academy":
-    case "business-foundation":
-    case "leadership":
-    case "strategy":
-    case "marketing":
-    case "sales":
-    case "finance":
-    case "people":
-    case "operations":
-      renderAcademy();
-      break;
-    case "lessons":
-      renderLessons();
-      break;
-    case "progress":
-      renderProgress();
-      break;
-    case "sales-target":
-      renderSalesTarget();
-      break;
-    case "pricing":
-      renderPricing();
-      break;
-    case "kpi":
-      renderKPI();
-      break;
-    case "customer-plan":
-      renderCustomerPlan();
-      break;
-    case "action-planner":
-      renderActionPlanner();
-      break;
-    case "business-plan":
-      renderBusinessPlan();
-      break;
-    case "performance":
-      renderPerformance();
-      break;
-    case "sales-analysis":
-      renderSalesAnalysis();
-      break;
-    case "profit-analysis":
-      renderProfitAnalysis();
-      break;
-    case "reports":
-      renderReports();
-      break;
-    case "ai-business-coach":
-      renderAI(
-        "ai-business-coach",
-        "AI Business Coach",
-        "Think through your business decisions."
-      );
-      break;
-    case "ai-sales-coach":
-      renderAI(
-        "ai-sales-coach",
-        "AI Sales Coach",
-        "Improve sales execution and team performance."
-      );
-      break;
-    case "ai-problem-solver":
-      renderAI(
-        "ai-problem-solver",
-        "AI Problem Solver",
-        "Break down business problems into practical actions."
-      );
-      break;
-    case "cv-builder":
-      renderCVBuilder();
-      break;
-    case "interview-coach":
-      renderInterviewCoach();
-      break;
-    case "career-growth":
-      renderCareerGrowth();
-      break;
-    case "profile":
-      renderProfile();
-      break;
-    case "settings":
-      renderSettings();
-      break;
-    case "growth-pro":
-      renderGrowthPro();
-      break;
-    default:
-      console.warn(
-        "[ABA] Unknown page:",
-        page
-      );
-      renderDashboard();
-  }
-} catch (error) {
-  console.error(
-    "[ABA] Page render error:",
-    page,
-    error
-  );
-  renderErrorPage(error, page);
-}
-
-}
-
-/* ==========================================================
-32. ERROR PAGE
-========================================================== */
-
-function renderErrorPage(error, page) {
-
-updateHeader("Dashboard");
-setMain(`
-  <div class="error-state">
-    <div class="error-icon">⚠️</div>
-    <h1>Workspace Loading Error</h1>
-    <p>
-      Page "${esc(page)}" ကိုဖွင့်ရာမှာ
-      ပြဿနာတစ်ခုဖြစ်သွားပါတယ်။
-    </p>
-    <p>
-      Your saved learning progress ကို မဖျက်ထားပါဘူး။
-    </p>
-    <button
-      class="primary-button"
-      onclick="window.ABA.openPage('dashboard')">
-      Return to Dashboard
-    </button>
-    <button
-      class="secondary-button"
-      onclick="window.location.reload()">
-      Reload App
-    </button>
-  </div>
-`);
-console.error(
-  "[ABA] Fatal page error:",
-  error
-);
-
-}
-
-/* ==========================================================
-33. FOOTER
-========================================================== */
-
-function renderFooter() {
-return `
-    <strong>Aung Business Academy</strong>
-    <span>Business Growth OS</span>
-    <small>
-      Learn • Plan • Execute • Measure • Improve
-    </small>
-    <small>
-      © 2026 Aung Business Academy
-    </small>
-  </footer>
-`;
-
-}
-
-/* ==========================================================
-34. NAVIGATION EVENTS
-========================================================== */
-
-function bindNavigation() {
-
-document.addEventListener(
-  "click",
-  function (event) {
-    const nav = event.target.closest("[data-page]");
-    if (nav) {
-      event.preventDefault();
-      const page = nav.dataset.page;
-      if (page) {
-        openPage(page);
-      }
-      return;
-    }
-    const menuButton =
-      event.target.closest(
-        "[data-mobile-menu], .menu-button, .hamburger"
-      );
-    if (menuButton) {
-      event.preventDefault();
-      openMobileMenu();
-    }
-    const overlay =
-      event.target.closest("#mobileOverlay");
-    if (overlay) {
-      closeMobileMenu();
-    }
-  },
-  false
-);
-const overlay = $("mobileOverlay");
-if (overlay) {
-  overlay.addEventListener(
-    "click",
-    closeMobileMenu
-  );
-}
-
-}
-
-/* ==========================================================
-35. GLOBAL ERROR PROTECTION
-========================================================== */
-
-window.addEventListener(
-“error”,
-function (event) {
-
-  console.error(
-    "[ABA] Global JavaScript error:",
-    event.error || event.message
-  );
-  const main = $("app-main");
-  if (
-    main &&
-    main.innerText.includes(
-      "Building your growth workspace"
-    )
-  ) {
-    renderErrorPage(
-      event.error || event.message,
-      "initialization"
+            footerHtml() +
+        '</div>'
     );
-  }
 }
 
-);
-
-window.addEventListener(
-“unhandledrejection”,
-function (event) {
-
-  console.error(
-    "[ABA] Promise error:",
-    event.reason
-  );
+function featureCard(title, text) {
+    return (
+        '<div class="feature-card">' +
+            '<span>◆</span>' +
+            '<h3>' + esc(title) + '</h3>' +
+            '<p>' + esc(text) + '</p>' +
+        '</div>'
+    );
 }
 
-);
+/* =========================================================
+   FOOTER
+   ========================================================= */
 
-/* ==========================================================
-36. SAFE INITIALIZATION
-========================================================== */
-
-function init() {
-
-console.log(
-  "[ABA] Initializing Aung Business Academy",
-  VERSION
-);
-try {
-  loadLessons();
-  bindNavigation();
-  updateProfileUI();
-  openPage("dashboard");
-  console.log(
-    "[ABA] Initialization complete."
-  );
-} catch (error) {
-  console.error(
-    "[ABA] Initialization failed:",
-    error
-  );
-  renderErrorPage(
-    error,
-    "initialization"
-  );
+function footerHtml() {
+    return (
+        '<footer class="app-footer">' +
+            '<strong>Aung Business Academy</strong>' +
+            '<span>Business Growth OS</span>' +
+            '<small>Learn • Plan • Execute • Measure • Improve</small>' +
+            '<small>© 2026 Aung Business Academy</small>' +
+        '</footer>'
+    );
 }
 
+/* =========================================================
+   ROUTER
+   ========================================================= */
+
+function navigate(page) {
+    if (!page) {
+        page = "dashboard";
+    }
+
+    closeMobileMenu();
+
+    state.currentPage = page;
+
+    renderCurrentPage();
 }
 
-/* ==========================================================
-37. PUBLIC API
-========================================================== */
+function renderCurrentPage() {
+    var page = state.currentPage;
 
-window.ABA = {
-VERSION: VERSION,
+    var routes = {
+        dashboard: [renderDashboard, "Dashboard"],
+        today: [renderToday, "Today"],
+        goals: [renderGoals, "My Goals"],
 
-state: state,
-init: init,
-openPage: openPage,
-openLesson: openLesson,
-closeModal: closeModal,
-addTask: addTask,
-toggleTask: toggleTask,
-addGoal: addGoal,
-updateGoal: updateGoal,
-filterLessons: filterLessons,
-completeLesson: completeLesson,
-calculateSalesTarget: calculateSalesTarget,
-calculatePricing: calculatePricing,
-saveCustomerPlan: saveCustomerPlan,
-saveBusinessPlan: saveBusinessPlan,
-askAI: askAI,
-quickAI: quickAI,
-generateCV: generateCV,
-saveProfile: saveProfile,
-toggleSetting: toggleSetting,
-showComingSoon: showComingSoon,
-openCategory: function (category) {
-  renderCategory(category);
+        academy: [renderAcademy, "Business Academy"],
+        lessons: [renderLessons, "Lessons"],
+
+        "business-foundation": [function () {
+            return renderCategory("Business Foundation");
+        }, "Business Foundation"],
+
+        leadership: [function () {
+            return renderCategory("Leadership");
+        }, "Leadership"],
+
+        strategy: [function () {
+            return renderCategory("Strategy");
+        }, "Strategy"],
+
+        marketing: [function () {
+            return renderCategory("Marketing");
+        }, "Marketing"],
+
+        sales: [function () {
+            return renderCategory("Sales");
+        }, "Sales"],
+
+        finance: [function () {
+            return renderCategory("Finance");
+        }, "Finance"],
+
+        people: [function () {
+            return renderCategory("People");
+        }, "People"],
+
+        operations: [function () {
+            return renderCategory("Operations");
+        }, "Operations"],
+
+        tools: [renderToolsHome, "Manager Tools"],
+        "sales-target": [renderSalesTarget, "Sales Target"],
+        pricing: [renderPricing, "Pricing"],
+        kpi: [renderKPI, "KPI & Scorecard"],
+        "customer-plan": [renderCustomerPlan, "Customer Plan"],
+        "action-planner": [renderActionPlanner, "Action Planner"],
+        "business-plan": [renderBusinessPlan, "Business Plan"],
+
+        performance: [renderPerformance, "Performance"],
+        "sales-analysis": [renderSalesAnalysis, "Sales Analysis"],
+        "profit-analysis": [renderProfitAnalysis, "Profit Analysis"],
+        reports: [renderReports, "Reports"],
+
+        "ai-business-coach": [function () {
+            return renderAI("AI Business Coach", "Business Strategy & Decision Support");
+        }, "AI Business Coach"],
+
+        "ai-sales-coach": [function () {
+            return renderAI("AI Sales Coach", "Sales Performance & Team Coaching");
+        }, "AI Sales Coach"],
+
+        "ai-problem-solver": [function () {
+            return renderAI("AI Problem Solver", "Business Problem Solving Framework");
+        }, "AI Problem Solver"],
+
+        "cv-builder": [renderCV, "CV Builder"],
+        "interview-coach": [renderInterview, "Interview Coach"],
+        "career-growth": [renderCareer, "Career Growth"],
+
+        profile: [renderProfile, "Profile"],
+        settings: [renderSettings, "Settings"],
+
+        "growth-pro": [renderGrowthPro, "Growth Pro"]
+    };
+
+    if (page === "lesson") {
+        renderPageSafely(renderLessonDetail, "Lesson");
+        return;
+    }
+
+    if (routes[page]) {
+        renderPageSafely(routes[page][0], routes[page][1]);
+        return;
+    }
+
+    state.currentPage = "dashboard";
+    renderPageSafely(renderDashboard, "Dashboard");
 }
 
+/* =========================================================
+   EVENTS
+   ========================================================= */
+
+function bindEvents() {
+    document.addEventListener("click", function (event) {
+        var target = event.target;
+
+        if (!target) return;
+
+        var pageButton = target.closest ? target.closest("[data-page]") : null;
+
+        if (pageButton) {
+            event.preventDefault();
+
+            var page = pageButton.getAttribute("data-page");
+
+            navigate(page);
+            return;
+        }
+
+        var lessonButton = target.closest ? target.closest("[data-lesson]") : null;
+
+        if (lessonButton) {
+            event.preventDefault();
+
+            openLesson(lessonButton.getAttribute("data-lesson"));
+            return;
+        }
+
+        var categoryButton = target.closest ? target.closest("[data-category]") : null;
+
+        if (categoryButton) {
+            event.preventDefault();
+
+            var category = categoryButton.getAttribute("data-category");
+
+            state.currentPage = slug(category);
+            renderPageSafely(function () {
+                return renderCategory(category);
+            }, category);
+
+            return;
+        }
+
+        var completeButton = target.closest ? target.closest("[data-complete]") : null;
+
+        if (completeButton) {
+            event.preventDefault();
+
+            markComplete(completeButton.getAttribute("data-complete"));
+            return;
+        }
+
+        var actionButton = target.closest ? target.closest("[data-action]") : null;
+
+        if (actionButton) {
+            event.preventDefault();
+
+            handleAction(actionButton.getAttribute("data-action"));
+            return;
+        }
+
+        var taskButton = target.closest ? target.closest("[data-task]") : null;
+
+        if (taskButton) {
+            event.preventDefault();
+
+            toggleTask(taskButton.getAttribute("data-task"));
+            return;
+        }
+
+        if (
+            target.classList &&
+            (
+                target.classList.contains("mobile-menu-btn") ||
+                target.closest(".mobile-menu-btn")
+            )
+        ) {
+            openMobileMenu();
+            return;
+        }
+
+        if (
+            target.classList &&
+            (
+                target.classList.contains("mobile-overlay") ||
+                target.closest(".mobile-overlay")
+            )
+        ) {
+            closeMobileMenu();
+        }
+    });
+}
+
+function handleAction(action) {
+    switch (action) {
+        case "retry":
+            boot();
+            break;
+
+        case "add-task":
+            addTask();
+            break;
+
+        case "add-goal":
+            addGoal();
+            break;
+
+        case "calculate-target":
+            calculateTarget();
+            break;
+
+        case "calculate-price":
+            calculatePrice();
+            break;
+
+        case "calculate-kpi":
+            calculateKPI();
+            break;
+
+        case "save-plan":
+            saveBusinessPlan();
+            break;
+
+        case "save-planner":
+            toast("Plan Saved ✓", "success");
+            break;
+
+        case "ai-coach":
+            runAICoach();
+            break;
+
+        case "review-interview":
+            reviewInterview();
+            break;
+
+        case "toggle-growth":
+            state.settings.growthMode = !state.settings.growthMode;
+            saveState();
+            renderCurrentPage();
+            break;
+
+        case "toggle-notifications":
+            state.settings.notifications = !state.settings.notifications;
+            saveState();
+            renderCurrentPage();
+            break;
+
+        case "reset-app":
+            resetApp();
+            break;
+
+        case "premium-info":
+            toast("Growth Pro is coming soon.", "info");
+            break;
+
+        default:
+            break;
+    }
+}
+
+function openLesson(id) {
+    var lesson = findLesson(id);
+
+    if (!lesson) {
+        toast("Lesson မတွေ့ပါ", "error");
+        return;
+    }
+
+    state.currentLesson = id;
+    state.currentPage = "lesson";
+
+    renderPageSafely(renderLessonDetail, "Lesson");
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+function resetApp() {
+    var confirmed = window.confirm(
+        "Aung Business Academy ရဲ့ Local Data တွေကို Reset လုပ်မလား?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+        Object.keys(KEYS).forEach(function (key) {
+            localStorage.removeItem(KEYS[key]);
+        });
+    } catch (error) {}
+
+    state.profile = DEFAULT_PROFILE;
+    state.settings = DEFAULT_SETTINGS;
+    state.progress = {};
+    state.goals = [];
+    state.tasks = [];
+    state.plan = {
+        target: "",
+        strategy: "",
+        actions: ""
+    };
+
+    toast("App Reset Complete", "success");
+
+    navigate("dashboard");
+}
+
+/* =========================================================
+   GLOBAL ERROR BOUNDARY
+   ========================================================= */
+
+function installErrorBoundary() {
+    window.onerror = function (message, source, line, column, error) {
+        console.error(
+            "Aung Business Academy Error:",
+            message,
+            source,
+            line,
+            column,
+            error
+        );
+
+        if (!rendering) {
+            toast("App မှာ Error တစ်ခုဖြစ်သွားပါတယ်။ Retry လုပ်ကြည့်ပါ။", "error");
+        }
+
+        return true;
+    };
+
+    window.addEventListener("unhandledrejection", function (event) {
+        console.error(
+            "Aung Business Academy Promise Error:",
+            event && event.reason
+        );
+
+        if (!rendering) {
+            toast("App Error ဖြစ်သွားပါတယ်။", "error");
+        }
+    });
+}
+
+/* =========================================================
+   LOADING SCREEN
+   ========================================================= */
+
+function removeLoadingState() {
+    try {
+        var loading = $(".loading-screen");
+
+        if (loading) {
+            loading.remove();
+        }
+    } catch (error) {}
+}
+
+function showBootError(error) {
+    console.error("Aung Business Academy boot error:", error);
+
+    removeLoadingState();
+
+    setMain(
+        '<div class="page-content">' +
+            pageHeader(
+                "Workspace",
+                "Aung Business Academy"
+            ) +
+            '<div class="card">' +
+                '<div class="card-body">' +
+                    '<div class="empty-state">' +
+                        '<div class="empty-icon">!</div>' +
+                        '<h3>Workspace ကို မဖွင့်နိုင်သေးပါ</h3>' +
+                        '<p>App Initialization မှာ ပြဿနာတစ်ခုဖြစ်နေပါတယ်။ Retry ကိုနှိပ်ပြီး ပြန်စမ်းပါ။</p>' +
+                        '<button class="btn btn-primary" data-action="retry">↻ Retry</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>'
+    );
+}
+
+/* =========================================================
+   BOOT
+   ========================================================= */
+
+function boot() {
+    if (initialized) {
+        try {
+            loadState();
+            renderCurrentPage();
+        } catch (error) {
+            showBootError(error);
+        }
+
+        removeLoadingState();
+        return;
+    }
+
+    initialized = true;
+
+    try {
+        loadState();
+        installErrorBoundary();
+        bindEvents();
+
+        state.currentPage = "dashboard";
+
+        renderCurrentPage();
+
+    } catch (error) {
+        showBootError(error);
+    } finally {
+        removeLoadingState();
+    }
+}
+
+/* =========================================================
+   PUBLIC API
+   ========================================================= */
+
+window.AungBusinessAcademy = {
+    version: APP_VERSION,
+
+    navigate: function (page) {
+        navigate(page);
+    },
+
+    openLesson: function (id) {
+        openLesson(id);
+    },
+
+    getLessons: function () {
+        return getLessons();
+    },
+
+    getState: function () {
+        return state;
+    },
+
+    resetApp: function () {
+        resetApp();
+    },
+
+    reload: function () {
+        initialized = false;
+        boot();
+    }
 };
 
-/* ==========================================================
-38. START
-========================================================== */
+/* =========================================================
+   START
+   ========================================================= */
 
-if (
-document.readyState === “loading”
-) {
-
-document.addEventListener(
-  "DOMContentLoaded",
-  init,
-  { once: true }
-);
-
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+        boot();
+    });
 } else {
-
-init();
-
+    boot();
 }
-
-})();
