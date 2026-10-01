@@ -2,53 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0a0a0c">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<title>Aung Business Academy V17</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#08090d">
+<title>AUNG BUSINESS ACADEMY V18.1</title>
 
 <style>
-:root{
-  --bg:#08090b;
-  --panel:#111318;
-  --panel2:#171920;
-  --card:#14161b;
-  --line:#282c34;
-  --text:#f5f5f7;
-  --muted:#9298a5;
-  --gold:#d9ad55;
-  --gold2:#f0cc7a;
-  --green:#35c98b;
-  --red:#ef6262;
-  --blue:#5c9dff;
-  --shadow:0 15px 40px rgba(0,0,0,.35);
-  --radius:20px;
-}
-
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
+:root{
+  --bg:#08090d;
+  --panel:#11131a;
+  --panel2:#171923;
+  --line:#272b36;
+  --gold:#d9a441;
+  --gold2:#f2c866;
+  --text:#f4f5f7;
+  --muted:#9ba1ad;
+  --green:#39c98a;
+  --red:#ff6875;
+  --blue:#65a9ff;
+  --shadow:0 15px 40px rgba(0,0,0,.28);
+  --radius:18px;
+}
+
 html,body{
   margin:0;
   padding:0;
-  min-height:100%;
   background:var(--bg);
   color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
 body{
-  overflow-x:hidden;
+  min-height:100vh;
 }
 
-button,
-input,
-textarea,
-select{
+button,input,select,textarea{
   font:inherit;
 }
 
@@ -60,99 +52,46 @@ button{
   min-height:100vh;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
+/* SIDEBAR */
 .sidebar{
   position:fixed;
   left:0;
   top:0;
   bottom:0;
-  width:270px;
-  background:#0d0f13;
+  width:260px;
+  background:#0d0f14;
   border-right:1px solid var(--line);
+  padding:20px 14px;
+  overflow-y:auto;
   z-index:1000;
-  display:flex;
-  flex-direction:column;
-  transition:.25s ease;
 }
 
 .brand{
-  padding:25px 22px 20px;
+  padding:8px 10px 22px;
   border-bottom:1px solid var(--line);
-}
-
-.brand-mark{
-  width:46px;
-  height:46px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(145deg,#f1d080,#9e7026);
-  color:#111;
-  font-weight:900;
-  font-size:18px;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
 .brand-title{
-  font-weight:900;
-  letter-spacing:1.8px;
   font-size:18px;
+  font-weight:900;
+  letter-spacing:.5px;
 }
 
 .brand-sub{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:11px;
-  letter-spacing:1.5px;
-}
-
-.profile{
-  margin:16px;
-  padding:13px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:var(--panel);
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.avatar{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:#252830;
   color:var(--gold2);
-  font-weight:800;
-}
-
-.profile-name{
-  font-size:13px;
-  font-weight:800;
-}
-
-.profile-role{
-  color:var(--muted);
   font-size:11px;
-  margin-top:3px;
-}
-
-.nav{
-  padding:5px 12px;
-  overflow:auto;
+  margin-top:5px;
+  letter-spacing:1px;
 }
 
 .nav-section{
-  color:#666c77;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:1.8px;
-  padding:14px 10px 7px;
+  color:#666d79;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  margin:17px 10px 7px;
+  text-transform:uppercase;
 }
 
 .nav-btn{
@@ -161,433 +100,303 @@ button{
   background:transparent;
   color:#aeb3bd;
   padding:11px 12px;
+  margin:2px 0;
   border-radius:12px;
   text-align:left;
   display:flex;
   align-items:center;
-  gap:11px;
-  font-weight:700;
-  font-size:13px;
-  margin:2px 0;
+  gap:10px;
+  transition:.2s;
 }
 
-.nav-btn:hover,
-.nav-btn.active{
-  background:#1b1d23;
+.nav-btn:hover{
+  background:#171922;
   color:#fff;
 }
 
 .nav-btn.active{
-  box-shadow:inset 3px 0 0 var(--gold);
+  background:linear-gradient(135deg,#2a2111,#1b1915);
+  color:var(--gold2);
+  border:1px solid #5a4621;
 }
 
 .nav-icon{
-  width:22px;
+  width:24px;
   text-align:center;
-  font-size:15px;
 }
 
-.sidebar-bottom{
-  margin-top:auto;
-  padding:14px;
-}
-
-.upgrade-mini{
-  border:1px solid #5e4927;
-  background:linear-gradient(145deg,#201a10,#15130e);
-  border-radius:17px;
-  padding:15px;
-}
-
-.upgrade-mini b{
-  color:var(--gold2);
-  display:block;
-  margin-bottom:5px;
-}
-
-.upgrade-mini span{
-  color:#999;
-  font-size:11px;
-  line-height:1.5;
-}
-
-.upgrade-btn{
-  width:100%;
-  margin-top:12px;
-  border:0;
-  padding:10px;
-  border-radius:10px;
-  background:linear-gradient(135deg,#f0cc7a,#b57d27);
-  color:#111;
-  font-weight:900;
-}
-
-/* =========================
-   MAIN
-========================= */
-
+/* MAIN */
 .main{
-  margin-left:270px;
+  margin-left:260px;
   min-height:100vh;
 }
 
 .topbar{
+  height:68px;
   position:sticky;
   top:0;
-  z-index:500;
-  height:70px;
-  background:rgba(8,9,11,.88);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
+  z-index:900;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 28px;
+  padding:0 24px;
+  background:rgba(8,9,13,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
 }
 
-.page-label{
-  font-size:12px;
-  color:var(--muted);
+.top-title{
+  font-size:18px;
+  font-weight:800;
 }
 
-.page-label strong{
-  color:#fff;
-  font-size:14px;
-}
-
-.top-actions{
+.top-right{
   display:flex;
-  gap:8px;
+  align-items:center;
+  gap:10px;
 }
 
-.icon-btn{
-  width:40px;
-  height:40px;
-  border-radius:12px;
+.profile-mini{
+  padding:8px 12px;
+  background:#15171f;
   border:1px solid var(--line);
-  background:var(--panel);
-  color:#ddd;
+  border-radius:12px;
+  font-size:12px;
 }
 
-.mobile-menu{
+.menu-btn{
   display:none;
+  background:#15171f;
+  color:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:8px 11px;
 }
 
 .content{
-  padding:28px;
+  padding:24px;
   max-width:1500px;
   margin:auto;
 }
 
-/* =========================
-   HERO
-========================= */
-
-.hero{
-  border:1px solid #3b3324;
-  border-radius:26px;
-  padding:28px;
-  background:
-    radial-gradient(circle at 85% 20%,rgba(217,173,85,.16),transparent 30%),
-    linear-gradient(145deg,#15130f,#111318 55%,#0d0f13);
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  right:-60px;
-  bottom:-80px;
-  border-radius:50%;
-  background:rgba(217,173,85,.06);
-}
-
-.hero-tag{
-  display:inline-flex;
-  border:1px solid #594624;
-  background:#1b1710;
-  color:var(--gold2);
-  border-radius:999px;
-  padding:6px 10px;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.hero h1{
-  margin:14px 0 7px;
-  font-size:clamp(27px,4vw,44px);
-  letter-spacing:-1.5px;
-}
-
-.hero p{
-  color:var(--muted);
-  max-width:680px;
-  line-height:1.7;
-  margin:0;
-}
-
-.hero-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:20px;
-}
-
-.btn{
-  border:1px solid var(--line);
-  background:var(--panel2);
-  color:#fff;
-  padding:11px 15px;
-  border-radius:12px;
-  font-weight:800;
-  font-size:12px;
-}
-
-.btn.gold{
-  background:linear-gradient(135deg,#f0cc7a,#ae7927);
-  color:#101010;
-  border:0;
-}
-
-.btn.danger{
-  color:#ff9a9a;
-}
-
-.btn.success{
-  color:#75e2b4;
-}
-
-/* =========================
-   GRID / CARDS
-========================= */
-
-.section{
-  margin-top:25px;
-}
-
-.section-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:13px;
-}
-
-.section-head h2{
-  font-size:16px;
-  margin:0;
-}
-
-.section-head span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.grid{
-  display:grid;
-  gap:14px;
-}
-
-.grid-4{
-  grid-template-columns:repeat(4,1fr);
-}
-
-.grid-3{
-  grid-template-columns:repeat(3,1fr);
-}
-
-.grid-2{
-  grid-template-columns:repeat(2,1fr);
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px;
-  min-width:0;
-}
-
-.card-title{
-  color:var(--muted);
-  font-size:11px;
-  font-weight:800;
-}
-
-.metric{
-  font-size:28px;
-  font-weight:900;
-  margin-top:8px;
-  letter-spacing:-1px;
-}
-
-.metric.gold{
-  color:var(--gold2);
-}
-
-.metric.green{
-  color:var(--green);
-}
-
-.metric.red{
-  color:var(--red);
-}
-
-.metric.blue{
-  color:var(--blue);
-}
-
-.metric-sub{
-  color:#737985;
-  font-size:10px;
-  margin-top:5px;
-}
-
-.progress{
-  height:7px;
-  border-radius:99px;
-  background:#24272e;
-  overflow:hidden;
-  margin-top:12px;
-}
-
-.progress span{
-  display:block;
-  height:100%;
-  border-radius:inherit;
-  background:linear-gradient(90deg,#a8782c,#f0cc7a);
-}
-
-/* =========================
-   ACTIONS
-========================= */
-
-.action-card{
-  display:flex;
-  gap:13px;
-  align-items:flex-start;
-}
-
-.action-num{
-  width:34px;
-  height:34px;
-  flex:none;
-  display:grid;
-  place-items:center;
-  border-radius:10px;
-  background:#211b10;
-  color:var(--gold2);
-  font-weight:900;
-}
-
-.action-card h3{
-  margin:0 0 5px;
-  font-size:13px;
-}
-
-.action-card p{
-  margin:0;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-
-/* =========================
-   PAGE
-========================= */
-
+/* GENERAL */
 .page{
   display:none;
 }
 
 .page.active{
   display:block;
-  animation:fade .2s ease;
 }
 
-@keyframes fade{
-  from{opacity:.3;transform:translateY(4px)}
-  to{opacity:1;transform:none}
-}
-
-.page-title{
+.page-head{
   margin-bottom:22px;
 }
 
-.page-title h1{
-  margin:0 0 6px;
-  font-size:30px;
-}
-
-.page-title p{
+.page-head h1{
   margin:0;
+  font-size:27px;
+}
+
+.page-head p{
   color:var(--muted);
-  font-size:12px;
+  margin:7px 0 0;
 }
 
-/* =========================
-   LESSONS
-========================= */
-
-.lesson{
-  cursor:pointer;
-  transition:.2s;
+.grid{
+  display:grid;
+  gap:15px;
 }
 
-.lesson:hover{
-  transform:translateY(-2px);
-  border-color:#4a4d55;
+.grid-2{
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
-.lesson-top{
+.grid-3{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.grid-4{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.card{
+  background:linear-gradient(145deg,var(--panel),#0e1016);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.card h3{
+  margin:0 0 10px;
+  font-size:16px;
+}
+
+.card-title{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:10px;
+  margin-bottom:14px;
 }
 
-.lesson-number{
+.muted{
+  color:var(--muted);
+}
+
+.gold{
   color:var(--gold2);
-  font-size:10px;
+}
+
+.green{
+  color:var(--green);
+}
+
+.red{
+  color:var(--red);
+}
+
+.blue{
+  color:var(--blue);
+}
+
+.big{
+  font-size:30px;
   font-weight:900;
 }
 
-.lock{
-  color:#737984;
+.small{
+  font-size:12px;
 }
 
-.lesson h3{
-  margin:12px 0 6px;
-  font-size:14px;
-}
-
-.lesson p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-  margin:0;
-}
-
-.lesson-meta{
-  margin-top:14px;
-  display:flex;
-  justify-content:space-between;
-  color:#777d88;
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 9px;
+  border-radius:999px;
   font-size:10px;
+  font-weight:800;
+  border:1px solid var(--line);
+  color:var(--muted);
 }
 
-/* =========================
-   TABLE
-========================= */
+.badge.gold{
+  color:var(--gold2);
+  border-color:#61491e;
+  background:#211b0f;
+}
 
-.table-wrap{
-  overflow:auto;
+.badge.green{
+  color:var(--green);
+  border-color:#1f5944;
+  background:#10231c;
+}
+
+.badge.red{
+  color:var(--red);
+  border-color:#5b252d;
+  background:#251216;
+}
+
+.btn{
   border:1px solid var(--line);
-  border-radius:17px;
+  background:#171922;
+  color:#fff;
+  border-radius:11px;
+  padding:10px 14px;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:#555c69;
+}
+
+.btn.primary{
+  background:linear-gradient(135deg,#d6a33f,#9b6c20);
+  color:#08090d;
+  border-color:#e0b35b;
+  font-weight:900;
+}
+
+.btn.success{
+  background:#123225;
+  border-color:#236848;
+  color:#67e0a9;
+}
+
+.btn.danger{
+  background:#291318;
+  border-color:#6c2934;
+  color:#ff8993;
+}
+
+.btn.small-btn{
+  padding:7px 10px;
+  font-size:11px;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* DASHBOARD */
+.hero{
+  padding:24px;
+  border-radius:24px;
+  border:1px solid #5c4824;
+  background:
+    radial-gradient(circle at top right,rgba(217,164,65,.16),transparent 40%),
+    linear-gradient(135deg,#15130e,#101217);
+  margin-bottom:18px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:30px;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:700px;
+}
+
+.progress{
+  width:100%;
+  height:9px;
+  background:#252832;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress > span{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,#9d7125,#f0c45e);
+  border-radius:99px;
+}
+
+.kpi{
+  min-height:125px;
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:8px;
+}
+
+.kpi-value{
+  font-size:29px;
+  font-weight:900;
+}
+
+/* TABLE */
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
 }
 
 table{
@@ -597,34 +406,25 @@ table{
 }
 
 th,td{
-  padding:13px 15px;
+  padding:11px 10px;
   border-bottom:1px solid var(--line);
   text-align:left;
-  font-size:11px;
+  font-size:12px;
 }
 
 th{
-  color:#858b96;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.8px;
+  color:var(--muted);
+  font-weight:700;
 }
 
 td{
-  color:#ddd;
+  color:#e8eaf0;
 }
 
-tr:last-child td{
-  border-bottom:0;
-}
-
-/* =========================
-   FORMS
-========================= */
-
+/* FORMS */
 .form-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px;
 }
 
@@ -639,233 +439,254 @@ tr:last-child td{
 }
 
 .field label{
-  color:#8d939e;
-  font-size:10px;
-  font-weight:800;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
 }
 
-.field input,
-.field textarea,
-.field select{
+input,select,textarea{
   width:100%;
-  background:#0c0e12;
+  background:#0b0d12;
   color:#fff;
-  border:1px solid var(--line);
+  border:1px solid #2b2f39;
   border-radius:11px;
-  padding:12px;
-  outline:0;
+  padding:11px 12px;
+  outline:none;
 }
 
-.field textarea{
-  min-height:110px;
+input:focus,select:focus,textarea:focus{
+  border-color:#7d6028;
+}
+
+textarea{
+  min-height:120px;
   resize:vertical;
 }
 
-.field input:focus,
-.field textarea:focus,
-.field select:focus{
-  border-color:#80632d;
+/* TABS */
+.tabs{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding-bottom:5px;
+  margin-bottom:15px;
 }
 
-/* =========================
-   AI CHAT
-========================= */
+.tab{
+  white-space:nowrap;
+  border:1px solid var(--line);
+  background:#12141a;
+  color:var(--muted);
+  border-radius:10px;
+  padding:9px 12px;
+}
 
+.tab.active{
+  color:var(--gold2);
+  border-color:#654d22;
+  background:#211b10;
+}
+
+/* LESSON */
+.lesson-list{
+  display:grid;
+  gap:9px;
+}
+
+.lesson-item{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px;
+  background:#11131a;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.lesson-item:hover{
+  border-color:#4d515b;
+}
+
+.lesson-left{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.lesson-no{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:#1a1d25;
+  display:grid;
+  place-items:center;
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+}
+
+.lesson-title{
+  font-size:13px;
+  font-weight:800;
+}
+
+.lesson-cat{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+/* ENGLISH */
+.english-hero{
+  padding:22px;
+  border:1px solid #5e4921;
+  border-radius:20px;
+  background:
+    radial-gradient(circle at right top,rgba(217,164,65,.14),transparent 42%),
+    #11130f;
+}
+
+.phrase{
+  border:1px solid var(--line);
+  background:#0d0f14;
+  padding:18px;
+  border-radius:15px;
+  margin-top:12px;
+}
+
+.phrase-en{
+  font-size:20px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+.phrase-mm{
+  margin-top:9px;
+  color:var(--gold2);
+  line-height:1.5;
+}
+
+.phrase-use{
+  margin-top:9px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.practice-box{
+  margin-top:14px;
+  padding:15px;
+  background:#151820;
+  border:1px solid var(--line);
+  border-radius:14px;
+}
+
+/* AI */
 .chat{
-  height:500px;
   display:flex;
   flex-direction:column;
+  gap:10px;
+  max-height:430px;
+  overflow-y:auto;
+  margin-bottom:13px;
 }
 
-.chat-box{
-  flex:1;
-  overflow:auto;
-  padding:5px;
-}
-
-.msg{
-  max-width:82%;
-  padding:12px 14px;
-  border-radius:15px;
-  margin:8px 0;
-  font-size:12px;
-  line-height:1.65;
-}
-
-.msg.ai{
-  background:#191b20;
-  border:1px solid var(--line);
-  color:#ddd;
-}
-
-.msg.user{
-  background:#2a2112;
-  border:1px solid #514022;
-  color:#f6dfaa;
-  margin-left:auto;
-}
-
-.chat-input{
-  display:flex;
-  gap:8px;
-  border-top:1px solid var(--line);
-  padding-top:12px;
-}
-
-.chat-input input{
-  flex:1;
-  min-width:0;
-  background:#0c0e12;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px;
-  color:#fff;
-  outline:0;
-}
-
-/* =========================
-   SETTINGS
-========================= */
-
-.setting-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  padding:15px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.setting-row:last-child{
-  border-bottom:0;
-}
-
-.setting-row h3{
-  margin:0 0 4px;
+.message{
+  padding:13px;
+  border-radius:14px;
+  max-width:88%;
+  line-height:1.55;
   font-size:13px;
 }
 
-.setting-row p{
-  margin:0;
-  color:var(--muted);
-  font-size:10px;
+.message.ai{
+  background:#171a22;
+  border:1px solid var(--line);
+  align-self:flex-start;
 }
 
-.toggle{
-  width:48px;
-  height:26px;
-  border:0;
-  background:#30333a;
-  border-radius:99px;
-  padding:3px;
+.message.user{
+  background:#332715;
+  border:1px solid #61491e;
+  align-self:flex-end;
 }
 
-.toggle span{
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:#aaa;
-  display:block;
-  transition:.2s;
+.chat-row{
+  display:flex;
+  gap:8px;
 }
 
-.toggle.on{
-  background:#6f5727;
-}
-
-.toggle.on span{
-  transform:translateX(22px);
-  background:var(--gold2);
-}
-
-/* =========================
-   MODAL
-========================= */
-
-.modal{
+/* MODAL */
+.modal-bg{
+  display:none;
   position:fixed;
   inset:0;
+  z-index:3000;
   background:rgba(0,0,0,.72);
-  backdrop-filter:blur(7px);
-  display:none;
+  backdrop-filter:blur(8px);
   align-items:center;
   justify-content:center;
-  padding:20px;
-  z-index:3000;
+  padding:15px;
 }
 
-.modal.show{
+.modal-bg.show{
   display:flex;
 }
 
-.modal-card{
-  width:min(650px,100%);
+.modal{
+  width:min(720px,100%);
   max-height:90vh;
-  overflow:auto;
-  background:#121419;
-  border:1px solid #343840;
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 25px 70px rgba(0,0,0,.6);
+  overflow-y:auto;
+  background:#11131a;
+  border:1px solid #343944;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 25px 80px rgba(0,0,0,.5);
 }
 
 .modal-head{
   display:flex;
   justify-content:space-between;
-  gap:15px;
+  gap:10px;
   align-items:center;
   margin-bottom:15px;
 }
 
-.modal-head h2{
-  margin:0;
-  font-size:18px;
-}
-
 .close{
   border:0;
-  background:#24272d;
-  color:#ddd;
-  width:35px;
-  height:35px;
-  border-radius:10px;
+  background:#20232c;
+  color:#fff;
+  border-radius:9px;
+  width:34px;
+  height:34px;
 }
 
-/* =========================
-   TOAST
-========================= */
-
+/* TOAST */
 .toast{
   position:fixed;
+  bottom:22px;
   left:50%;
-  bottom:25px;
-  transform:translate(-50%,20px);
-  background:#f0cc7a;
-  color:#111;
-  padding:11px 17px;
+  transform:translate(-50%,120px);
+  z-index:4000;
+  background:#f1f2f4;
+  color:#090a0d;
+  padding:11px 15px;
   border-radius:12px;
   font-size:12px;
-  font-weight:900;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:5000;
+  font-weight:800;
+  transition:.3s;
+  box-shadow:0 15px 40px rgba(0,0,0,.4);
 }
 
 .toast.show{
-  opacity:1;
   transform:translate(-50%,0);
 }
 
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:900px){
+/* MOBILE */
+@media(max-width:1000px){
   .sidebar{
     transform:translateX(-100%);
-    width:280px;
-    box-shadow:20px 0 50px rgba(0,0,0,.5);
+    transition:.25s;
   }
 
   .sidebar.open{
@@ -876,63 +697,69 @@ tr:last-child td{
     margin-left:0;
   }
 
-  .mobile-menu{
+  .menu-btn{
     display:block;
   }
 
   .topbar{
     padding:0 14px;
-    height:62px;
   }
 
   .content{
-    padding:16px;
+    padding:15px;
   }
 
   .grid-4{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
   .grid-3{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
 
-@media(max-width:600px){
-  .hero{
-    padding:20px;
-    border-radius:20px;
+@media(max-width:650px){
+  .top-title{
+    font-size:15px;
   }
 
-  .hero h1{
-    font-size:27px;
+  .profile-mini{
+    display:none;
   }
 
-  .grid-4,
-  .grid-3,
   .grid-2,
+  .grid-3,
+  .grid-4,
   .form-grid{
     grid-template-columns:1fr;
   }
 
-  .form-grid .field.full{
-    grid-column:auto;
+  .hero{
+    padding:19px;
+  }
+
+  .hero h1{
+    font-size:24px;
+  }
+
+  .page-head h1{
+    font-size:23px;
+  }
+
+  .big{
+    font-size:25px;
   }
 
   .card{
     padding:15px;
   }
 
-  .metric{
-    font-size:25px;
+  .lesson-item{
+    align-items:flex-start;
   }
 
-  .page-title h1{
-    font-size:25px;
-  }
-
-  .top-actions .icon-btn:not(.mobile-menu){
-    display:none;
+  .lesson-item .actions{
+    flex-direction:column;
   }
 }
 </style>
@@ -942,960 +769,1177 @@ tr:last-child td{
 
 <div class="app">
 
-<!-- =========================
-     SIDEBAR
-========================= -->
-
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
 
   <div class="brand">
-    <div class="brand-mark">AB</div>
     <div class="brand-title">AUNG BUSINESS</div>
-    <div class="brand-sub">ACADEMY V17 • GROWTH OS</div>
+    <div class="brand-sub">ACADEMY V18.1 • MANAGER OS</div>
   </div>
 
-  <div class="profile">
-    <div class="avatar">AZ</div>
-    <div>
-      <div class="profile-name" id="profileName">Aung Zar Ni Win</div>
-      <div class="profile-role" id="profileRole">Business Manager</div>
-    </div>
-  </div>
+  <button class="nav-btn active" data-page="dashboard">
+    <span class="nav-icon">⌂</span> Dashboard
+  </button>
 
-  <nav class="nav">
+  <div class="nav-section">Manage</div>
 
-    <div class="nav-section">WORKSPACE</div>
+  <button class="nav-btn" data-page="manage">
+    <span class="nav-icon">▣</span> Business Management
+  </button>
 
-    <button class="nav-btn active" data-page="dashboard">
-      <span class="nav-icon">⌂</span> Dashboard
-    </button>
+  <button class="nav-btn" data-page="team">
+    <span class="nav-icon">♟</span> Team KPI
+  </button>
 
-    <button class="nav-btn" data-page="master">
-      <span class="nav-icon">◆</span> Master Business
-    </button>
+  <button class="nav-btn" data-page="customers">
+    <span class="nav-icon">◉</span> Customers
+  </button>
 
-    <button class="nav-btn" data-page="execute">
-      <span class="nav-icon">✓</span> Execute
-    </button>
+  <button class="nav-btn" data-page="sales">
+    <span class="nav-icon">▤</span> Sales
+  </button>
 
-    <button class="nav-btn" data-page="insight">
-      <span class="nav-icon">◈</span> Insight
-    </button>
+  <div class="nav-section">Plan</div>
 
-    <button class="nav-btn" data-page="intelligence">
-      <span class="nav-icon">✦</span> Intelligence
-    </button>
+  <button class="nav-btn" data-page="planning">
+    <span class="nav-icon">◷</span> Planning
+  </button>
 
-    <div class="nav-section">DEVELOPMENT</div>
+  <button class="nav-btn" data-page="analysis">
+    <span class="nav-icon">◈</span> Analysis
+  </button>
 
-    <button class="nav-btn" data-page="academy">
-      <span class="nav-icon">▣</span> Academy
-    </button>
+  <div class="nav-section">AI Intelligence</div>
 
-    <button class="nav-btn" data-page="career">
-      <span class="nav-icon">↗</span> Career
-    </button>
+  <button class="nav-btn" data-page="ai">
+    <span class="nav-icon">✦</span> AI Business Coach
+  </button>
 
-    <button class="nav-btn" data-page="account">
-      <span class="nav-icon">◎</span> Account
-    </button>
+  <div class="nav-section">Academy</div>
 
-    <div class="nav-section">TOOLS</div>
+  <button class="nav-btn" data-page="academy">
+    <span class="nav-icon">🎓</span> 230 Lessons
+  </button>
 
-    <button class="nav-btn" data-page="notes">
-      <span class="nav-icon">✎</span> Manager Notes
-    </button>
+  <button class="nav-btn" data-page="english">
+    <span class="nav-icon">🇬🇧</span> Business English
+  </button>
 
-    <button class="nav-btn" data-page="settings">
-      <span class="nav-icon">⚙</span> Settings
-    </button>
+  <div class="nav-section">Career & Tools</div>
 
-  </nav>
+  <button class="nav-btn" data-page="career">
+    <span class="nav-icon">↗</span> Career
+  </button>
 
-  <div class="sidebar-bottom">
-    <div class="upgrade-mini">
-      <b>Growth Pro</b>
-      <span>Unlock the complete Business Growth OS</span>
-      <button class="upgrade-btn" onclick="openUpgrade()">UPGRADE</button>
-    </div>
-  </div>
+  <button class="nav-btn" data-page="tools">
+    <span class="nav-icon">⌘</span> Manager Tools
+  </button>
+
+  <button class="nav-btn" data-page="notes">
+    <span class="nav-icon">✎</span> Manager Notes
+  </button>
+
+  <div class="nav-section">Account</div>
+
+  <button class="nav-btn" data-page="account">
+    <span class="nav-icon">◎</span> Account
+  </button>
+
+  <button class="nav-btn" data-page="settings">
+    <span class="nav-icon">⚙</span> Settings
+  </button>
 
 </aside>
 
-<!-- =========================
-     MAIN
-========================= -->
-
+<!-- MAIN -->
 <main class="main">
 
-<header class="topbar">
-
-  <div style="display:flex;align-items:center;gap:10px">
-
-    <button
-      class="icon-btn mobile-menu"
-      id="mobileMenu"
-      onclick="toggleSidebar()"
-    >☰</button>
-
-    <div class="page-label">
-      <strong id="topPageTitle">Dashboard</strong>
-      <br>
-      <span>Aung Business Academy V17</span>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="top-title" id="topTitle">Dashboard</div>
     </div>
 
-  </div>
-
-  <div class="top-actions">
-    <button class="icon-btn" onclick="showToast('All systems are ready')">●</button>
-    <button class="icon-btn" onclick="openUpgrade()">✦</button>
-  </div>
-
-</header>
-
-<div class="content">
-
-<!-- =========================
-     DASHBOARD
-========================= -->
-
-<section class="page active" id="page-dashboard">
-
-  <div class="hero">
-
-    <span class="hero-tag">BUSINESS GROWTH OS V17</span>
-
-    <h1>Build. Execute. Measure. Grow.</h1>
-
-    <p>
-      A practical business management workspace for planning,
-      execution, KPI management, leadership development and
-      continuous business improvement.
-    </p>
-
-    <div class="hero-actions">
-      <button class="btn gold" onclick="goPage('execute')">
-        Start Today's Execution
-      </button>
-
-      <button class="btn" onclick="goPage('intelligence')">
-        Ask AI Business Coach
-      </button>
-
-      <button class="btn" onclick="goPage('academy')">
-        Continue Academy
-      </button>
+    <div class="top-right">
+      <div class="profile-mini" id="miniProfile">Aung Zar Ni Win • Manager</div>
     </div>
+  </header>
 
-  </div>
+  <div class="content">
 
-  <div class="section">
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
 
-    <div class="section-head">
-      <h2>Business Overview</h2>
-      <span id="todayText"></span>
-    </div>
+      <div class="hero">
+        <span class="badge gold">MANAGER BUSINESS GROWTH OS</span>
+        <h1 style="margin-top:10px">Build Skills. Execute Better. Lead Better.</h1>
+        <p>
+          A practical business academy for managers covering sales,
+          leadership, KPI management, business planning and professional English.
+        </p>
 
-    <div class="grid grid-4">
-
-      <div class="card">
-        <div class="card-title">MONTHLY TARGET</div>
-        <div class="metric gold" id="targetMetric">500 L</div>
-        <div class="metric-sub">Sales target</div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">ACTUAL</div>
-        <div class="metric green" id="actualMetric">385 L</div>
-        <div class="metric-sub">Current achievement</div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">ACHIEVEMENT</div>
-        <div class="metric blue" id="achievementMetric">77%</div>
-        <div class="metric-sub">Target progress</div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">GAP</div>
-        <div class="metric red" id="gapMetric">115 L</div>
-        <div class="metric-sub">Remaining target</div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="section">
-
-    <div class="section-head">
-      <h2>Today's Priority</h2>
-      <span>Execution first</span>
-    </div>
-
-    <div class="grid grid-3">
-
-      <div class="card action-card">
-        <div class="action-num">01</div>
-        <div>
-          <h3>Review Sales Gap</h3>
-          <p>Identify where the remaining target can realistically be recovered.</p>
+        <div style="margin-top:18px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px">
+            <span>Monthly Sales Achievement</span>
+            <strong id="heroAchievement">77%</strong>
+          </div>
+          <div class="progress">
+            <span id="heroProgress" style="width:77%"></span>
+          </div>
         </div>
       </div>
 
-      <div class="card action-card">
-        <div class="action-num">02</div>
-        <div>
-          <h3>Check Team KPI</h3>
-          <p>Review individual productivity, coverage and execution.</p>
-        </div>
-      </div>
+      <div class="grid grid-4">
 
-      <div class="card action-card">
-        <div class="action-num">03</div>
-        <div>
-          <h3>Customer Follow-up</h3>
-          <p>Prioritize high-value opportunities and overdue actions.</p>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="section">
-
-    <div class="section-head">
-      <h2>Growth Scorecard</h2>
-      <span>Current workspace</span>
-    </div>
-
-    <div class="grid grid-4">
-
-      <div class="card">
-        <div class="card-title">SALES</div>
-        <div class="metric">77%</div>
-        <div class="progress"><span style="width:77%"></span></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">TEAM</div>
-        <div class="metric">82%</div>
-        <div class="progress"><span style="width:82%"></span></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">EXECUTION</div>
-        <div class="metric">74%</div>
-        <div class="progress"><span style="width:74%"></span></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">LEARNING</div>
-        <div class="metric">46%</div>
-        <div class="progress"><span style="width:46%"></span></div>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- =========================
-     MASTER BUSINESS
-========================= -->
-
-<section class="page" id="page-master">
-
-  <div class="page-title">
-    <h1>Master Business</h1>
-    <p>Build the core capabilities required to manage and grow a business.</p>
-  </div>
-
-  <div class="grid grid-3">
-
-    <div class="card lesson" onclick="openModule('Business Strategy')">
-      <div class="lesson-top">
-        <span class="lesson-number">01</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Business Strategy</h3>
-      <p>Vision, positioning, priorities, competitive advantage and execution.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('Sales Management')">
-      <div class="lesson-top">
-        <span class="lesson-number">02</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Sales Management</h3>
-      <p>Targets, pipeline, territory, distributor and sales-force management.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('Marketing')">
-      <div class="lesson-top">
-        <span class="lesson-number">03</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Marketing</h3>
-      <p>Customer needs, positioning, activation and commercial planning.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('Finance')">
-      <div class="lesson-top">
-        <span class="lesson-number">04</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Finance</h3>
-      <p>Revenue, cost, margin, cash flow and financial decision making.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('People Management')">
-      <div class="lesson-top">
-        <span class="lesson-number">05</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>People Management</h3>
-      <p>Performance, coaching, delegation and team accountability.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('Leadership')">
-      <div class="lesson-top">
-        <span class="lesson-number">06</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Leadership</h3>
-      <p>Decision making, communication, influence and leadership habits.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('Operations')">
-      <div class="lesson-top">
-        <span class="lesson-number">07</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Operations</h3>
-      <p>Process design, productivity, quality and operational control.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('Business Planning')">
-      <div class="lesson-top">
-        <span class="lesson-number">08</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Business Planning</h3>
-      <p>Annual, quarterly, monthly and weekly planning systems.</p>
-    </div>
-
-    <div class="card lesson" onclick="openModule('Negotiation')">
-      <div class="lesson-top">
-        <span class="lesson-number">09</span>
-        <span class="lock">→</span>
-      </div>
-      <h3>Negotiation</h3>
-      <p>Preparation, value creation, objections and closing.</p>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- =========================
-     EXECUTE
-========================= -->
-
-<section class="page" id="page-execute">
-
-  <div class="page-title">
-    <h1>Execute</h1>
-    <p>Turn business plans into measurable daily actions.</p>
-  </div>
-
-  <div class="grid grid-2">
-
-    <div class="card">
-
-      <div class="section-head">
-        <h2>Daily Action Plan</h2>
-        <span id="taskCount">0 tasks</span>
-      </div>
-
-      <div class="form-grid">
-
-        <div class="field full">
-          <label>ACTION</label>
-          <input id="taskInput" placeholder="Enter today's important action">
+        <div class="card kpi">
+          <div class="kpi-label">TARGET</div>
+          <div class="kpi-value" id="dashTarget">500.0 L</div>
+          <div class="small muted">Monthly target</div>
         </div>
 
-        <div class="field">
-          <label>OWNER</label>
-          <input id="taskOwner" placeholder="Owner">
+        <div class="card kpi">
+          <div class="kpi-label">ACTUAL</div>
+          <div class="kpi-value gold" id="dashActual">385.0 L</div>
+          <div class="small muted">Current sales</div>
         </div>
 
-        <div class="field">
-          <label>PRIORITY</label>
-          <select id="taskPriority">
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
-          </select>
+        <div class="card kpi">
+          <div class="kpi-label">ACHIEVEMENT</div>
+          <div class="kpi-value green" id="dashAchievement">77%</div>
+          <div class="small muted">Target achievement</div>
+        </div>
+
+        <div class="card kpi">
+          <div class="kpi-label">GAP</div>
+          <div class="kpi-value red" id="dashGap">115.0 L</div>
+          <div class="small muted">Remaining gap</div>
         </div>
 
       </div>
 
-      <button class="btn gold" style="margin-top:12px" onclick="addTask()">
-        + Add Action
-      </button>
+      <div style="height:15px"></div>
 
-    </div>
+      <div class="grid grid-2">
 
-    <div class="card">
+        <div class="card">
+          <div class="card-title">
+            <h3>Today's Manager Priority</h3>
+            <span class="badge gold">EXECUTE</span>
+          </div>
 
-      <div class="section-head">
-        <h2>Execution Score</h2>
-        <span>Today</span>
-      </div>
+          <div id="priorityList"></div>
 
-      <div class="metric green" id="executionScore">0%</div>
-
-      <div class="progress">
-        <span id="executionBar" style="width:0%"></span>
-      </div>
-
-      <p style="color:var(--muted);font-size:11px;line-height:1.6">
-        Complete your priority actions and update the status as work progresses.
-      </p>
-
-    </div>
-
-  </div>
-
-  <div class="section">
-
-    <div class="section-head">
-      <h2>Action Tracker</h2>
-      <button class="btn danger" onclick="clearTasks()">Clear Completed</button>
-    </div>
-
-    <div class="grid" id="taskList"></div>
-
-  </div>
-
-</section>
-
-<!-- =========================
-     INSIGHT
-========================= -->
-
-<section class="page" id="page-insight">
-
-  <div class="page-title">
-    <h1>Insight</h1>
-    <p>Use business data to identify gaps, patterns and opportunities.</p>
-  </div>
-
-  <div class="grid grid-4">
-
-    <div class="card">
-      <div class="card-title">COVERAGE</div>
-      <div class="metric blue">84%</div>
-      <div class="metric-sub">Customer / outlet reach</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">PRODUCTIVITY</div>
-      <div class="metric green">79%</div>
-      <div class="metric-sub">Team productivity</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">GROWTH</div>
-      <div class="metric gold">+12%</div>
-      <div class="metric-sub">Compared with baseline</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">RISK</div>
-      <div class="metric red">3</div>
-      <div class="metric-sub">Items requiring attention</div>
-    </div>
-
-  </div>
-
-  <div class="section">
-
-    <div class="grid grid-2">
-
-      <div class="card">
-        <div class="section-head">
-          <h2>Problem Analysis</h2>
-          <span>Manager view</span>
-        </div>
-
-        <div class="action-card">
-          <div class="action-num">A</div>
-          <div>
-            <h3>Sales Gap</h3>
-            <p>115 L remains against the current target.</p>
+          <div class="actions" style="margin-top:14px">
+            <button class="btn primary" onclick="goPage('planning')">Open Daily Plan</button>
+            <button class="btn" onclick="goPage('team')">Team KPI</button>
           </div>
         </div>
 
-        <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+        <div class="card">
+          <div class="card-title">
+            <h3>Academy Progress</h3>
+            <span class="badge gold" id="lessonProgressBadge">0 / 230</span>
+          </div>
 
-        <div class="action-card">
-          <div class="action-num">B</div>
-          <div>
-            <h3>Execution Gap</h3>
-            <p>Several planned activities require follow-up.</p>
+          <div class="big gold" id="academyProgressNumber">0%</div>
+
+          <div class="progress" style="margin-top:10px">
+            <span id="academyProgressBar" style="width:0%"></span>
+          </div>
+
+          <p class="muted small" style="line-height:1.6">
+            Complete lessons and practice manager skills consistently.
+          </p>
+
+          <button class="btn primary" onclick="goPage('academy')">
+            Continue Academy
+          </button>
+        </div>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="grid grid-3">
+
+        <div class="card">
+          <div class="card-title">
+            <h3>Business Health</h3>
+            <span class="badge green">LIVE</span>
+          </div>
+          <div class="big green" id="healthScore">77</div>
+          <p class="muted small">Based on target achievement</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <h3>Team Average</h3>
+          </div>
+          <div class="big" id="teamAverage">0%</div>
+          <p class="muted small">Team KPI achievement</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <h3>Manager English</h3>
+          </div>
+          <div class="big gold" id="englishProgress">0%</div>
+          <p class="muted small">Practice progress</p>
+          <button class="btn small-btn" onclick="goPage('english')">Practice Now</button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- MANAGE -->
+    <section class="page" id="page-manage">
+
+      <div class="page-head">
+        <h1>Business Management</h1>
+        <p>Manage your core business data from one place.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="manageTab('overview',this)">Overview</button>
+        <button class="tab" onclick="manageTab('products',this)">Products</button>
+        <button class="tab" onclick="manageTab('territory',this)">Territory</button>
+        <button class="tab" onclick="manageTab('distributor',this)">Distributor</button>
+      </div>
+
+      <div id="manage-overview">
+
+        <div class="grid grid-4">
+
+          <div class="card">
+            <div class="kpi-label">CUSTOMERS</div>
+            <div class="big" id="manageCustomers">0</div>
+          </div>
+
+          <div class="card">
+            <div class="kpi-label">PRODUCTS</div>
+            <div class="big" id="manageProducts">0</div>
+          </div>
+
+          <div class="card">
+            <div class="kpi-label">SALES RECORDS</div>
+            <div class="big" id="manageSales">0</div>
+          </div>
+
+          <div class="card">
+            <div class="kpi-label">TEAM MEMBERS</div>
+            <div class="big" id="manageTeam">0</div>
+          </div>
+
+        </div>
+
+        <div style="height:15px"></div>
+
+        <div class="card">
+          <h3>Quick Manager Actions</h3>
+
+          <div class="actions">
+            <button class="btn primary" onclick="goPage('sales')">+ Add Sales</button>
+            <button class="btn" onclick="goPage('customers')">+ Customer</button>
+            <button class="btn" onclick="goPage('team')">+ Team KPI</button>
+            <button class="btn" onclick="goPage('planning')">Plan Week</button>
           </div>
         </div>
 
       </div>
 
+      <div id="manage-products" style="display:none"></div>
+      <div id="manage-territory" style="display:none"></div>
+      <div id="manage-distributor" style="display:none"></div>
+
+    </section>
+
+    <!-- TEAM -->
+    <section class="page" id="page-team">
+
+      <div class="page-head">
+        <h1>Team KPI</h1>
+        <p>Track team target, actual and achievement.</p>
+      </div>
+
       <div class="card">
 
-        <div class="section-head">
-          <h2>Growth Opportunities</h2>
-          <span>Next moves</span>
+        <div class="card-title">
+          <h3>Add Team Member</h3>
+          <span class="badge gold">TEAM MANAGEMENT</span>
         </div>
 
-        <div class="action-card">
-          <div class="action-num">01</div>
+        <div class="form-grid">
+
+          <div class="field">
+            <label>NAME</label>
+            <input id="teamName" placeholder="e.g. Mg Mg">
+          </div>
+
+          <div class="field">
+            <label>ROLE</label>
+            <input id="teamRole" placeholder="Sales Representative">
+          </div>
+
+          <div class="field">
+            <label>TARGET</label>
+            <input id="teamTarget" type="number" placeholder="100">
+          </div>
+
+          <div class="field">
+            <label>ACTUAL</label>
+            <input id="teamActual" type="number" placeholder="80">
+          </div>
+
+        </div>
+
+        <button class="btn primary" style="margin-top:12px" onclick="addTeam()">
+          Add Team Member
+        </button>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="card">
+        <div class="card-title">
+          <h3>Team Performance</h3>
+          <span class="badge" id="teamCountBadge">0 Members</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Target</th>
+                <th>Actual</th>
+                <th>Achievement</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="teamTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section class="page" id="page-customers">
+
+      <div class="page-head">
+        <h1>Customer Management</h1>
+        <p>Build and manage your customer portfolio.</p>
+      </div>
+
+      <div class="card">
+
+        <h3>Add Customer</h3>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>CUSTOMER NAME</label>
+            <input id="customerName" placeholder="Customer name">
+          </div>
+
+          <div class="field">
+            <label>SEGMENT</label>
+            <select id="customerSegment">
+              <option>Key Account</option>
+              <option>Distributor</option>
+              <option>Dealer</option>
+              <option>Retail</option>
+              <option>Corporate</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>CONTACT</label>
+            <input id="customerContact" placeholder="Phone / Contact">
+          </div>
+
+          <div class="field">
+            <label>STATUS</label>
+            <select id="customerStatus">
+              <option>Active</option>
+              <option>Potential</option>
+              <option>At Risk</option>
+              <option>Inactive</option>
+            </select>
+          </div>
+
+        </div>
+
+        <button class="btn primary" style="margin-top:12px" onclick="addCustomer()">
+          Add Customer
+        </button>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="card">
+        <div class="card-title">
+          <h3>Customer List</h3>
+          <span class="badge" id="customerCountBadge">0</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Segment</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="customerTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SALES -->
+    <section class="page" id="page-sales">
+
+      <div class="page-head">
+        <h1>Sales Management</h1>
+        <p>Record actual sales and analyze performance.</p>
+      </div>
+
+      <div class="card">
+
+        <h3>Add Sales Record</h3>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>DATE</label>
+            <input id="saleDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>CUSTOMER</label>
+            <input id="saleCustomer" placeholder="Customer">
+          </div>
+
+          <div class="field">
+            <label>PRODUCT</label>
+            <input id="saleProduct" placeholder="Product">
+          </div>
+
+          <div class="field">
+            <label>QUANTITY</label>
+            <input id="saleQty" type="number" placeholder="0">
+          </div>
+
+          <div class="field">
+            <label>AMOUNT</label>
+            <input id="saleAmount" type="number" placeholder="0">
+          </div>
+
+          <div class="field">
+            <label>CHANNEL</label>
+            <select id="saleChannel">
+              <option>Direct</option>
+              <option>Distributor</option>
+              <option>Dealer</option>
+              <option>Retail</option>
+              <option>Corporate</option>
+            </select>
+          </div>
+
+        </div>
+
+        <button class="btn primary" style="margin-top:12px" onclick="addSale()">
+          Save Sales
+        </button>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="grid grid-3">
+
+        <div class="card">
+          <div class="kpi-label">SALES RECORDS</div>
+          <div class="big" id="salesRecordCount">0</div>
+        </div>
+
+        <div class="card">
+          <div class="kpi-label">TOTAL SALES</div>
+          <div class="big gold" id="salesTotal">0</div>
+        </div>
+
+        <div class="card">
+          <div class="kpi-label">AVERAGE SALE</div>
+          <div class="big" id="salesAverage">0</div>
+        </div>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="card">
+        <h3>Sales Records</h3>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Amount</th>
+                <th>Channel</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="salesTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- PLANNING -->
+    <section class="page" id="page-planning">
+
+      <div class="page-head">
+        <h1>Manager Planning</h1>
+        <p>Turn business goals into execution plans.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="planTab('annual',this)">Annual</button>
+        <button class="tab" onclick="planTab('quarterly',this)">Quarterly</button>
+        <button class="tab" onclick="planTab('monthly',this)">Monthly</button>
+        <button class="tab" onclick="planTab('weekly',this)">Weekly</button>
+        <button class="tab" onclick="planTab('daily',this)">Daily</button>
+      </div>
+
+      <div class="card">
+
+        <div class="card-title">
+          <h3 id="planTitle">Annual Business Plan</h3>
+          <span class="badge gold">PLAN → EXECUTE</span>
+        </div>
+
+        <textarea id="planText" placeholder="Write your business plan..."></textarea>
+
+        <div class="actions" style="margin-top:12px">
+          <button class="btn primary" onclick="savePlan()">Save Plan</button>
+          <button class="btn" onclick="clearPlan()">Clear</button>
+        </div>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="card">
+        <h3>Manager Planning Framework</h3>
+
+        <div class="grid grid-3">
+
           <div>
-            <h3>Improve High-Value Customer Mix</h3>
-            <p>Focus manager time on accounts with measurable upside.</p>
+            <strong class="gold">1. Goal</strong>
+            <p class="muted small">What must be achieved?</p>
+          </div>
+
+          <div>
+            <strong class="gold">2. Action</strong>
+            <p class="muted small">What must the team do?</p>
+          </div>
+
+          <div>
+            <strong class="gold">3. KPI</strong>
+            <p class="muted small">How will success be measured?</p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ANALYSIS -->
+    <section class="page" id="page-analysis">
+
+      <div class="page-head">
+        <h1>Business Analysis</h1>
+        <p>Use numbers to identify gaps, trends and priorities.</p>
+      </div>
+
+      <div class="grid grid-4">
+
+        <div class="card">
+          <div class="kpi-label">TARGET</div>
+          <div class="big" id="analysisTarget">500</div>
+        </div>
+
+        <div class="card">
+          <div class="kpi-label">ACTUAL</div>
+          <div class="big gold" id="analysisActual">385</div>
+        </div>
+
+        <div class="card">
+          <div class="kpi-label">GAP</div>
+          <div class="big red" id="analysisGap">115</div>
+        </div>
+
+        <div class="card">
+          <div class="kpi-label">ACHIEVEMENT</div>
+          <div class="big green" id="analysisAchievement">77%</div>
+        </div>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="grid grid-2">
+
+        <div class="card">
+          <h3>Gap Analysis</h3>
+          <div id="gapAnalysis" class="muted" style="line-height:1.7"></div>
+        </div>
+
+        <div class="card">
+          <h3>Manager Action</h3>
+          <div id="managerAction" class="muted" style="line-height:1.7"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- AI -->
+    <section class="page" id="page-ai">
+
+      <div class="page-head">
+        <h1>AI Business Coach</h1>
+        <p>Ask practical business, sales and management questions.</p>
+      </div>
+
+      <div class="card">
+
+        <div class="chat" id="chatBox">
+          <div class="message ai">
+            Hello Manager 👋<br><br>
+            I can help you with sales, KPI, team management,
+            customer issues, planning, negotiation and business English.
           </div>
         </div>
 
-        <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+        <div class="chat-row">
+          <input id="aiInput" placeholder="Ask: How can I improve my sales achievement?">
+          <button class="btn primary" onclick="askAI()">Ask</button>
+        </div>
 
-        <div class="action-card">
-          <div class="action-num">02</div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn small-btn" onclick="quickAI('sales')">Sales Gap</button>
+          <button class="btn small-btn" onclick="quickAI('team')">Team KPI</button>
+          <button class="btn small-btn" onclick="quickAI('customer')">Customer</button>
+          <button class="btn small-btn" onclick="quickAI('meeting')">Meeting</button>
+          <button class="btn small-btn" onclick="quickAI('english')">Business English</button>
+        </div>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="grid grid-3">
+
+        <div class="card">
+          <h3>AI Sales Coach</h3>
+          <p class="muted small">Sales target, pipeline, coverage and execution.</p>
+          <button class="btn" onclick="quickAI('sales')">Open Coach</button>
+        </div>
+
+        <div class="card">
+          <h3>AI Manager Coach</h3>
+          <p class="muted small">Leadership, team performance and coaching.</p>
+          <button class="btn" onclick="quickAI('team')">Open Coach</button>
+        </div>
+
+        <div class="card">
+          <h3>Problem Solver</h3>
+          <p class="muted small">Structure problems and identify next actions.</p>
+          <button class="btn" onclick="quickAI('problem')">Solve Problem</button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ACADEMY -->
+    <section class="page" id="page-academy">
+
+      <div class="page-head">
+        <h1>230-Lesson Business Academy</h1>
+        <p>Learn → Practice → Apply → Measure</p>
+      </div>
+
+      <div class="card">
+
+        <div class="grid grid-3">
+
           <div>
-            <h3>Increase Team Coaching</h3>
-            <p>Use KPI reviews to target individual performance gaps.</p>
+            <div class="kpi-label">TOTAL LESSONS</div>
+            <div class="big gold">230</div>
           </div>
+
+          <div>
+            <div class="kpi-label">COMPLETED</div>
+            <div class="big" id="academyCompleted">0</div>
+          </div>
+
+          <div>
+            <div class="kpi-label">ACCESS</div>
+            <div class="big green">1 FREE</div>
+          </div>
+
+        </div>
+
+        <div style="height:15px"></div>
+
+        <input id="lessonSearch" placeholder="Search lessons..." oninput="renderLessons()">
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="tabs" id="lessonCategories"></div>
+
+      <div class="lesson-list" id="lessonList"></div>
+
+    </section>
+
+    <!-- ENGLISH -->
+    <section class="page" id="page-english">
+
+      <div class="page-head">
+        <h1>Manager Business English</h1>
+        <p>Professional English for real workplace situations.</p>
+      </div>
+
+      <div class="english-hero">
+
+        <span class="badge gold">MANAGER ENGLISH SYSTEM</span>
+
+        <h2 style="margin:10px 0 5px">
+          Speak clearly. Write professionally. Lead confidently.
+        </h2>
+
+        <p class="muted">
+          Practice English used in meetings, reporting, sales,
+          negotiation, leadership and customer management.
+        </p>
+
+        <div class="progress" style="margin-top:15px">
+          <span id="englishBar" style="width:0%"></span>
         </div>
 
       </div>
 
-    </div>
+      <div style="height:15px"></div>
 
-  </div>
+      <div class="tabs" id="englishTabs"></div>
 
-</section>
+      <div id="englishContent"></div>
 
-<!-- =========================
-     INTELLIGENCE
-========================= -->
+    </section>
 
-<section class="page" id="page-intelligence">
+    <!-- CAREER -->
+    <section class="page" id="page-career">
 
-  <div class="page-title">
-    <h1>Business Intelligence</h1>
-    <p>Manager-focused AI workspace for thinking, planning and problem solving.</p>
-  </div>
-
-  <div class="card chat">
-
-    <div class="chat-box" id="chatBox">
-
-      <div class="msg ai">
-        Hello Aung Zar Ni Win. I am your Business Coach.
-        Tell me your business problem, sales gap, team issue,
-        customer issue or planning requirement.
+      <div class="page-head">
+        <h1>Manager Career Roadmap</h1>
+        <p>Build capabilities for higher-level management.</p>
       </div>
 
-    </div>
+      <div class="grid grid-3">
 
-    <div class="chat-input">
-
-      <input
-        id="chatInput"
-        placeholder="Ask your business question..."
-        onkeydown="if(event.key==='Enter') sendAI()"
-      >
-
-      <button class="btn gold" onclick="sendAI()">SEND</button>
-
-    </div>
-
-  </div>
-
-  <div class="section">
-
-    <div class="grid grid-3">
-
-      <button class="card btn" onclick="quickAI('How can I recover my sales gap?')">
-        Recover Sales Gap
-      </button>
-
-      <button class="card btn" onclick="quickAI('How should I manage a low-performing team member?')">
-        Team Problem
-      </button>
-
-      <button class="card btn" onclick="quickAI('Create a weekly business action plan')">
-        Weekly Plan
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- =========================
-     ACADEMY
-========================= -->
-
-<section class="page" id="page-academy">
-
-  <div class="page-title">
-    <h1>Business Academy</h1>
-    <p>Structured learning system for practical business and management skills.</p>
-  </div>
-
-  <div class="hero" style="margin-bottom:20px">
-
-    <span class="hero-tag">COURSE</span>
-
-    <h1 style="font-size:26px">Sales & Business Management Mastery</h1>
-
-    <p>
-      Learn the concept, apply the method, measure the KPI,
-      and turn every lesson into a management action.
-    </p>
-
-    <div class="progress">
-      <span id="academyProgress" style="width:10%"></span>
-    </div>
-
-  </div>
-
-  <div class="grid grid-3" id="lessonGrid"></div>
-
-</section>
-
-<!-- =========================
-     CAREER
-========================= -->
-
-<section class="page" id="page-career">
-
-  <div class="page-title">
-    <h1>Career Development</h1>
-    <p>Build the skills and evidence required for stronger management performance.</p>
-  </div>
-
-  <div class="grid grid-4">
-
-    <div class="card">
-      <div class="card-title">LEADERSHIP</div>
-      <div class="metric">72%</div>
-      <div class="progress"><span style="width:72%"></span></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">COMMUNICATION</div>
-      <div class="metric">81%</div>
-      <div class="progress"><span style="width:81%"></span></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">ANALYTICS</div>
-      <div class="metric">65%</div>
-      <div class="progress"><span style="width:65%"></span></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">COACHING</div>
-      <div class="metric">70%</div>
-      <div class="progress"><span style="width:70%"></span></div>
-    </div>
-
-  </div>
-
-  <div class="section">
-
-    <div class="card">
-
-      <div class="section-head">
-        <h2>Manager Capability Roadmap</h2>
-        <span>V17</span>
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>Capability</th>
-              <th>Current</th>
-              <th>Target</th>
-              <th>Next Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>Sales Management</td>
-              <td>Strong</td>
-              <td>Expert</td>
-              <td>Advanced forecasting</td>
-            </tr>
-
-            <tr>
-              <td>People Management</td>
-              <td>Developing</td>
-              <td>Strong</td>
-              <td>Coaching routine</td>
-            </tr>
-
-            <tr>
-              <td>Business Finance</td>
-              <td>Developing</td>
-              <td>Strong</td>
-              <td>Margin analysis</td>
-            </tr>
-
-            <tr>
-              <td>Strategic Planning</td>
-              <td>Developing</td>
-              <td>Expert</td>
-              <td>Quarterly planning</td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- =========================
-     ACCOUNT
-========================= -->
-
-<section class="page" id="page-account">
-
-  <div class="page-title">
-    <h1>Account</h1>
-    <p>Your Aung Business Academy profile and subscription workspace.</p>
-  </div>
-
-  <div class="grid grid-2">
-
-    <div class="card">
-
-      <div class="section-head">
-        <h2>Profile</h2>
-        <span>Manager</span>
-      </div>
-
-      <div class="form-grid">
-
-        <div class="field">
-          <label>NAME</label>
-          <input id="accountName" value="Aung Zar Ni Win">
+        <div class="card">
+          <span class="badge gold">LEVEL 1</span>
+          <h3 style="margin-top:10px">Execution Manager</h3>
+          <p class="muted small">Daily execution, KPI and team follow-up.</p>
+          <div class="progress"><span style="width:70%"></span></div>
         </div>
 
-        <div class="field">
-          <label>ROLE</label>
-          <input id="accountRole" value="Business Manager">
+        <div class="card">
+          <span class="badge gold">LEVEL 2</span>
+          <h3 style="margin-top:10px">Business Manager</h3>
+          <p class="muted small">Planning, analysis, strategy and commercial management.</p>
+          <div class="progress"><span style="width:45%"></span></div>
         </div>
 
-        <div class="field full">
-          <label>BUSINESS</label>
-          <input id="accountBusiness" value="Aung Business Academy">
+        <div class="card">
+          <span class="badge gold">LEVEL 3</span>
+          <h3 style="margin-top:10px">Strategic Leader</h3>
+          <p class="muted small">Leadership, transformation and business growth.</p>
+          <div class="progress"><span style="width:25%"></span></div>
         </div>
 
       </div>
 
-      <button class="btn gold" style="margin-top:12px" onclick="saveProfile()">
-        Save Profile
-      </button>
+      <div style="height:15px"></div>
 
-    </div>
+      <div class="card">
+        <h3>Core Manager Capabilities</h3>
 
-    <div class="card">
+        <div class="grid grid-3">
 
-      <div class="section-head">
-        <h2>Membership</h2>
-        <span>Current</span>
+          <div class="phrase">
+            <strong>Leadership</strong>
+            <p class="muted small">Lead people and create accountability.</p>
+          </div>
+
+          <div class="phrase">
+            <strong>Commercial Thinking</strong>
+            <p class="muted small">Understand revenue, margin and growth.</p>
+          </div>
+
+          <div class="phrase">
+            <strong>Communication</strong>
+            <p class="muted small">Communicate clearly with stakeholders.</p>
+          </div>
+
+          <div class="phrase">
+            <strong>Negotiation</strong>
+            <p class="muted small">Create value while managing trade-offs.</p>
+          </div>
+
+          <div class="phrase">
+            <strong>Analytics</strong>
+            <p class="muted small">Convert data into business actions.</p>
+          </div>
+
+          <div class="phrase">
+            <strong>Decision Making</strong>
+            <p class="muted small">Make structured, evidence-based decisions.</p>
+          </div>
+
+        </div>
       </div>
 
-      <div class="metric gold">GROWTH</div>
+    </section>
 
-      <p style="color:var(--muted);font-size:11px;line-height:1.6">
-        Upgrade to Growth Pro to unlock the full Business Growth OS,
-        advanced lessons and future AI capabilities.
-      </p>
+    <!-- TOOLS -->
+    <section class="page" id="page-tools">
 
-      <button class="btn gold" onclick="openUpgrade()">
-        View Upgrade
-      </button>
+      <div class="page-head">
+        <h1>Manager Tools</h1>
+        <p>Simple calculators for daily commercial decisions.</p>
+      </div>
 
-    </div>
+      <div class="grid grid-2">
 
-  </div>
+        <div class="card">
 
-</section>
+          <h3>Target Achievement Calculator</h3>
 
-<!-- =========================
-     NOTES
-========================= -->
+          <div class="form-grid">
 
-<section class="page" id="page-notes">
+            <div class="field">
+              <label>TARGET</label>
+              <input id="calcTarget" type="number" value="500">
+            </div>
 
-  <div class="page-title">
-    <h1>Manager Notes</h1>
-    <p>Capture important decisions, observations and follow-up actions.</p>
-  </div>
+            <div class="field">
+              <label>ACTUAL</label>
+              <input id="calcActual" type="number" value="385">
+            </div>
 
-  <div class="grid grid-2">
+          </div>
 
-    <div class="card">
+          <button class="btn primary" style="margin-top:12px" onclick="calculateTarget()">
+            Calculate
+          </button>
 
-      <div class="form-grid">
+          <div id="targetResult" class="phrase" style="display:none"></div>
 
-        <div class="field full">
-          <label>NOTE TITLE</label>
-          <input id="noteTitle" placeholder="Important manager note">
         </div>
 
-        <div class="field full">
-          <label>NOTE</label>
-          <textarea id="noteText" placeholder="Write your note..."></textarea>
+        <div class="card">
+
+          <h3>Growth Calculator</h3>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>PREVIOUS</label>
+              <input id="growthPrevious" type="number">
+            </div>
+
+            <div class="field">
+              <label>CURRENT</label>
+              <input id="growthCurrent" type="number">
+            </div>
+
+          </div>
+
+          <button class="btn primary" style="margin-top:12px" onclick="calculateGrowth()">
+            Calculate Growth
+          </button>
+
+          <div id="growthResult" class="phrase" style="display:none"></div>
+
+        </div>
+
+        <div class="card">
+
+          <h3>Margin Calculator</h3>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>SELLING PRICE</label>
+              <input id="marginSell" type="number">
+            </div>
+
+            <div class="field">
+              <label>COST</label>
+              <input id="marginCost" type="number">
+            </div>
+
+          </div>
+
+          <button class="btn primary" style="margin-top:12px" onclick="calculateMargin()">
+            Calculate
+          </button>
+
+          <div id="marginResult" class="phrase" style="display:none"></div>
+
+        </div>
+
+        <div class="card">
+
+          <h3>Daily Required Sales</h3>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>REMAINING GAP</label>
+              <input id="dailyGap" type="number" value="115">
+            </div>
+
+            <div class="field">
+              <label>DAYS REMAINING</label>
+              <input id="dailyDays" type="number" value="10">
+            </div>
+
+          </div>
+
+          <button class="btn primary" style="margin-top:12px" onclick="calculateDaily()">
+            Calculate
+          </button>
+
+          <div id="dailyResult" class="phrase" style="display:none"></div>
+
         </div>
 
       </div>
 
-      <button class="btn gold" style="margin-top:12px" onclick="addNote()">
-        + Save Note
-      </button>
+    </section>
 
-    </div>
+    <!-- NOTES -->
+    <section class="page" id="page-notes">
 
-    <div class="card">
-
-      <div class="section-head">
-        <h2>Saved Notes</h2>
-        <span id="noteCount">0</span>
+      <div class="page-head">
+        <h1>Manager Notes</h1>
+        <p>Capture decisions, observations and action points.</p>
       </div>
+
+      <div class="card">
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>TITLE</label>
+            <input id="noteTitle" placeholder="Meeting / Customer / Team">
+          </div>
+
+          <div class="field">
+            <label>CATEGORY</label>
+            <select id="noteCategory">
+              <option>Meeting</option>
+              <option>Customer</option>
+              <option>Team</option>
+              <option>Sales</option>
+              <option>Strategy</option>
+              <option>Personal</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>NOTE</label>
+            <textarea id="noteText" placeholder="Write your manager note..."></textarea>
+          </div>
+
+        </div>
+
+        <button class="btn primary" style="margin-top:12px" onclick="addNote()">
+          Save Note
+        </button>
+
+      </div>
+
+      <div style="height:15px"></div>
 
       <div id="notesList"></div>
 
-    </div>
+    </section>
 
-  </div>
+    <!-- ACCOUNT -->
+    <section class="page" id="page-account">
 
-</section>
-
-<!-- =========================
-     SETTINGS
-========================= -->
-
-<section class="page" id="page-settings">
-
-  <div class="page-title">
-    <h1>Settings</h1>
-    <p>Control your workspace preferences and local data.</p>
-  </div>
-
-  <div class="grid grid-2">
-
-    <div class="card">
-
-      <div class="section-head">
-        <h2>Preferences</h2>
+      <div class="page-head">
+        <h1>Account</h1>
+        <p>Manage your Academy profile and subscription.</p>
       </div>
 
-      <div class="setting-row">
-        <div>
-          <h3>Auto Save</h3>
-          <p>Automatically store workspace data locally.</p>
+      <div class="grid grid-2">
+
+        <div class="card">
+
+          <h3>Manager Profile</h3>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>NAME</label>
+              <input id="profileName">
+            </div>
+
+            <div class="field">
+              <label>ROLE</label>
+              <input id="profileRole">
+            </div>
+
+            <div class="field">
+              <label>COMPANY</label>
+              <input id="profileCompany">
+            </div>
+
+            <div class="field">
+              <label>EMAIL</label>
+              <input id="profileEmail">
+            </div>
+
+          </div>
+
+          <button class="btn primary" style="margin-top:12px" onclick="saveProfile()">
+            Save Profile
+          </button>
+
         </div>
 
-        <button class="toggle on" onclick="toggleSetting(this)">
-          <span></span>
-        </button>
-      </div>
+        <div class="card">
 
-      <div class="setting-row">
-        <div>
-          <h3>Compact Mode</h3>
-          <p>Reduce spacing for information-heavy screens.</p>
+          <span class="badge gold">ACADEMY PREMIUM</span>
+
+          <h2 style="margin:12px 0 5px">Manager Growth Membership</h2>
+
+          <p class="muted">
+            Lesson 1 is free. Lessons 2–230 require Premium access.
+          </p>
+
+          <div class="grid grid-3" style="margin-top:15px">
+
+            <div class="phrase">
+              <strong>1 Month</strong>
+              <div class="gold" style="margin-top:5px">25,000 Ks</div>
+            </div>
+
+            <div class="phrase">
+              <strong>3 Months</strong>
+              <div class="gold" style="margin-top:5px">60,000 Ks</div>
+            </div>
+
+            <div class="phrase">
+              <strong>6 Months</strong>
+              <div class="gold" style="margin-top:5px">100,000 Ks</div>
+            </div>
+
+          </div>
+
+          <div class="phrase">
+            <strong>Payment</strong>
+            <p class="muted small">KPay / CB Bank</p>
+          </div>
+
         </div>
 
-        <button class="toggle" onclick="toggleSetting(this)">
-          <span></span>
-        </button>
       </div>
 
-      <div class="setting-row">
-        <div>
-          <h3>Notifications</h3>
-          <p>Show local app notifications.</p>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="page-settings">
+
+      <div class="page-head">
+        <h1>Settings</h1>
+        <p>Backup your data and manage the application.</p>
+      </div>
+
+      <div class="grid grid-2">
+
+        <div class="card">
+
+          <h3>Data Backup</h3>
+
+          <p class="muted small">
+            Export your Academy data to a JSON backup file.
+          </p>
+
+          <div class="actions">
+            <button class="btn primary" onclick="exportBackup()">Export Backup</button>
+
+            <label class="btn" style="display:inline-flex;align-items:center">
+              Restore Backup
+              <input id="restoreFile" type="file" accept=".json" style="display:none">
+            </label>
+          </div>
+
         </div>
 
-        <button class="toggle on" onclick="toggleSetting(this)">
-          <span></span>
-        </button>
-      </div>
+        <div class="card">
 
-    </div>
+          <h3>Application</h3>
 
-    <div class="card">
+          <p class="muted small">
+            Reset local application data and return to the default setup.
+          </p>
 
-      <div class="section-head">
-        <h2>Data</h2>
-      </div>
+          <button class="btn danger" onclick="resetApp()">
+            Reset Local Data
+          </button>
 
-      <p style="color:var(--muted);font-size:11px;line-height:1.7">
-        Your current V17 workspace uses browser localStorage.
-        Data remains on this device/browser until you clear it.
-      </p>
-
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-
-        <button class="btn" onclick="exportData()">
-          Export Backup
-        </button>
-
-        <button class="btn danger" onclick="resetApp()">
-          Reset App
-        </button>
+        </div>
 
       </div>
 
-    </div>
+    </section>
 
   </div>
-
-</section>
-
-</div>
 </main>
 
 </div>
 
-<!-- =========================
-     MODAL
-========================= -->
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
 
-<div class="modal" id="modal">
-
-  <div class="modal-card">
+  <div class="modal">
 
     <div class="modal-head">
-      <h2 id="modalTitle">Module</h2>
+      <h2 id="modalTitle" style="margin:0"></h2>
       <button class="close" onclick="closeModal()">×</button>
     </div>
 
@@ -1911,56 +1955,161 @@ tr:last-child td{
 "use strict";
 
 /* =========================================================
-   STORAGE
+   AUNG BUSINESS ACADEMY V18.1
+   MANAGER BUSINESS GROWTH OS
 ========================================================= */
 
 const STORAGE = {
-  profile: "aba_v17_profile",
-  tasks: "aba_v17_tasks",
-  notes: "aba_v17_notes",
-  lessons: "aba_v17_lessons",
-  settings: "aba_v17_settings"
+  profile:"aba_v18_profile",
+  team:"aba_v18_team",
+  customers:"aba_v18_customers",
+  products:"aba_v18_products",
+  sales:"aba_v18_sales",
+  plans:"aba_v18_plans",
+  notes:"aba_v18_notes",
+  completed:"aba_v18_completed",
+  english:"aba_v18_english"
 };
 
-let tasks = JSON.parse(localStorage.getItem(STORAGE.tasks) || "[]");
-let notes = JSON.parse(localStorage.getItem(STORAGE.notes) || "[]");
-let lessonProgress = JSON.parse(localStorage.getItem(STORAGE.lessons) || "[]");
-
-let profile = JSON.parse(
-  localStorage.getItem(STORAGE.profile) ||
-  JSON.stringify({
+let state = {
+  profile:{
     name:"Aung Zar Ni Win",
     role:"Business Manager",
-    business:"Aung Business Academy"
-  })
-);
+    company:"",
+    email:""
+  },
+
+  target:500,
+  actual:385,
+
+  team:[],
+  customers:[],
+  products:[],
+  sales:[],
+  notes:[],
+  completed:[],
+  englishCompleted:[],
+
+  plans:{
+    annual:"",
+    quarterly:"",
+    monthly:"",
+    weekly:"",
+    daily:""
+  }
+};
+
+let currentPlan="annual";
+let currentManageTab="overview";
+let currentEnglishCategory="Manager English";
+let currentLessonCategory="All";
+
+const money = n => Number(n || 0).toLocaleString(undefined,{
+  maximumFractionDigits:2
+});
 
 function save(key,value){
   localStorage.setItem(key,JSON.stringify(value));
+}
+
+function load(key,fallback){
+  try{
+    const x=localStorage.getItem(key);
+    return x ? JSON.parse(x) : fallback;
+  }catch(e){
+    return fallback;
+  }
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function toast(message){
+  const el=document.getElementById("toast");
+  el.textContent=message;
+  el.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>{
+    el.classList.remove("show");
+  },2200);
+}
+
+/* =========================================================
+   MIGRATION
+========================================================= */
+
+function migrateOldData(){
+
+  const oldProfile=localStorage.getItem("aba_v17_profile");
+  if(oldProfile && !localStorage.getItem(STORAGE.profile)){
+    localStorage.setItem(STORAGE.profile,oldProfile);
+  }
+
+  const oldTasks=localStorage.getItem("aba_v17_tasks");
+
+  if(oldTasks && !localStorage.getItem(STORAGE.notes)){
+    try{
+      const tasks=JSON.parse(oldTasks);
+      if(Array.isArray(tasks)){
+        state.notes=tasks.map(t=>({
+          id:Date.now()+Math.random(),
+          title:t.title || "Manager Task",
+          category:"Execution",
+          text:t.note || t.title || ""
+        }));
+      }
+    }catch(e){}
+  }
+
+}
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+function loadState(){
+
+  migrateOldData();
+
+  state.profile=load(STORAGE.profile,state.profile);
+  state.team=load(STORAGE.team,[]);
+  state.customers=load(STORAGE.customers,[]);
+  state.products=load(STORAGE.products,[]);
+  state.sales=load(STORAGE.sales,[]);
+  state.plans=load(STORAGE.plans,state.plans);
+  state.notes=load(STORAGE.notes,state.notes);
+  state.completed=load(STORAGE.completed,[]);
+  state.englishCompleted=load(STORAGE.english,[]);
+
 }
 
 /* =========================================================
    NAVIGATION
 ========================================================= */
 
-const pageNames = {
+const pageTitles={
   dashboard:"Dashboard",
-  master:"Master Business",
-  execute:"Execute",
-  insight:"Insight",
-  intelligence:"Intelligence",
-  academy:"Academy",
-  career:"Career",
-  account:"Account",
+  manage:"Business Management",
+  team:"Team KPI",
+  customers:"Customers",
+  sales:"Sales Management",
+  planning:"Manager Planning",
+  analysis:"Business Analysis",
+  ai:"AI Business Coach",
+  academy:"Academy • 230 Lessons",
+  english:"Manager Business English",
+  career:"Career Roadmap",
+  tools:"Manager Tools",
   notes:"Manager Notes",
+  account:"Account",
   settings:"Settings"
 };
-
-document.querySelectorAll(".nav-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    goPage(btn.dataset.page);
-  });
-});
 
 function goPage(page){
 
@@ -1968,357 +2117,1279 @@ function goPage(page){
     p.classList.remove("active");
   });
 
-  const target = document.getElementById("page-" + page);
+  const target=document.getElementById("page-"+page);
 
-  if(!target) return;
-
-  target.classList.add("active");
+  if(target){
+    target.classList.add("active");
+  }
 
   document.querySelectorAll(".nav-btn").forEach(btn=>{
     btn.classList.toggle(
       "active",
-      btn.dataset.page === page
+      btn.dataset.page===page
     );
   });
 
-  document.getElementById("topPageTitle").textContent =
-    pageNames[page] || "Dashboard";
+  document.getElementById("topTitle").textContent=
+    pageTitles[page] || "AUNG BUSINESS ACADEMY";
 
   document.getElementById("sidebar").classList.remove("open");
 
-  if(page === "academy") renderLessons();
-  if(page === "execute") renderTasks();
-  if(page === "notes") renderNotes();
-  if(page === "account") loadProfileFields();
+  renderAll();
+}
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    goPage(btn.dataset.page);
   });
-}
+});
 
-function toggleSidebar(){
+document.getElementById("menuBtn").addEventListener("click",()=>{
   document.getElementById("sidebar").classList.toggle("open");
-}
+});
 
 /* =========================================================
    DASHBOARD
 ========================================================= */
 
-function updateDashboard(){
+function getAchievement(){
 
-  const target = 500;
-  const actual = 385;
-  const achievement = Math.round(actual / target * 100);
-  const gap = target - actual;
+  if(state.target<=0) return 0;
 
-  document.getElementById("targetMetric").textContent =
-    target + " L";
+  return Math.round((state.actual/state.target)*100);
 
-  document.getElementById("actualMetric").textContent =
-    actual + " L";
-
-  document.getElementById("achievementMetric").textContent =
-    achievement + "%";
-
-  document.getElementById("gapMetric").textContent =
-    gap + " L";
-
-  document.getElementById("todayText").textContent =
-    new Date().toLocaleDateString(
-      "en-US",
-      {
-        weekday:"long",
-        month:"short",
-        day:"numeric",
-        year:"numeric"
-      }
-    );
 }
 
-/* =========================================================
-   TASKS
-========================================================= */
+function renderDashboard(){
 
-function addTask(){
+  const achievement=getAchievement();
+  const gap=Math.max(state.target-state.actual,0);
 
-  const input = document.getElementById("taskInput");
-  const owner = document.getElementById("taskOwner");
-  const priority = document.getElementById("taskPriority");
+  document.getElementById("dashTarget").textContent=
+    money(state.target)+" L";
 
-  const title = input.value.trim();
+  document.getElementById("dashActual").textContent=
+    money(state.actual)+" L";
 
-  if(!title){
-    showToast("Please enter an action");
-    input.focus();
-    return;
-  }
+  document.getElementById("dashAchievement").textContent=
+    achievement+"%";
 
-  tasks.unshift({
-    id:Date.now(),
-    title,
-    owner:owner.value.trim() || "Manager",
-    priority:priority.value,
-    done:false,
-    created:new Date().toISOString()
-  });
+  document.getElementById("dashGap").textContent=
+    money(gap)+" L";
 
-  save(STORAGE.tasks,tasks);
+  document.getElementById("heroAchievement").textContent=
+    achievement+"%";
 
-  input.value="";
-  owner.value="";
+  document.getElementById("heroProgress").style.width=
+    Math.min(achievement,100)+"%";
 
-  renderTasks();
+  document.getElementById("healthScore").textContent=
+    Math.min(100,Math.max(0,achievement));
 
-  showToast("Action added");
-}
+  document.getElementById("manageCustomers").textContent=
+    state.customers.length;
 
-function renderTasks(){
+  document.getElementById("manageProducts").textContent=
+    state.products.length;
 
-  const list = document.getElementById("taskList");
-  const count = document.getElementById("taskCount");
+  document.getElementById("manageSales").textContent=
+    state.sales.length;
 
-  if(!tasks.length){
+  document.getElementById("manageTeam").textContent=
+    state.team.length;
 
-    list.innerHTML = `
-      <div class="card">
-        <div style="color:var(--muted);font-size:12px">
-          No actions yet. Add your first priority action.
-        </div>
-      </div>
-    `;
+  const completed=state.completed.length;
+  const lessonPct=Math.round((completed/230)*100);
 
-    count.textContent = "0 tasks";
-    updateExecutionScore();
-    return;
-  }
+  document.getElementById("lessonProgressBadge").textContent=
+    completed+" / 230";
 
-  list.innerHTML = tasks.map(task=>`
+  document.getElementById("academyProgressNumber").textContent=
+    lessonPct+"%";
 
-    <div class="card" style="display:flex;align-items:center;gap:12px">
+  document.getElementById("academyProgressBar").style.width=
+    lessonPct+"%";
 
-      <button
-        class="icon-btn"
-        onclick="toggleTask(${task.id})"
-        style="
-          color:${task.done ? "var(--green)" : "#aaa"};
-          border-color:${task.done ? "#315c4c" : "var(--line)"}
-        "
-      >
-        ${task.done ? "✓" : "○"}
-      </button>
+  document.getElementById("academyCompleted").textContent=
+    completed;
 
-      <div style="flex:1;min-width:0">
+  const teamAvg=getTeamAverage();
 
-        <div style="
-          font-weight:800;
-          font-size:13px;
-          text-decoration:${task.done ? "line-through" : "none"};
-          opacity:${task.done ? ".55" : "1"};
-        ">
-          ${escapeHTML(task.title)}
-        </div>
+  document.getElementById("teamAverage").textContent=
+    teamAvg+"%";
 
-        <div style="
-          color:var(--muted);
-          font-size:10px;
-          margin-top:4px
-        ">
-          ${escapeHTML(task.owner)}
-          • ${escapeHTML(task.priority)}
-        </div>
+  const engPct=Math.round(
+    (state.englishCompleted.length/ENGLISH.length)*100
+  );
 
-      </div>
+  document.getElementById("englishProgress").textContent=
+    engPct+"%";
 
-      <button
-        class="icon-btn"
-        onclick="deleteTask(${task.id})"
-      >×</button>
+  document.getElementById("englishBar").style.width=
+    engPct+"%";
 
+  const priority=document.getElementById("priorityList");
+
+  const priorities=[
+    "Review current sales gap",
+    "Check team KPI and execution",
+    "Focus on key customers",
+    "Define today's priority actions"
+  ];
+
+  priority.innerHTML=priorities.map((x,i)=>`
+    <div style="
+      display:flex;
+      gap:10px;
+      padding:10px 0;
+      border-bottom:1px solid var(--line)
+    ">
+      <span class="badge gold">${i+1}</span>
+      <span class="small">${escapeHTML(x)}</span>
     </div>
-
   `).join("");
 
-  count.textContent = tasks.length + " tasks";
-
-  updateExecutionScore();
-}
-
-function toggleTask(id){
-
-  const task = tasks.find(x=>x.id === id);
-
-  if(!task) return;
-
-  task.done = !task.done;
-
-  save(STORAGE.tasks,tasks);
-  renderTasks();
-}
-
-function deleteTask(id){
-
-  tasks = tasks.filter(x=>x.id !== id);
-
-  save(STORAGE.tasks,tasks);
-
-  renderTasks();
-}
-
-function clearTasks(){
-
-  tasks = tasks.filter(x=>!x.done);
-
-  save(STORAGE.tasks,tasks);
-
-  renderTasks();
-
-  showToast("Completed actions cleared");
-}
-
-function updateExecutionScore(){
-
-  const total = tasks.length;
-
-  const done = tasks.filter(x=>x.done).length;
-
-  const score = total
-    ? Math.round(done / total * 100)
-    : 0;
-
-  document.getElementById("executionScore").textContent =
-    score + "%";
-
-  document.getElementById("executionBar").style.width =
-    score + "%";
 }
 
 /* =========================================================
-   ACADEMY
+   TEAM
 ========================================================= */
 
-const lessonData = [
-  ["Business Fundamentals","Understand the basic operating model of a business."],
-  ["Manager Mindset","Shift from individual contributor to manager."],
-  ["Goal Setting","Create measurable business and team objectives."],
-  ["Sales Target Management","Break annual targets into practical execution plans."],
-  ["Sales Pipeline","Manage opportunities from prospecting to closing."],
-  ["Territory Management","Improve territory coverage and productivity."],
-  ["Customer Management","Segment and prioritize customers."],
-  ["Negotiation","Prepare, negotiate and close commercial discussions."],
-  ["Team KPI","Build measurable team performance systems."],
-  ["Coaching","Turn KPI gaps into coaching actions."],
-  ["Delegation","Delegate work with ownership and accountability."],
-  ["Performance Management","Manage performance conversations effectively."],
-  ["Business Finance","Understand revenue, cost, margin and cash."],
-  ["Profitability","Identify drivers of profit improvement."],
-  ["Budget Management","Plan and control business spending."],
-  ["Business Planning","Build practical monthly and quarterly plans."],
-  ["Strategic Thinking","Connect market reality with business priorities."],
-  ["Problem Solving","Use structured root-cause analysis."],
-  ["Decision Making","Make decisions using evidence and trade-offs."],
-  ["Leadership Communication","Communicate clearly across stakeholders."],
-  ["Presentation Skills","Present business information with impact."],
-  ["Executive Thinking","Think beyond today's operational problems."],
-  ["Continuous Improvement","Create a repeatable improvement system."]
-];
+function getTeamAverage(){
 
-function renderLessons(){
+  if(!state.team.length) return 0;
 
-  const grid = document.getElementById("lessonGrid");
+  const total=state.team.reduce((sum,t)=>{
+    const a=t.target>0 ? (t.actual/t.target)*100 : 0;
+    return sum+a;
+  },0);
 
-  grid.innerHTML = lessonData.map((lesson,index)=>{
+  return Math.round(total/state.team.length);
 
-    const number = index + 1;
+}
 
-    const completed = lessonProgress.includes(number);
+function addTeam(){
 
-    const locked = number > 1;
+  const name=document.getElementById("teamName").value.trim();
+  const role=document.getElementById("teamRole").value.trim();
+  const target=Number(document.getElementById("teamTarget").value);
+  const actual=Number(document.getElementById("teamActual").value);
+
+  if(!name){
+    toast("Please enter team member name");
+    return;
+  }
+
+  state.team.push({
+    id:Date.now(),
+    name,
+    role:role || "Team Member",
+    target:target || 0,
+    actual:actual || 0
+  });
+
+  save(STORAGE.team,state.team);
+
+  document.getElementById("teamName").value="";
+  document.getElementById("teamRole").value="";
+  document.getElementById("teamTarget").value="";
+  document.getElementById("teamActual").value="";
+
+  toast("Team member added");
+  renderAll();
+
+}
+
+function deleteTeam(id){
+
+  state.team=state.team.filter(x=>x.id!==id);
+  save(STORAGE.team,state.team);
+  renderAll();
+  toast("Team member deleted");
+
+}
+
+function renderTeam(){
+
+  const body=document.getElementById("teamTable");
+
+  document.getElementById("teamCountBadge").textContent=
+    state.team.length+" Members";
+
+  if(!state.team.length){
+
+    body.innerHTML=`
+      <tr>
+        <td colspan="6" class="muted">
+          No team members yet
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML=state.team.map(t=>{
+
+    const pct=t.target>0
+      ? Math.round((t.actual/t.target)*100)
+      : 0;
 
     return `
-
-      <div
-        class="card lesson"
-        onclick="openLesson(${number})"
-      >
-
-        <div class="lesson-top">
-
-          <span class="lesson-number">
-            LESSON ${String(number).padStart(2,"0")}
+      <tr>
+        <td>${escapeHTML(t.name)}</td>
+        <td>${escapeHTML(t.role)}</td>
+        <td>${money(t.target)}</td>
+        <td>${money(t.actual)}</td>
+        <td>
+          <span class="badge ${pct>=100?"green":pct>=70?"gold":"red"}">
+            ${pct}%
           </span>
-
-          <span class="lock">
-            ${completed ? "✓" : locked ? "🔒" : "OPEN"}
-          </span>
-
-        </div>
-
-        <h3>${escapeHTML(lesson[0])}</h3>
-
-        <p>${escapeHTML(lesson[1])}</p>
-
-        <div class="lesson-meta">
-
-          <span>
-            ${completed ? "Completed" : locked ? "Premium" : "Free"}
-          </span>
-
-          <span>
-            ${locked ? "Pro" : "Start →"}
-          </span>
-
-        </div>
-
-      </div>
-
+        </td>
+        <td>
+          <button class="btn danger small-btn"
+            onclick="deleteTeam(${t.id})">
+            Delete
+          </button>
+        </td>
+      </tr>
     `;
 
   }).join("");
 
-  const progress = Math.round(
-    lessonProgress.length / lessonData.length * 100
-  );
-
-  document.getElementById("academyProgress").style.width =
-    progress + "%";
 }
 
-function openLesson(number){
+/* =========================================================
+   CUSTOMERS
+========================================================= */
 
-  const lesson = lessonData[number-1];
+function addCustomer(){
+
+  const name=document.getElementById("customerName").value.trim();
+
+  if(!name){
+    toast("Please enter customer name");
+    return;
+  }
+
+  state.customers.push({
+    id:Date.now(),
+    name,
+    segment:document.getElementById("customerSegment").value,
+    contact:document.getElementById("customerContact").value.trim(),
+    status:document.getElementById("customerStatus").value
+  });
+
+  save(STORAGE.customers,state.customers);
+
+  document.getElementById("customerName").value="";
+  document.getElementById("customerContact").value="";
+
+  toast("Customer added");
+  renderAll();
+
+}
+
+function deleteCustomer(id){
+
+  state.customers=state.customers.filter(x=>x.id!==id);
+
+  save(STORAGE.customers,state.customers);
+
+  renderAll();
+
+  toast("Customer deleted");
+
+}
+
+function renderCustomers(){
+
+  const body=document.getElementById("customerTable");
+
+  document.getElementById("customerCountBadge").textContent=
+    state.customers.length;
+
+  if(!state.customers.length){
+
+    body.innerHTML=`
+      <tr>
+        <td colspan="5" class="muted">
+          No customers yet
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML=state.customers.map(c=>`
+
+    <tr>
+
+      <td>${escapeHTML(c.name)}</td>
+
+      <td>${escapeHTML(c.segment)}</td>
+
+      <td>${escapeHTML(c.contact || "-")}</td>
+
+      <td>
+        <span class="badge ${
+          c.status==="Active"
+          ?"green"
+          :c.status==="At Risk"
+          ?"red"
+          :"gold"
+        }">
+          ${escapeHTML(c.status)}
+        </span>
+      </td>
+
+      <td>
+        <button
+          class="btn danger small-btn"
+          onclick="deleteCustomer(${c.id})">
+          Delete
+        </button>
+      </td>
+
+    </tr>
+
+  `).join("");
+
+}
+
+/* =========================================================
+   SALES
+========================================================= */
+
+function addSale(){
+
+  const amount=Number(document.getElementById("saleAmount").value);
+
+  if(!amount){
+    toast("Please enter sales amount");
+    return;
+  }
+
+  state.sales.push({
+    id:Date.now(),
+    date:document.getElementById("saleDate").value ||
+      new Date().toISOString().slice(0,10),
+    customer:document.getElementById("saleCustomer").value.trim(),
+    product:document.getElementById("saleProduct").value.trim(),
+    qty:Number(document.getElementById("saleQty").value)||0,
+    amount,
+    channel:document.getElementById("saleChannel").value
+  });
+
+  save(STORAGE.sales,state.sales);
+
+  toast("Sales record saved");
+
+  [
+    "saleCustomer",
+    "saleProduct",
+    "saleQty",
+    "saleAmount"
+  ].forEach(id=>{
+    document.getElementById(id).value="";
+  });
+
+  renderAll();
+
+}
+
+function deleteSale(id){
+
+  state.sales=state.sales.filter(x=>x.id!==id);
+
+  save(STORAGE.sales,state.sales);
+
+  renderAll();
+
+  toast("Sales record deleted");
+
+}
+
+function renderSales(){
+
+  const total=state.sales.reduce(
+    (sum,x)=>sum+Number(x.amount||0),
+    0
+  );
+
+  const avg=state.sales.length
+    ? total/state.sales.length
+    : 0;
+
+  document.getElementById("salesRecordCount").textContent=
+    state.sales.length;
+
+  document.getElementById("salesTotal").textContent=
+    money(total);
+
+  document.getElementById("salesAverage").textContent=
+    money(avg);
+
+  const body=document.getElementById("salesTable");
+
+  if(!state.sales.length){
+
+    body.innerHTML=`
+      <tr>
+        <td colspan="7" class="muted">
+          No sales records yet
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML=state.sales.slice().reverse().map(s=>`
+
+    <tr>
+      <td>${escapeHTML(s.date)}</td>
+      <td>${escapeHTML(s.customer || "-")}</td>
+      <td>${escapeHTML(s.product || "-")}</td>
+      <td>${money(s.qty)}</td>
+      <td>${money(s.amount)}</td>
+      <td>${escapeHTML(s.channel)}</td>
+      <td>
+        <button
+          class="btn danger small-btn"
+          onclick="deleteSale(${s.id})">
+          Delete
+        </button>
+      </td>
+    </tr>
+
+  `).join("");
+
+}
+
+/* =========================================================
+   MANAGEMENT TABS
+========================================================= */
+
+function manageTab(tab,button){
+
+  currentManageTab=tab;
+
+  document.querySelectorAll("#page-manage .tab")
+    .forEach(x=>x.classList.remove("active"));
+
+  if(button) button.classList.add("active");
+
+  ["overview","products","territory","distributor"].forEach(id=>{
+    document.getElementById("manage-"+id).style.display=
+      id===tab ? "block" : "none";
+  });
+
+  renderManageTab();
+
+}
+
+function renderManageTab(){
+
+  if(currentManageTab==="products"){
+    document.getElementById("manage-products").innerHTML=`
+
+      <div class="card">
+
+        <h3>Product Management</h3>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>PRODUCT NAME</label>
+            <input id="productName" placeholder="Product">
+          </div>
+
+          <div class="field">
+            <label>PRICE</label>
+            <input id="productPrice" type="number">
+          </div>
+
+        </div>
+
+        <button class="btn primary" style="margin-top:12px"
+          onclick="addProduct()">
+          Add Product
+        </button>
+
+      </div>
+
+      <div style="height:15px"></div>
+
+      <div class="card">
+
+        <h3>Product List</h3>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              ${
+                state.products.length
+                ? state.products.map(p=>`
+                  <tr>
+                    <td>${escapeHTML(p.name)}</td>
+                    <td>${money(p.price)}</td>
+                    <td>
+                      <button
+                        class="btn danger small-btn"
+                        onclick="deleteProduct(${p.id})">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                `).join("")
+                : `
+                  <tr>
+                    <td colspan="3" class="muted">
+                      No products yet
+                    </td>
+                  </tr>
+                `
+              }
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    `;
+  }
+
+  if(currentManageTab==="territory"){
+    document.getElementById("manage-territory").innerHTML=`
+
+      <div class="card">
+
+        <span class="badge gold">TERRITORY MANAGEMENT</span>
+
+        <h2>Territory Planning</h2>
+
+        <p class="muted">
+          Define territory coverage, route priorities,
+          customer clusters and sales opportunities.
+        </p>
+
+        <div class="grid grid-3">
+
+          <div class="phrase">
+            <strong>Coverage</strong>
+            <p class="muted small">
+              Track customer and outlet coverage.
+            </p>
+          </div>
+
+          <div class="phrase">
+            <strong>Productivity</strong>
+            <p class="muted small">
+              Measure productive calls and execution.
+            </p>
+          </div>
+
+          <div class="phrase">
+            <strong>Opportunity</strong>
+            <p class="muted small">
+              Identify whitespace and growth areas.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+  }
+
+  if(currentManageTab==="distributor"){
+    document.getElementById("manage-distributor").innerHTML=`
+
+      <div class="card">
+
+        <span class="badge gold">DISTRIBUTOR MANAGEMENT</span>
+
+        <h2>Distributor Management</h2>
+
+        <p class="muted">
+          Monitor distributor performance, stock,
+          orders and business development opportunities.
+        </p>
+
+        <div class="grid grid-3">
+
+          <div class="phrase">
+            <strong>Sales</strong>
+            <p class="muted small">Distributor sales performance.</p>
+          </div>
+
+          <div class="phrase">
+            <strong>Stock</strong>
+            <p class="muted small">Stock availability and inventory.</p>
+          </div>
+
+          <div class="phrase">
+            <strong>Growth</strong>
+            <p class="muted small">Identify distributor growth opportunities.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+  }
+
+}
+
+function addProduct(){
+
+  const name=document.getElementById("productName").value.trim();
+  const price=Number(document.getElementById("productPrice").value)||0;
+
+  if(!name){
+    toast("Enter product name");
+    return;
+  }
+
+  state.products.push({
+    id:Date.now(),
+    name,
+    price
+  });
+
+  save(STORAGE.products,state.products);
+
+  renderManageTab();
+  renderDashboard();
+
+  toast("Product added");
+
+}
+
+function deleteProduct(id){
+
+  state.products=state.products.filter(x=>x.id!==id);
+
+  save(STORAGE.products,state.products);
+
+  renderManageTab();
+  renderDashboard();
+
+  toast("Product deleted");
+
+}
+
+/* =========================================================
+   PLANNING
+========================================================= */
+
+function planTab(type,button){
+
+  currentPlan=type;
+
+  document.querySelectorAll("#page-planning .tab")
+    .forEach(x=>x.classList.remove("active"));
+
+  if(button) button.classList.add("active");
+
+  const titles={
+    annual:"Annual Business Plan",
+    quarterly:"Quarterly Business Plan",
+    monthly:"Monthly Business Plan",
+    weekly:"Weekly Execution Plan",
+    daily:"Daily Manager Plan"
+  };
+
+  document.getElementById("planTitle").textContent=
+    titles[type];
+
+  document.getElementById("planText").value=
+    state.plans[type] || "";
+
+}
+
+function savePlan(){
+
+  state.plans[currentPlan]=
+    document.getElementById("planText").value;
+
+  save(STORAGE.plans,state.plans);
+
+  toast("Plan saved");
+
+}
+
+function clearPlan(){
+
+  document.getElementById("planText").value="";
+
+}
+
+/* =========================================================
+   ANALYSIS
+========================================================= */
+
+function renderAnalysis(){
+
+  const achievement=getAchievement();
+  const gap=Math.max(state.target-state.actual,0);
+
+  document.getElementById("analysisTarget").textContent=
+    money(state.target);
+
+  document.getElementById("analysisActual").textContent=
+    money(state.actual);
+
+  document.getElementById("analysisGap").textContent=
+    money(gap);
+
+  document.getElementById("analysisAchievement").textContent=
+    achievement+"%";
+
+  let message="";
+
+  if(achievement>=100){
+    message="Target has been reached based on the current dashboard figures.";
+  }else if(achievement>=80){
+    message="The business is approaching target. Focus on closing the remaining gap.";
+  }else{
+    message="A significant gap remains. Prioritize key accounts, team execution and daily sales actions.";
+  }
+
+  document.getElementById("gapAnalysis").innerHTML=
+    escapeHTML(message);
+
+  document.getElementById("managerAction").innerHTML=`
+    <ul style="padding-left:20px">
+      <li>Review the top gap drivers</li>
+      <li>Set clear team actions</li>
+      <li>Prioritize high-value customers</li>
+      <li>Track progress daily</li>
+    </ul>
+  `;
+
+}
+
+/* =========================================================
+   AI BUSINESS COACH
+========================================================= */
+
+function aiResponse(text){
+
+  const q=text.toLowerCase();
+
+  if(q.includes("sales") || q.includes("target") || q.includes("gap")){
+    return `
+      <strong>Sales Coach</strong><br><br>
+      Start with the gap. Break the remaining target into
+      weekly and daily requirements. Then identify the customers,
+      products and team members that can realistically close the gap.
+      <br><br>
+      <strong>Manager Action:</strong>
+      Review pipeline → prioritize key accounts → assign actions → follow up daily.
+    `;
+  }
+
+  if(q.includes("team") || q.includes("kpi") || q.includes("staff")){
+    return `
+      <strong>Manager Coach</strong><br><br>
+      Do not only review the KPI result. Ask what caused the result,
+      what action is required and what support the team member needs.
+      <br><br>
+      <strong>Coaching Formula:</strong>
+      Result → Reason → Action → Support → Follow-up.
+    `;
+  }
+
+  if(q.includes("customer")){
+    return `
+      <strong>Customer Coach</strong><br><br>
+      Segment customers by value, potential and risk.
+      Protect key accounts, develop growth accounts and create
+      recovery plans for at-risk customers.
+    `;
+  }
+
+  if(q.includes("meeting")){
+    return `
+      <strong>Meeting Coach</strong><br><br>
+      Use a simple structure:
+      Objective → Current Situation → Key Issues → Decision →
+      Action Owner → Deadline.
+      <br><br>
+      <strong>Manager English:</strong>
+      “Let’s align on the key actions and ownership.”
+    `;
+  }
+
+  if(q.includes("english") || q.includes("email")){
+    return `
+      <strong>Business English Coach</strong><br><br>
+      Use short, clear and professional sentences.
+      Avoid unnecessary words.
+      <br><br>
+      <strong>Example:</strong><br>
+      “Please review the attached report and share your feedback by Friday.”
+    `;
+  }
+
+  if(q.includes("problem")){
+    return `
+      <strong>Problem Solver</strong><br><br>
+      Define the problem clearly first.
+      Separate symptoms from root causes.
+      Then identify options, select an action and assign an owner.
+      <br><br>
+      <strong>Framework:</strong>
+      Problem → Root Cause → Options → Decision → Action → KPI.
+    `;
+  }
+
+  return `
+    <strong>Manager Coach</strong><br><br>
+    For this situation, start by defining the business objective,
+    current performance, gap and root cause.
+    Then create a specific action with an owner and deadline.
+    <br><br>
+    <strong>Manager Principle:</strong>
+    What gets measured gets managed.
+  `;
+
+}
+
+function askAI(){
+
+  const input=document.getElementById("aiInput");
+  const text=input.value.trim();
+
+  if(!text){
+    toast("Type your question");
+    return;
+  }
+
+  const chat=document.getElementById("chatBox");
+
+  chat.innerHTML+=`
+    <div class="message user">
+      ${escapeHTML(text)}
+    </div>
+  `;
+
+  chat.innerHTML+=`
+    <div class="message ai">
+      ${aiResponse(text)}
+    </div>
+  `;
+
+  input.value="";
+
+  chat.scrollTop=chat.scrollHeight;
+
+}
+
+function quickAI(type){
+
+  const prompts={
+    sales:"How can I improve my sales target achievement?",
+    team:"How should I coach a team member with low KPI?",
+    customer:"How should I manage an at-risk customer?",
+    meeting:"Give me useful English for a manager meeting",
+    english:"Give me professional Business English for managers",
+    problem:"Help me solve a business problem"
+  };
+
+  document.getElementById("aiInput").value=
+    prompts[type] || prompts.sales;
+
+  askAI();
+
+}
+
+/* =========================================================
+   230 LESSON ENGINE
+========================================================= */
+
+const lessonCategories=[
+  "Business Fundamentals",
+  "Sales Management",
+  "Sales Execution",
+  "Customer Management",
+  "Territory Management",
+  "Distributor Management",
+  "Marketing",
+  "Finance",
+  "Profitability",
+  "Business Planning",
+  "Strategy",
+  "Leadership",
+  "People Management",
+  "Coaching",
+  "Communication",
+  "Negotiation",
+  "Operations",
+  "KPI & Analytics",
+  "Problem Solving",
+  "Decision Making",
+  "Career Development",
+  "Digital Business",
+  "AI for Managers"
+];
+
+const lessonTopics=[
+  [
+    "Business Basics","Business Model","Value Creation","Revenue Drivers",
+    "Customer Value","Market Understanding","Competitive Advantage",
+    "Business Metrics","Commercial Thinking","Manager Mindset"
+  ],
+  [
+    "Sales Management Basics","Sales Target Management","Pipeline Management",
+    "Sales Forecasting","Sales Review","Sales Coaching","Sales Productivity",
+    "Sales Planning","Sales Execution Control","Sales Leadership"
+  ],
+  [
+    "Daily Sales Execution","Call Planning","Customer Coverage",
+    "Productivity Management","Strike Rate","Drop Size","Distribution",
+    "Execution Quality","Route Planning","Field Follow-up"
+  ],
+  [
+    "Customer Segmentation","Key Account Management","Customer Potential",
+    "Customer Retention","Customer Growth","Customer Risk",
+    "Customer Relationship","Customer Review","Customer Planning",
+    "Customer Value"
+  ],
+  [
+    "Territory Design","Territory Potential","Coverage Planning",
+    "Route Optimization","Territory KPI","Market Mapping",
+    "Opportunity Mapping","Territory Review","Gap Identification",
+    "Territory Growth"
+  ],
+  [
+    "Distributor Basics","Distributor Selection","Distributor KPI",
+    "Distributor Stock","Distributor Sales","Distributor Credit",
+    "Distributor Relationship","Distributor Review","Distributor Growth",
+    "Distributor Strategy"
+  ],
+  [
+    "Marketing Basics","Segmentation","Target Audience","Positioning",
+    "Brand Value","Promotion Planning","Trade Marketing","Campaign Planning",
+    "Marketing KPI","Marketing Review"
+  ],
+  [
+    "Finance Basics","Revenue","Cost Management","Profit",
+    "Cash Flow","Working Capital","Budgeting","Financial KPI",
+    "Financial Review","Manager Finance"
+  ],
+  [
+    "Margin Basics","Gross Margin","Contribution Margin","Price Management",
+    "Discount Control","Product Mix","Profit Drivers","Margin Analysis",
+    "Profitability Review","Commercial Profit"
+  ],
+  [
+    "Business Planning Basics","Annual Planning","Quarterly Planning",
+    "Monthly Planning","Weekly Planning","Daily Execution",
+    "Action Planning","Resource Planning","Risk Planning","Plan Review"
+  ],
+  [
+    "Strategy Basics","Strategic Thinking","Market Strategy","Growth Strategy",
+    "Competitive Strategy","Portfolio Strategy","Channel Strategy",
+    "Execution Strategy","Strategic Review","Strategic Leadership"
+  ],
+  [
+    "Leadership Basics","Leadership Style","Vision","Accountability",
+    "Delegation","Trust","Influence","Decision Leadership",
+    "Change Leadership","Leadership Presence"
+  ],
+  [
+    "People Management Basics","Team Structure","Performance Management",
+    "Goal Setting","Role Clarity","Motivation","Recognition","Conflict Management",
+    "Talent Development","People Review"
+  ],
+  [
+    "Coaching Basics","Coaching Mindset","Performance Coaching",
+    "Questioning Skills","Feedback","Development Plan","One-on-One",
+    "Coaching Conversation","Follow-up Coaching","Coaching Culture"
+  ],
+  [
+    "Manager Communication","Clear Communication","Business Writing",
+    "Meeting Communication","Presentation Communication","Reporting",
+    "Stakeholder Communication","Executive Communication","Listening",
+    "Communication Planning"
+  ],
+  [
+    "Negotiation Basics","Preparation","BATNA","Value Creation",
+    "Trade-offs","Price Negotiation","Customer Negotiation",
+    "Distributor Negotiation","Objection Handling","Closing"
+  ],
+  [
+    "Operations Basics","Process Management","SOP","Quality",
+    "Productivity","Resource Management","Execution Control",
+    "Process Improvement","Operational KPI","Operations Review"
+  ],
+  [
+    "KPI Basics","Target vs Actual","Achievement","Gap Analysis",
+    "Growth Rate","Productivity KPI","Coverage KPI","Team KPI",
+    "Dashboard Management","Performance Review"
+  ],
+  [
+    "Problem Solving Basics","Problem Definition","Root Cause",
+    "5 Whys","Pareto Thinking","Option Generation","Action Planning",
+    "Risk Control","Follow-up","Continuous Improvement"
+  ],
+  [
+    "Decision Making Basics","Decision Framework","Data-Based Decisions",
+    "Risk Assessment","Prioritization","Trade-offs","Scenario Thinking",
+    "Decision Speed","Decision Quality","Decision Review"
+  ],
+  [
+    "Career Planning","Manager Capability","Personal Brand","Professional Growth",
+    "Business Communication","Leadership Growth","Strategic Thinking",
+    "Executive Readiness","Career Development Plan","Career Review"
+  ],
+  [
+    "Digital Business Basics","Digital Tools","Data Management","Automation",
+    "Digital Customer","Digital Sales","Digital Reporting","Productivity Tools",
+    "Digital Strategy","Digital Transformation"
+  ],
+  [
+    "AI Basics for Managers","AI Business Use","AI Sales Use","AI Reporting",
+    "AI Analysis","AI Planning","AI Communication","AI Productivity",
+    "AI Risk Management","AI Leadership"
+  ]
+];
+
+let lessons=[];
+
+function buildLessons(){
+
+  lessons=[];
+
+  lessonCategories.forEach((category,catIndex)=>{
+
+    lessonTopics[catIndex].forEach((topic,i)=>{
+
+      const number=catIndex*10+i+1;
+
+      lessons.push({
+        id:number,
+        category,
+        title:topic,
+        free:number===1,
+
+        concept:
+          `${topic} is an important capability within ${category}. A manager should understand the principle, apply it consistently and connect it to measurable business outcomes.`,
+
+        objective:
+          `Understand ${topic}, identify where it applies in daily management and convert the concept into a practical action.`,
+
+        steps:[
+          "Understand the current business situation",
+          "Identify the relevant KPI or business objective",
+          "Apply the concept to a real workplace situation",
+          "Define an action owner and deadline",
+          "Review the result and improve"
+        ],
+
+        example:
+          `Example: A manager reviews the current situation, identifies the key gap related to ${topic}, creates an action plan and measures the result through a relevant KPI.`,
+
+        application:
+          `Manager Application: Use ${topic} during team reviews, customer discussions, planning or business decision-making where relevant.`,
+
+        kpi:
+          `Relevant KPI: Target achievement, execution quality, productivity, growth, customer performance or another measurable business indicator.`,
+
+        checklist:[
+          "I understand the concept",
+          "I can explain it clearly",
+          "I can apply it at work",
+          "I defined a measurable KPI",
+          "I completed the action"
+        ],
+
+        assignment:
+          `Apply ${topic} to one real business situation this week and record the result.`,
+
+        takeaway:
+          `${topic} becomes valuable when the manager turns knowledge into consistent execution and measurable business improvement.`
+      });
+
+    });
+
+  });
+
+}
+
+/* =========================================================
+   ACADEMY RENDER
+========================================================= */
+
+function renderLessonCategories(){
+
+  const el=document.getElementById("lessonCategories");
+
+  el.innerHTML=
+    `<button class="tab ${currentLessonCategory==="All"?"active":""}"
+      onclick="setLessonCategory('All')">
+      All
+    </button>`+
+    lessonCategories.map(cat=>`
+      <button class="tab ${
+        currentLessonCategory===cat?"active":""
+      }"
+      onclick="setLessonCategory('${escapeHTML(cat).replace(/'/g,"\\'")}')">
+        ${escapeHTML(cat)}
+      </button>
+    `).join("");
+
+}
+
+function setLessonCategory(cat){
+
+  currentLessonCategory=cat;
+  renderLessons();
+
+}
+
+function renderLessons(){
+
+  renderLessonCategories();
+
+  const search=
+    document.getElementById("lessonSearch").value
+      .trim()
+      .toLowerCase();
+
+  let list=lessons.filter(l=>{
+
+    const categoryMatch=
+      currentLessonCategory==="All" ||
+      l.category===currentLessonCategory;
+
+    const searchMatch=
+      !search ||
+      l.title.toLowerCase().includes(search) ||
+      l.category.toLowerCase().includes(search);
+
+    return categoryMatch && searchMatch;
+
+  });
+
+  const el=document.getElementById("lessonList");
+
+  el.innerHTML=list.map(l=>{
+
+    const done=state.completed.includes(l.id);
+
+    return `
+      <div class="lesson-item">
+
+        <div class="lesson-left">
+
+          <div class="lesson-no">
+            ${l.id}
+          </div>
+
+          <div>
+
+            <div class="lesson-title">
+              ${escapeHTML(l.title)}
+              ${l.free
+                ? `<span class="badge green" style="margin-left:5px">FREE</span>`
+                : `<span class="badge gold" style="margin-left:5px">PREMIUM</span>`
+              }
+            </div>
+
+            <div class="lesson-cat">
+              ${escapeHTML(l.category)}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          ${
+            done
+            ? `<span class="badge green">COMPLETED</span>`
+            : ""
+          }
+
+          <button
+            class="btn ${l.free || done ? "primary":"small-btn"}"
+            onclick="openLesson(${l.id})">
+
+            ${done ? "Review" : l.free ? "Start" : "Unlock"}
+
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+}
+
+/* =========================================================
+   LESSON MODAL
+========================================================= */
+
+function openLesson(id){
+
+  const lesson=lessons.find(x=>x.id===id);
 
   if(!lesson) return;
 
-  if(number > 1){
+  if(!lesson.free && !state.completed.includes(lesson.id)){
 
     openModal(
-      lesson[0],
+      "Premium Lesson",
       `
-        <div class="card" style="background:#18140d;border-color:#5b4727">
+        <div class="english-hero">
+          <span class="badge gold">PREMIUM</span>
+          <h2>${escapeHTML(lesson.title)}</h2>
 
-          <div class="hero-tag">GROWTH PRO</div>
-
-          <h3 style="font-size:18px;margin:14px 0 7px">
-            ${escapeHTML(lesson[0])}
-          </h3>
-
-          <p style="color:var(--muted);font-size:12px;line-height:1.7">
-            ${escapeHTML(lesson[1])}
+          <p class="muted">
+            This lesson is available with Academy Premium.
           </p>
 
-          <p style="color:#d7b76e;font-size:11px;line-height:1.7">
-            Lesson 1 is available in the current Academy.
-            Upgrade to Growth Pro to unlock Lesson 2+.
+          <div class="grid grid-3">
+
+            <div class="phrase">
+              <strong>1 Month</strong>
+              <div class="gold">25,000 Ks</div>
+            </div>
+
+            <div class="phrase">
+              <strong>3 Months</strong>
+              <div class="gold">60,000 Ks</div>
+            </div>
+
+            <div class="phrase">
+              <strong>6 Months</strong>
+              <div class="gold">100,000 Ks</div>
+            </div>
+
+          </div>
+
+          <p class="small muted">
+            Payment: KPay / CB Bank
           </p>
-
-          <button
-            class="btn gold"
-            onclick="closeModal();openUpgrade()"
-          >
-            Unlock Growth Pro
-          </button>
-
         </div>
       `
     );
@@ -2326,267 +3397,475 @@ function openLesson(number){
     return;
   }
 
+  const completed=state.completed.includes(id);
+
   openModal(
-    "Lesson 1 • Business Fundamentals",
+    "Lesson "+lesson.id+" • "+lesson.category,
     `
-      <div>
+      <div class="badge gold">
+        ${escapeHTML(lesson.category)}
+      </div>
 
-        <div class="hero-tag">FREE LESSON</div>
+      <h2>${escapeHTML(lesson.title)}</h2>
 
-        <h3 style="font-size:20px;margin:15px 0 8px">
-          Business Fundamentals
-        </h3>
+      <div class="phrase">
+        <strong>Concept</strong>
+        <p class="muted">${escapeHTML(lesson.concept)}</p>
+      </div>
 
-        <p style="color:var(--muted);line-height:1.8;font-size:12px">
-          A business is a system that creates customer value,
-          converts that value into revenue, manages costs,
-          and continuously improves the operating model.
-        </p>
+      <div class="phrase">
+        <strong>Objective</strong>
+        <p class="muted">${escapeHTML(lesson.objective)}</p>
+      </div>
 
-        <div class="section">
+      <div class="phrase">
+        <strong>Practical Steps</strong>
+        <ol class="muted">
+          ${lesson.steps.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}
+        </ol>
+      </div>
 
-          <div class="card">
-            <b>Concept</b>
-            <p style="color:var(--muted);font-size:11px;line-height:1.7">
-              Think of your business as a system:
-              Customer → Value → Sales → Delivery → Cash → Improvement.
-            </p>
-          </div>
+      <div class="phrase">
+        <strong>Example</strong>
+        <p class="muted">${escapeHTML(lesson.example)}</p>
+      </div>
 
-          <div class="card" style="margin-top:10px">
-            <b>Manager Application</b>
-            <p style="color:var(--muted);font-size:11px;line-height:1.7">
-              Identify the strongest part of your business system
-              and the biggest current constraint.
-            </p>
-          </div>
+      <div class="phrase">
+        <strong>Manager Application</strong>
+        <p class="muted">${escapeHTML(lesson.application)}</p>
+      </div>
 
-          <div class="card" style="margin-top:10px">
-            <b>Assignment</b>
-            <p style="color:var(--muted);font-size:11px;line-height:1.7">
-              Write down your top 3 business priorities for this month.
-            </p>
-          </div>
+      <div class="phrase">
+        <strong>KPI</strong>
+        <p class="muted">${escapeHTML(lesson.kpi)}</p>
+      </div>
 
-        </div>
+      <div class="phrase">
+        <strong>Checklist</strong>
 
-        <button
-          class="btn gold"
-          onclick="completeLesson(1)"
-        >
-          Mark Lesson Complete
-        </button>
+        ${lesson.checklist.map(x=>`
+          <label style="
+            display:block;
+            margin-top:9px;
+            color:#c5cad3;
+            font-size:12px
+          ">
+            <input type="checkbox" style="width:auto;margin-right:7px">
+            ${escapeHTML(x)}
+          </label>
+        `).join("")}
 
       </div>
+
+      <div class="phrase">
+        <strong>Assignment</strong>
+        <p class="muted">${escapeHTML(lesson.assignment)}</p>
+      </div>
+
+      <div class="phrase">
+        <strong>Key Takeaway</strong>
+        <p class="gold">${escapeHTML(lesson.takeaway)}</p>
+      </div>
+
+      ${
+        !completed
+        ? `
+          <button
+            class="btn primary"
+            style="width:100%;margin-top:12px"
+            onclick="completeLesson(${lesson.id})">
+            Mark Lesson Complete
+          </button>
+        `
+        : `
+          <div class="badge green" style="margin-top:12px">
+            Lesson Completed
+          </div>
+        `
+      }
     `
   );
+
 }
 
-function completeLesson(number){
+function completeLesson(id){
 
-  if(!lessonProgress.includes(number)){
-    lessonProgress.push(number);
-    save(STORAGE.lessons,lessonProgress);
+  if(!state.completed.includes(id)){
+    state.completed.push(id);
   }
+
+  save(STORAGE.completed,state.completed);
 
   closeModal();
-  renderLessons();
 
-  showToast("Lesson completed");
+  renderAll();
+
+  toast("Lesson completed");
+
 }
 
 /* =========================================================
-   AI COACH
+   BUSINESS ENGLISH
 ========================================================= */
 
-function sendAI(){
+const ENGLISH_CATEGORIES=[
+  "Manager English",
+  "Meeting English",
+  "Email English",
+  "Presentation English",
+  "Sales English",
+  "Negotiation English",
+  "Leadership English",
+  "Customer English",
+  "Reporting English"
+];
 
-  const input = document.getElementById("chatInput");
+const ENGLISH=[
+  {
+    id:"m1",
+    category:"Manager English",
+    en:"Let's review our current business performance.",
+    mm:"လက်ရှိ Business Performance ကို ပြန်လည်သုံးသပ်ကြရအောင်",
+    use:"Use this when opening a performance review.",
+    alt:"Let's take a look at our current performance."
+  },
+  {
+    id:"m2",
+    category:"Manager English",
+    en:"What is the main reason behind the gap?",
+    mm:"ဒီ Gap ဖြစ်ရတဲ့ အဓိကအကြောင်းရင်းက ဘာလဲ",
+    use:"Use when asking for root causes.",
+    alt:"What are the key drivers behind the gap?"
+  },
+  {
+    id:"m3",
+    category:"Manager English",
+    en:"Please focus on the key priorities for this week.",
+    mm:"ဒီအပတ်အတွက် အဓိက Priority တွေကို အာရုံစိုက်ပေးပါ",
+    use:"Use when aligning the team.",
+    alt:"Let's focus on the most important priorities."
+  },
+  {
+    id:"m4",
+    category:"Manager English",
+    en:"I need a clear action plan with owners and deadlines.",
+    mm:"Owner နဲ့ Deadline ပါတဲ့ ရှင်းလင်းတဲ့ Action Plan လိုပါတယ်",
+    use:"Use when turning discussion into execution.",
+    alt:"Please define the actions, owners and deadlines."
+  },
 
-  const text = input.value.trim();
+  {
+    id:"mt1",
+    category:"Meeting English",
+    en:"Let's start with the main objective of today's meeting.",
+    mm:"ဒီနေ့ Meeting ရဲ့ အဓိကရည်ရွယ်ချက်နဲ့ စကြရအောင်",
+    use:"Opening a structured meeting.",
+    alt:"Let's begin by clarifying today's objective."
+  },
+  {
+    id:"mt2",
+    category:"Meeting English",
+    en:"Let's align on the key actions before we close.",
+    mm:"Meeting မပြီးခင် အဓိက Action တွေကို Alignment လုပ်ကြရအောင်",
+    use:"Closing a meeting.",
+    alt:"Let's make sure we are aligned on the next steps."
+  },
+  {
+    id:"mt3",
+    category:"Meeting English",
+    en:"Who will take ownership of this action?",
+    mm:"ဒီ Action ကို ဘယ်သူက တာဝန်ယူမလဲ",
+    use:"Assigning accountability.",
+    alt:"Who will be responsible for this action?"
+  },
 
-  if(!text) return;
+  {
+    id:"e1",
+    category:"Email English",
+    en:"Please find attached the monthly sales report for your review.",
+    mm:"သုံးသပ်ရန်အတွက် Monthly Sales Report ကို ပူးတွဲပေးပို့ထားပါတယ်",
+    use:"Sending a report.",
+    alt:"Attached is the monthly sales report for your review."
+  },
+  {
+    id:"e2",
+    category:"Email English",
+    en:"Please review and share your feedback by Friday.",
+    mm:"ကျေးဇူးပြုပြီး သုံးသပ်ပြီး Friday မတိုင်ခင် Feedback ပြန်ပေးပါ",
+    use:"Professional follow-up.",
+    alt:"Kindly review and share your feedback by Friday."
+  },
+  {
+    id:"e3",
+    category:"Email English",
+    en:"I would like to follow up on the request below.",
+    mm:"အောက်မှာဖော်ပြထားတဲ့ Request ကို Follow Up လုပ်ချင်ပါတယ်",
+    use:"Follow-up email.",
+    alt:"I am following up on the request below."
+  },
 
-  addMessage(text,"user");
+  {
+    id:"p1",
+    category:"Presentation English",
+    en:"Let me walk you through the key findings.",
+    mm:"အဓိကတွေ့ရှိချက်တွေကို တစ်ဆင့်ချင်းရှင်းပြပါမယ်",
+    use:"Starting a presentation section.",
+    alt:"Let me take you through the key findings."
+  },
+  {
+    id:"p2",
+    category:"Presentation English",
+    en:"The key takeaway from this slide is...",
+    mm:"ဒီ Slide ရဲ့ အဓိကယူဆောင်ရမယ့်အချက်က...",
+    use:"Explaining an important slide.",
+    alt:"The main point here is..."
+  },
 
-  input.value="";
+  {
+    id:"s1",
+    category:"Sales English",
+    en:"What is the customer's main business priority?",
+    mm:"Customer ရဲ့ အဓိက Business Priority က ဘာလဲ",
+    use:"Customer discovery.",
+    alt:"What is the customer's top priority right now?"
+  },
+  {
+    id:"s2",
+    category:"Sales English",
+    en:"How can we create more value for this customer?",
+    mm:"ဒီ Customer အတွက် Value ပိုဖန်တီးပေးနိုင်မလဲ",
+    use:"Value selling.",
+    alt:"Where can we create additional value?"
+  },
+  {
+    id:"s3",
+    category:"Sales English",
+    en:"Let's agree on the next step.",
+    mm:"နောက်တစ်ဆင့်ကို သဘောတူဆုံးဖြတ်ကြရအောင်",
+    use:"Closing a customer discussion.",
+    alt:"Let's agree on the next action."
+  },
 
-  setTimeout(()=>{
-    addMessage(generateAIResponse(text),"ai");
-  },350);
-}
+  {
+    id:"n1",
+    category:"Negotiation English",
+    en:"What would be the most important condition for you?",
+    mm:"သင့်အတွက် အရေးအကြီးဆုံး Condition က ဘာဖြစ်မလဲ",
+    use:"Understanding negotiation priorities.",
+    alt:"Which condition matters most to you?"
+  },
+  {
+    id:"n2",
+    category:"Negotiation English",
+    en:"If we agree on this point, can we move forward?",
+    mm:"ဒီအချက်ကို သဘောတူရင် ရှေ့ဆက်လို့ရမလား",
+    use:"Moving toward agreement.",
+    alt:"If we can align on this, can we proceed?"
+  },
 
-function quickAI(text){
+  {
+    id:"l1",
+    category:"Leadership English",
+    en:"I expect everyone to take ownership of their responsibilities.",
+    mm:"လူတိုင်းက ကိုယ့်တာဝန်ကိုယ် Ownership ယူဖို့ မျှော်လင့်ပါတယ်",
+    use:"Creating accountability.",
+    alt:"Everyone needs to take ownership of their responsibilities."
+  },
+  {
+    id:"l2",
+    category:"Leadership English",
+    en:"Let's focus on the solution, not only the problem.",
+    mm:"Problem ကိုပဲကြည့်မနေဘဲ Solution ကို အာရုံစိုက်ကြရအောင်",
+    use:"Problem-solving culture.",
+    alt:"Let's focus on what we can do next."
+  },
 
-  document.getElementById("chatInput").value = text;
+  {
+    id:"c1",
+    category:"Customer English",
+    en:"Thank you for sharing your concern.",
+    mm:"သင့်ရဲ့ Concern ကို ပြောပြပေးတဲ့အတွက် ကျေးဇူးတင်ပါတယ်",
+    use:"Handling customer concerns.",
+    alt:"Thank you for raising this concern."
+  },
+  {
+    id:"c2",
+    category:"Customer English",
+    en:"Let me understand the issue before I suggest a solution.",
+    mm:"Solution မပေးခင် Issue ကို အရင်နားလည်ပါရစေ",
+    use:"Professional customer handling.",
+    alt:"Let me first understand the situation clearly."
+  },
 
-  sendAI();
-}
-
-function addMessage(text,type){
-
-  const box = document.getElementById("chatBox");
-
-  const div = document.createElement("div");
-
-  div.className = "msg " + type;
-
-  div.textContent = text;
-
-  box.appendChild(div);
-
-  box.scrollTop = box.scrollHeight;
-}
-
-function generateAIResponse(question){
-
-  const q = question.toLowerCase();
-
-  if(
-    q.includes("sales") ||
-    q.includes("target") ||
-    q.includes("gap")
-  ){
-    return `
-Start with the gap, not the activity.
-
-1. Calculate the exact remaining target.
-2. Break the gap by customer, product, territory and salesperson.
-3. Identify the highest-value recovery opportunities.
-4. Assign one owner and one deadline to each action.
-5. Review progress daily until the gap closes.
-
-Manager rule: every identified gap should have an owner,
-a measurable action and a deadline.
-`;
+  {
+    id:"r1",
+    category:"Reporting English",
+    en:"Sales are currently below target by 23 percent.",
+    mm:"လက်ရှိ Sales က Target အောက် 23% ရှိနေပါတယ်",
+    use:"Reporting performance.",
+    alt:"We are currently 23 percent below target."
+  },
+  {
+    id:"r2",
+    category:"Reporting English",
+    en:"The main driver of growth was improved customer coverage.",
+    mm:"Growth ဖြစ်လာရတဲ့ အဓိကအကြောင်းရင်းက Customer Coverage တိုးလာတာဖြစ်ပါတယ်",
+    use:"Explaining business drivers.",
+    alt:"Improved customer coverage was the main growth driver."
   }
+];
 
-  if(
-    q.includes("team") ||
-    q.includes("employee") ||
-    q.includes("staff")
-  ){
-    return `
-Use a simple performance coaching sequence:
+function renderEnglishTabs(){
 
-1. Define the expected KPI.
-2. Compare actual performance with expectation.
-3. Identify the root cause.
-4. Agree on one practical improvement action.
-5. Set a review date.
-6. Measure again.
+  const el=document.getElementById("englishTabs");
 
-Avoid solving a performance problem with assumptions.
-Use observable facts and measurable actions.
-`;
-  }
+  el.innerHTML=ENGLISH_CATEGORIES.map(cat=>`
+    <button
+      class="tab ${
+        currentEnglishCategory===cat?"active":""
+      }"
+      onclick="setEnglishCategory('${cat.replace(/'/g,"\\'")}')">
+      ${escapeHTML(cat)}
+    </button>
+  `).join("");
 
-  if(
-    q.includes("plan") ||
-    q.includes("weekly")
-  ){
-    return `
-Weekly manager plan:
-
-Monday — Review KPI and priorities
-Tuesday — Customer / market execution
-Wednesday — Team coaching
-Thursday — Opportunity recovery
-Friday — Results review and next-week planning
-
-Keep the weekly plan limited to the few actions
-that have the highest business impact.
-`;
-  }
-
-  return `
-Use this framework:
-
-PROBLEM → DATA → ROOT CAUSE → OPTIONS → ACTION → KPI → REVIEW
-
-First define the problem precisely.
-Then identify the evidence.
-After that, choose the smallest practical action
-that can create a measurable improvement.
-
-If you provide the target, actual result, team size,
-main problem and deadline, the analysis can become more specific.
-`;
 }
 
-/* =========================================================
-   MODULES
-========================================================= */
+function setEnglishCategory(cat){
 
-function openModule(name){
+  currentEnglishCategory=cat;
+  renderEnglish();
 
-  const content = {
+}
 
-    "Business Strategy":
-      "Define where the business should compete, how it creates value and which priorities receive management attention.",
+function renderEnglish(){
 
-    "Sales Management":
-      "Manage target setting, pipeline, territory, customer priorities, forecasting and team execution.",
+  renderEnglishTabs();
 
-    "Marketing":
-      "Understand customer needs, positioning, activation, channel strategy and commercial execution.",
+  const items=ENGLISH.filter(
+    x=>x.category===currentEnglishCategory
+  );
 
-    "Finance":
-      "Track revenue, costs, margin, cash flow and financial drivers.",
+  const el=document.getElementById("englishContent");
 
-    "People Management":
-      "Set expectations, coach performance, delegate responsibility and build accountability.",
-
-    "Leadership":
-      "Develop decision making, communication, influence and leadership routines.",
-
-    "Operations":
-      "Improve processes, productivity, quality, control and execution consistency.",
-
-    "Business Planning":
-      "Translate strategy into annual, quarterly, monthly and weekly operating plans.",
-
-    "Negotiation":
-      "Prepare objectives, understand interests, manage objections and create measurable commercial outcomes."
-
-  };
-
-  openModal(
-    name,
-    `
+  if(!items.length){
+    el.innerHTML=`
       <div class="card">
-        <div class="hero-tag">MASTER BUSINESS</div>
+        <p class="muted">More lessons coming soon.</p>
+      </div>
+    `;
+    return;
+  }
 
-        <h3 style="font-size:19px;margin:14px 0 8px">
-          ${escapeHTML(name)}
-        </h3>
+  el.innerHTML=items.map((x,index)=>{
 
-        <p style="color:var(--muted);font-size:12px;line-height:1.8">
-          ${escapeHTML(content[name] || "Business management module")}
-        </p>
+    const done=state.englishCompleted.includes(x.id);
 
-        <div class="section">
+    return `
+      <div class="card" style="margin-bottom:12px">
 
-          <div class="card">
-            <b>Manager Framework</b>
-            <p style="color:var(--muted);font-size:11px;line-height:1.7">
-              Learn → Apply → Measure → Review → Improve
-            </p>
+        <div class="card-title">
+          <span class="badge gold">
+            ${index+1}
+          </span>
+
+          ${
+            done
+            ? `<span class="badge green">PRACTICED</span>`
+            : `<span class="badge">PRACTICE</span>`
+          }
+        </div>
+
+        <div class="phrase">
+
+          <div class="phrase-en">
+            ${escapeHTML(x.en)}
           </div>
 
-          <div class="card" style="margin-top:10px">
-            <b>Practical Action</b>
-            <p style="color:var(--muted);font-size:11px;line-height:1.7">
-              Convert this module into one measurable action
-              in your current business environment.
-            </p>
+          <div class="phrase-mm">
+            🇲🇲 ${escapeHTML(x.mm)}
+          </div>
+
+          <div class="phrase-use">
+            <strong>Manager Usage:</strong>
+            ${escapeHTML(x.use)}
+          </div>
+
+        </div>
+
+        <div class="practice-box">
+
+          <strong>Alternative Phrase</strong>
+
+          <p class="muted">
+            ${escapeHTML(x.alt)}
+          </p>
+
+          <div class="actions">
+
+            <button
+              class="btn small-btn"
+              onclick="copyText(${JSON.stringify(x.en)})">
+              Copy English
+            </button>
+
+            <button
+              class="btn small-btn"
+              onclick="practiceEnglish('${x.id}')">
+              ${done?"Practiced ✓":"Mark Practiced"}
+            </button>
+
           </div>
 
         </div>
 
       </div>
-    `
-  );
+    `;
+
+  }).join("");
+
+}
+
+function practiceEnglish(id){
+
+  if(!state.englishCompleted.includes(id)){
+    state.englishCompleted.push(id);
+    save(STORAGE.english,state.englishCompleted);
+  }
+
+  renderEnglish();
+  renderDashboard();
+
+  toast("English practice completed");
+
+}
+
+async function copyText(text){
+
+  try{
+
+    await navigator.clipboard.writeText(text);
+
+    toast("Copied");
+
+  }catch(e){
+
+    const area=document.createElement("textarea");
+    area.value=text;
+    document.body.appendChild(area);
+    area.select();
+
+    try{
+      document.execCommand("copy");
+      toast("Copied");
+    }catch(err){
+      toast("Copy not supported");
+    }
+
+    area.remove();
+
+  }
+
 }
 
 /* =========================================================
@@ -2595,167 +3874,271 @@ function openModule(name){
 
 function addNote(){
 
-  const title = document.getElementById("noteTitle").value.trim();
-  const text = document.getElementById("noteText").value.trim();
+  const title=document.getElementById("noteTitle").value.trim();
+  const text=document.getElementById("noteText").value.trim();
 
   if(!title || !text){
-
-    showToast("Please complete the note");
-
+    toast("Enter note title and content");
     return;
   }
 
-  notes.unshift({
+  state.notes.unshift({
     id:Date.now(),
     title,
+    category:document.getElementById("noteCategory").value,
     text,
-    date:new Date().toISOString()
+    date:new Date().toISOString().slice(0,10)
   });
 
-  save(STORAGE.notes,notes);
+  save(STORAGE.notes,state.notes);
 
   document.getElementById("noteTitle").value="";
   document.getElementById("noteText").value="";
 
+  toast("Note saved");
+
   renderNotes();
 
-  showToast("Note saved");
+}
+
+function deleteNote(id){
+
+  state.notes=state.notes.filter(x=>x.id!==id);
+
+  save(STORAGE.notes,state.notes);
+
+  renderNotes();
+
+  toast("Note deleted");
+
 }
 
 function renderNotes(){
 
-  const list = document.getElementById("notesList");
+  const el=document.getElementById("notesList");
 
-  document.getElementById("noteCount").textContent =
-    notes.length + " notes";
+  if(!state.notes.length){
 
-  if(!notes.length){
-
-    list.innerHTML = `
-      <div style="color:var(--muted);font-size:11px">
-        No notes saved.
+    el.innerHTML=`
+      <div class="card">
+        <p class="muted">No manager notes yet.</p>
       </div>
     `;
 
     return;
   }
 
-  list.innerHTML = notes.map(note=>`
+  el.innerHTML=state.notes.map(n=>`
 
-    <div class="card" style="margin-bottom:10px">
+    <div class="card" style="margin-bottom:12px">
 
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        gap:10px
-      ">
+      <div class="card-title">
 
-        <strong style="font-size:13px">
-          ${escapeHTML(note.title)}
-        </strong>
+        <div>
+          <h3>${escapeHTML(n.title)}</h3>
+          <span class="badge gold">${escapeHTML(n.category)}</span>
+        </div>
 
         <button
-          class="icon-btn"
-          onclick="deleteNote(${note.id})"
-        >×</button>
+          class="btn danger small-btn"
+          onclick="deleteNote(${n.id})">
+          Delete
+        </button>
 
       </div>
 
-      <p style="
-        color:var(--muted);
-        font-size:11px;
-        line-height:1.7;
-        white-space:pre-wrap
-      ">
-        ${escapeHTML(note.text)}
+      <p style="white-space:pre-wrap;line-height:1.7;color:#c7cbd3">
+        ${escapeHTML(n.text)}
       </p>
 
-      <div style="color:#666d77;font-size:9px">
-        ${new Date(note.date).toLocaleString()}
-      </div>
+      <div class="small muted">${escapeHTML(n.date || "")}</div>
 
     </div>
 
   `).join("");
-}
 
-function deleteNote(id){
-
-  notes = notes.filter(x=>x.id !== id);
-
-  save(STORAGE.notes,notes);
-
-  renderNotes();
-
-  showToast("Note deleted");
 }
 
 /* =========================================================
    PROFILE
 ========================================================= */
 
-function loadProfileFields(){
+function renderProfile(){
 
-  document.getElementById("accountName").value =
-    profile.name;
+  document.getElementById("profileName").value=
+    state.profile.name || "";
 
-  document.getElementById("accountRole").value =
-    profile.role;
+  document.getElementById("profileRole").value=
+    state.profile.role || "";
 
-  document.getElementById("accountBusiness").value =
-    profile.business;
+  document.getElementById("profileCompany").value=
+    state.profile.company || "";
+
+  document.getElementById("profileEmail").value=
+    state.profile.email || "";
+
+  document.getElementById("miniProfile").textContent=
+    (state.profile.name || "Manager")+" • "+
+    (state.profile.role || "Manager");
+
 }
 
 function saveProfile(){
 
-  profile = {
-    name:document.getElementById("accountName").value.trim() || "Aung Zar Ni Win",
-    role:document.getElementById("accountRole").value.trim() || "Business Manager",
-    business:document.getElementById("accountBusiness").value.trim() || "Aung Business Academy"
+  state.profile={
+    name:document.getElementById("profileName").value.trim() ||
+      "Aung Zar Ni Win",
+
+    role:document.getElementById("profileRole").value.trim() ||
+      "Business Manager",
+
+    company:document.getElementById("profileCompany").value.trim(),
+
+    email:document.getElementById("profileEmail").value.trim()
   };
 
-  save(STORAGE.profile,profile);
+  save(STORAGE.profile,state.profile);
 
-  document.getElementById("profileName").textContent =
-    profile.name;
+  renderProfile();
 
-  document.getElementById("profileRole").textContent =
-    profile.role;
+  toast("Profile saved");
 
-  showToast("Profile saved");
 }
 
 /* =========================================================
-   SETTINGS
+   CALCULATORS
 ========================================================= */
 
-function toggleSetting(button){
+function calculateTarget(){
 
-  button.classList.toggle("on");
+  const target=Number(document.getElementById("calcTarget").value)||0;
+  const actual=Number(document.getElementById("calcActual").value)||0;
+
+  const pct=target>0 ? (actual/target)*100 : 0;
+  const gap=Math.max(target-actual,0);
+
+  const el=document.getElementById("targetResult");
+
+  el.style.display="block";
+
+  el.innerHTML=`
+    <strong>Achievement</strong>
+    <div class="big gold">${pct.toFixed(1)}%</div>
+
+    <strong>Remaining Gap</strong>
+    <div>${money(gap)}</div>
+  `;
+
 }
 
-function exportData(){
+function calculateGrowth(){
 
-  const data = {
-    version:"Aung Business Academy V17",
+  const prev=Number(document.getElementById("growthPrevious").value)||0;
+  const current=Number(document.getElementById("growthCurrent").value)||0;
+
+  const growth=prev>0
+    ? ((current-prev)/prev)*100
+    : 0;
+
+  const el=document.getElementById("growthResult");
+
+  el.style.display="block";
+
+  el.innerHTML=`
+    <strong>Growth Rate</strong>
+    <div class="big gold">${growth.toFixed(1)}%</div>
+  `;
+
+}
+
+function calculateMargin(){
+
+  const sell=Number(document.getElementById("marginSell").value)||0;
+  const cost=Number(document.getElementById("marginCost").value)||0;
+
+  const profit=sell-cost;
+  const margin=sell>0 ? (profit/sell)*100 : 0;
+
+  const el=document.getElementById("marginResult");
+
+  el.style.display="block";
+
+  el.innerHTML=`
+    <strong>Gross Profit</strong>
+    <div>${money(profit)}</div>
+
+    <strong>Margin</strong>
+    <div class="big gold">${margin.toFixed(1)}%</div>
+  `;
+
+}
+
+function calculateDaily(){
+
+  const gap=Number(document.getElementById("dailyGap").value)||0;
+  const days=Number(document.getElementById("dailyDays").value)||0;
+
+  const required=days>0 ? gap/days : 0;
+
+  const el=document.getElementById("dailyResult");
+
+  el.style.display="block";
+
+  el.innerHTML=`
+    <strong>Required Daily Sales</strong>
+    <div class="big gold">${money(required)}</div>
+  `;
+
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(title,body){
+
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalBody").innerHTML=body;
+
+  document.getElementById("modalBg").classList.add("show");
+
+}
+
+function closeModal(){
+
+  document.getElementById("modalBg").classList.remove("show");
+
+}
+
+document.getElementById("modalBg").addEventListener("click",e=>{
+  if(e.target.id==="modalBg"){
+    closeModal();
+  }
+});
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function exportBackup(){
+
+  const backup={
+    version:"AUNG BUSINESS ACADEMY V18.1",
     exportedAt:new Date().toISOString(),
-    profile,
-    tasks,
-    notes,
-    lessonProgress
+    state
   };
 
-  const blob = new Blob(
-    [JSON.stringify(data,null,2)],
+  const blob=new Blob(
+    [JSON.stringify(backup,null,2)],
     {type:"application/json"}
   );
 
-  const url = URL.createObjectURL(blob);
+  const url=URL.createObjectURL(blob);
 
-  const a = document.createElement("a");
+  const a=document.createElement("a");
 
-  a.href = url;
-  a.download = "aung-business-academy-v17-backup.json";
+  a.href=url;
+  a.download="aung-business-academy-v18-backup.json";
 
   document.body.appendChild(a);
   a.click();
@@ -2763,13 +4146,69 @@ function exportData(){
 
   URL.revokeObjectURL(url);
 
-  showToast("Backup exported");
+  toast("Backup exported");
+
 }
+
+document.getElementById("restoreFile")
+  .addEventListener("change",function(){
+
+    const file=this.files[0];
+
+    if(!file) return;
+
+    const reader=new FileReader();
+
+    reader.onload=function(){
+
+      try{
+
+        const backup=JSON.parse(reader.result);
+
+        if(!backup.state){
+          throw new Error("Invalid backup");
+        }
+
+        state=backup.state;
+
+        Object.entries({
+          profile:state.profile,
+          team:state.team,
+          customers:state.customers,
+          products:state.products,
+          sales:state.sales,
+          plans:state.plans,
+          notes:state.notes,
+          completed:state.completed,
+          english:state.englishCompleted
+        }).forEach(([key,value])=>{
+          save(STORAGE[key],value);
+        });
+
+        renderAll();
+
+        toast("Backup restored");
+
+      }catch(e){
+
+        toast("Invalid backup file");
+
+      }
+
+    };
+
+    reader.readAsText(file);
+
+  });
+
+/* =========================================================
+   RESET
+========================================================= */
 
 function resetApp(){
 
-  const ok = confirm(
-    "Reset V17 local data? This will remove tasks, notes, profile and lesson progress from this browser."
+  const ok=confirm(
+    "Reset AUNG BUSINESS ACADEMY local data?"
   );
 
   if(!ok) return;
@@ -2779,161 +4218,51 @@ function resetApp(){
   });
 
   location.reload();
+
 }
 
 /* =========================================================
-   UPGRADE
+   RENDER ALL
 ========================================================= */
 
-function openUpgrade(){
+function renderAll(){
 
-  openModal(
-    "Growth Pro",
-    `
-      <div class="hero">
+  renderDashboard();
+  renderTeam();
+  renderCustomers();
+  renderSales();
+  renderManageTab();
+  renderAnalysis();
+  renderNotes();
+  renderProfile();
 
-        <span class="hero-tag">PREMIUM</span>
+  document.getElementById("manageCustomers").textContent=
+    state.customers.length;
 
-        <h1 style="font-size:28px">
-          Growth Pro
-        </h1>
+  document.getElementById("manageProducts").textContent=
+    state.products.length;
 
-        <p>
-          Unlock the complete Business Growth OS
-          and advanced Academy content.
-        </p>
+  document.getElementById("manageSales").textContent=
+    state.sales.length;
 
-        <div class="section">
+  document.getElementById("manageTeam").textContent=
+    state.team.length;
 
-          <div class="card">
-            <b>✓ Master Business</b>
-            <p style="color:var(--muted);font-size:11px">
-              Advanced business management modules
-            </p>
-          </div>
-
-          <div class="card">
-            <b>✓ Academy Lessons</b>
-            <p style="color:var(--muted);font-size:11px">
-              Unlock Lesson 2 and beyond
-            </p>
-          </div>
-
-          <div class="card">
-            <b>✓ Business Intelligence</b>
-            <p style="color:var(--muted);font-size:11px">
-              Advanced AI-assisted planning workflows
-            </p>
-          </div>
-
-          <div class="card">
-            <b>✓ Career Development</b>
-            <p style="color:var(--muted);font-size:11px">
-              Structured manager capability development
-            </p>
-          </div>
-
-        </div>
-
-        <button
-          class="btn gold"
-          onclick="showToast('Upgrade workflow ready');closeModal()"
-        >
-          Continue
-        </button>
-
-      </div>
-    `
-  );
-}
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openModal(title,body){
-
-  document.getElementById("modalTitle").textContent =
-    title;
-
-  document.getElementById("modalBody").innerHTML =
-    body;
-
-  document.getElementById("modal").classList.add("show");
-}
-
-function closeModal(){
-
-  document.getElementById("modal").classList.remove("show");
-}
-
-document.getElementById("modal").addEventListener(
-  "click",
-  function(e){
-
-    if(e.target === this){
-      closeModal();
-    }
-
-  }
-);
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-function showToast(message){
-
-  const toast = document.getElementById("toast");
-
-  toast.textContent = message;
-
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(()=>{
-    toast.classList.remove("show");
-  },2200);
-}
-
-/* =========================================================
-   SECURITY / TEXT
-========================================================= */
-
-function escapeHTML(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
 }
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
-function initialize(){
+buildLessons();
+loadState();
 
-  document.getElementById("profileName").textContent =
-    profile.name;
+document.getElementById("saleDate").value=
+  new Date().toISOString().slice(0,10);
 
-  document.getElementById("profileRole").textContent =
-    profile.role;
-
-  updateDashboard();
-  renderTasks();
-  renderNotes();
-  renderLessons();
-  loadProfileFields();
-
-}
-
-initialize();
+renderLessons();
+renderEnglish();
+renderAll();
 
 </script>
 
