@@ -1,3058 +1,12 @@
 /* =========================================================
    AUNG BUSINESS ACADEMY
-   SALES MANAGEMENT FOUNDATION
-   LESSON 01 - 10
-   10–15 MINUTE DETAILED TRAINING VERSION
-========================================================= */
-
-const academyLessons = [
-
-/* =========================================================
-   LESSON 01
-========================================================= */
-
-{
-  id: 1,
-  module: "Sales Management Foundation",
-  title: "Sales Manager Role",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Peter Drucker",
-      concept: "Managerial Effectiveness",
-      role: "Result, objectives, effectiveness"
-    },
-    {
-      name: "Stephen Covey",
-      concept: "Priorities & Responsibility",
-      role: "Important work and proactive management"
-    },
-    {
-      name: "Ken Blanchard",
-      concept: "Situational Leadership",
-      role: "Developing people based on capability"
-    },
-    {
-      name: "John Maxwell",
-      concept: "Influence & Leadership",
-      role: "Leading people beyond position"
-    }
-  ],
-
-  mixedMindset:
-    "Sales Manager တစ်ယောက်ရဲ့အလုပ်ကို Target စောင့်ကြည့်ခြင်းတစ်ခုတည်းအဖြစ် မမြင်ဘဲ People + Numbers + Execution ကို ချိတ်ဆက်ပြီး Team Result ထုတ်ပေးတဲ့ Management System အဖြစ်မြင်ရမယ်",
-
-  trainerIntro: `
-Sales Manager ဖြစ်သွားတဲ့အချိန်မှာ လူအများဆုံးလုပ်မိတဲ့အမှားက
-Salesperson တွေကို ကိုယ်တိုင်အလုပ်လုပ်ပေးပြီး Manager အလုပ်လုပ်နေတယ်လို့ ထင်တာပါ
-
-တကယ်တော့ Sales Manager ရဲ့အဓိကတာဝန်က
-ကိုယ်တိုင် sales အများဆုံးလုပ်ဖို့ မဟုတ်ပါ
-
-Team တစ်ခုလုံးကနေ predictable result ရအောင်
-People, Numbers, Execution သုံးခုကို စနစ်တကျ manage လုပ်ပေးဖို့ ဖြစ်ပါတယ်
-
-ဒီ Lesson မှာ Sales Manager ရဲ့ Role ကို
-Salesperson နဲ့ Manager ဘာကွာသလဲကနေစပြီး
-KPI, Coaching, Root Cause, Action Plan အထိ ချိတ်ဆက်လေ့လာမယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Sales Manager ဆိုတာဘာလဲ",
-      explanation: `
-Sales Manager ဆိုတာ Sales Target သတ်မှတ်ပြီး
-နေ့တိုင်း salesperson တွေကို report တောင်းနေတဲ့သူတစ်ယောက်ပဲ မဟုတ်ပါ
-
-Manager ရဲ့ အဓိကတာဝန်က
-
-PEOPLE
-NUMBERS
-EXECUTION
-
-သုံးခုကို ချိတ်ဆက်ပြီး RESULT ထုတ်ပေးခြင်း ဖြစ်ပါတယ်
-
-PEOPLE ဆိုတာ
-Salesperson development
-Coaching
-Motivation
-Communication
-Leadership
-Team capability
-
-NUMBERS ဆိုတာ
-Target
-Actual
-Achievement
-Gap
-Coverage
-Strike Rate
-Productivity
-Revenue
-Margin
-AR
-
-EXECUTION ဆိုတာ
-PJP
-Customer Visit
-Order
-Distribution
-SKU
-Promotion
-Display
-Stock
-Follow-up
-
-ဒီသုံးခုကို ခွဲပြီးမကြည့်ဘဲ System တစ်ခုအဖြစ် ကြည့်ရပါတယ်
-`
-    },
-
-    {
-      title: "2. Salesperson နဲ့ Sales Manager ဘာကွာသလဲ",
-      explanation: `
-Salesperson က သူ့ရဲ့ territory နဲ့ customer result ကို တာဝန်ယူပါတယ်
-
-Manager ကတော့ salesperson တစ်ယောက်တည်းရဲ့ result မဟုတ်ဘဲ
-Team Result ကို တာဝန်ယူပါတယ်
-
-ဥပမာ
-
-Sales Rep 5 ယောက်ရှိတယ်
-တစ်ယောက် Target = 100 သိန်း
-
-Team Target = 500 သိန်း
-
-Actual = 420 သိန်း
-
-Achievement = 84%
-
-Gap = 80 သိန်း
-
-ဒီနေရာမှာ Manager က
-"အားလုံးပိုကြိုးစားပါ"
-
-လို့ပြောပြီး မပြီးသင့်ပါ
-
-80 သိန်း Gap ဘာကြောင့်ဖြစ်တာလဲဆိုတာ
-Data နဲ့ရှာရပါမယ်
-`
-    },
-
-    {
-      title: "3. Manager က Data ကို ဘယ်လိုဖတ်မလဲ",
-      explanation: `
-Rep E
-
-Target = 100 သိန်း
-Actual = 70 သိန်း
-Achievement = 70%
-
-ဒီမှာ Manager က
-"Rep E performance မကောင်းဘူး"
-
-လို့ချက်ချင်းဆုံးဖြတ်မသင့်ပါ
-
-အောက်က KPI တွေကို ထပ်ကြည့်ရမယ်
-
-Coverage
-Strike Rate
-Productivity
-Drop Size
-SKU Availability
-Customer Mix
-Competitor Activity
-Price
-Promotion
-Stock
-
-ဥပမာ
-
-Coverage = 60%
-Strike Rate = 50%
-
-ဆိုရင် Activity side မှာ problem ရှိနိုင်ပါတယ်
-
-Coverage = 90%
-Strike Rate = 80%
-ဒါပေမယ့် Drop Size နည်းနေတယ်ဆိုရင်
-
-Customer တွေ order တင်နေကြပေမယ့်
-Order Value နည်းနေတဲ့ problem ဖြစ်နိုင်ပါတယ်
-
-ဒါကြောင့် Result ကိုမြင်ပြီး လူကိုအပြစ်မတင်ဘဲ
-Data ကိုဖတ်တတ်ရမယ်
-`
-    },
-
-    {
-      title: "4. Manager Thinking",
-      explanation: `
-Manager ရဲ့ Thinking Flow က
-
-RESULT
-↓
-DATA
-↓
-PROBLEM
-↓
-ROOT CAUSE
-↓
-ACTION
-↓
-FOLLOW-UP
-↓
-RESULT
-
-ဖြစ်ရမယ်
-
-Target မရတာက Problem မဟုတ်သေးပါ
-
-Target မရတာက Result ဖြစ်ပါတယ်
-
-ဘာကြောင့်မရတာလဲက Problem ဖြစ်လာမယ်
-
-Problem ရဲ့နောက်က Root Cause ကိုရှာရမယ်
-
-Root Cause ရှာပြီးမှ Action Plan ဆွဲရမယ်
-
-Action လုပ်ပြီးနောက် Follow-up လုပ်ရမယ်
-`
-    },
-
-    {
-      title: "5. Micromanagement မလုပ်ဘဲ Manage လုပ်ခြင်း",
-      explanation: `
-Micromanagement ဆိုတာ လူတစ်ယောက်ရဲ့ activity အားလုံးကို
-Manager ကိုယ်တိုင် control လုပ်နေတာပါ
-
-Effective Management ကတော့
-
-Direction
-Standard
-Capability
-Support
-Accountability
-
-ကို manage လုပ်တာပါ
-
-ဥပမာ
-
-"ဒီနေ့ customer 20 ယောက်သွား"
-
-ဆိုတာထက်
-
-"ဒီနေ့ priority customer 10 ယောက်ထဲက
-ဘယ်သူတွေကို ဘာ result ရအောင်သွားမလဲ"
-
-လို့မေးတာက ပိုကောင်းပါတယ်
-
-Activity ကိုမဟုတ်ဘဲ
-Purpose + Result + Accountability ကို ချိတ်ဆက်ပေးရမယ်
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Manager = People + Numbers + Execution",
-    "Result ကိုမြင်ပြီး လူကိုချက်ချင်းအပြစ်မတင်ရ",
-    "Data → Problem → Root Cause → Action",
-    "Manager က Activity ထက် Result နဲ့ Capability ကို manage လုပ်ရ",
-    "Trust + Accountability နှစ်ခုလုံးလိုအပ်တယ်"
-  ],
-
-  example: `
-Team Target = 500 သိန်း
-Team Actual = 420 သိန်း
-Achievement = 84%
-Gap = 80 သိန်း
-
-Rep E က 70% ပဲရတယ်ဆိုပါစို့
-
-Manager က E ကိုအပြစ်တင်မယ့်အစား
-Coverage, Strike Rate, Productivity, Stock, Competitor, Skill ကိုစစ်ရမယ်
-`,
-
-  caseStudy: {
-    title: "Case Study — 80 သိန်း Gap",
-    situation: `
-Team Target 500 သိန်း
-Actual 420 သိန်း
-
-Rep E Target 100 သိန်း
-Actual 70 သိန်း
-
-Coverage 85%
-Strike Rate 70%
-Average Order Size နည်း
-
-Competitor promotion လည်းရှိနေတယ်
-`,
-    questions: [
-      "Problem ကို Activity Problem လို့ပြောလို့ရသလား",
-      "Root Cause ဘာတွေဖြစ်နိုင်သလဲ",
-      "Manager အနေနဲ့ ဘာ Action လုပ်မလဲ"
-    ],
-    modelAnswer: `
-Coverage နဲ့ Strike Rate က အလွန်နိမ့်နေခြင်းမဟုတ်တဲ့အတွက်
-Activity တစ်ခုတည်းကို အပြစ်မတင်သင့်ပါ
-
-Average Order Size
-Value Selling
-Competitor Promotion
-Customer Mix
-
-တို့ကို ထပ်စစ်သင့်ပါတယ်
-
-Action က
-Value Selling Coaching
-Priority Customer Selection
-Competitive Response Plan
-ဆိုပြီး ခွဲနိုင်ပါတယ်
-`
-  },
-
-  practice: `
-ကိုယ့် Team ထဲက Salesperson 3 ယောက်ရွေးပါ
-
-တစ်ယောက်ချင်းစီအတွက်
-
-Target
-Actual
-Achievement %
-Gap
-Coverage
-Strike Rate
-
-ရေးပါ
-
-ပြီးရင် Gap အကြီးဆုံး salesperson ကိုရွေးပါ
-
-Root Cause 3 ခုရေးပါ
-
-Root Cause တစ်ခုချင်းစီအတွက်
-
-What
-Who
-When
-Expected Result
-
-နဲ့ Action Plan တစ်ခုရေးပါ
-`,
-
-  quiz: [
-    {
-      question: "Sales Manager ရဲ့ အဓိကတာဝန်ကဘာလဲ",
-      options: [
-        "ကိုယ်တိုင် sales အများဆုံးလုပ်ရန်",
-        "People + Numbers + Execution နဲ့ Team Result ထုတ်ရန်",
-        "Salesperson အားလုံးကို တစ်နေ့လုံးစောင့်ကြည့်ရန်",
-        "Meeting များများလုပ်ရန်"
-      ],
-      answer: 1,
-      explanation: "Manager ရဲ့အဓိကတာဝန်က Team Result ကို System တစ်ခုအနေနဲ့ manage လုပ်ခြင်းဖြစ်ပါတယ်"
-    },
-    {
-      question: "Target မရတဲ့အခါ ဘာကိုအရင်စစ်သင့်သလဲ",
-      options: [
-        "လူကိုအပြစ်တင်ရန်",
-        "Target လျှော့ရန်",
-        "Data နဲ့ Root Cause စစ်ရန်",
-        "Customer ကိုအပြစ်တင်ရန်"
-      ],
-      answer: 2,
-      explanation: "Target miss က Result ဖြစ်ပြီး Root Cause ရှာဖို့ Data ကိုအရင်စစ်ရပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "people-system",
-    title: "Sales Manager Result System",
-    caption: "People + Numbers + Execution ကနေ Result ထုတ်တဲ့ Manager System",
-    steps: [
-      "PEOPLE",
-      "NUMBERS",
-      "EXECUTION",
-      "RESULT",
-      "ROOT CAUSE",
-      "ACTION",
-      "FOLLOW-UP"
-    ],
-    imagePrompt:
-      "Professional Myanmar sales manager reviewing KPI dashboard with a sales team, three connected pillars People Numbers Execution leading to Business Result, premium corporate training infographic"
-  },
-
-  applyToday: `
-ဒီနေ့ Team Meeting မှာ
-
-1. Target vs Actual
-2. Biggest Gap
-3. Root Cause
-4. Next Action
-
-ဒီ 4 ခုကို အသုံးပြုပါ
-`,
-
-  takeaway:
-    "Sales Manager က Salesperson တွေရဲ့အလုပ်ကို ကိုယ်တိုင်လုပ်ပေးသူမဟုတ်ဘဲ Team Result ထွက်အောင် System တည်ဆောက်သူ ဖြစ်ရမယ်"
-},
-
-
-/* =========================================================
-   LESSON 02
-========================================================= */
-
-{
-  id: 2,
-  module: "Sales Management Foundation",
-  title: "Target Setting",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Peter Drucker",
-      concept: "Management by Objectives",
-      role: "Objective နဲ့ measurable target ချိတ်ခြင်း"
-    },
-    {
-      name: "Brian Tracy",
-      concept: "Goal Setting",
-      role: "Clear target နဲ့ action"
-    },
-    {
-      name: "Jim Collins",
-      concept: "Disciplined Execution",
-      role: "Realistic but disciplined growth"
-    }
-  ],
-
-  mixedMindset:
-    "Target ဆိုတာ number တစ်ခုရေးထားတာမဟုတ်ဘဲ Business Objective ကို measurable outcome အဖြစ်ပြောင်းထားတဲ့ commitment ဖြစ်တယ်",
-
-  trainerIntro: `
-Target Setting က Sales Management ရဲ့ foundation ဖြစ်ပါတယ်
-
-Target မရှင်းရင်
-KPI မရှင်းဘူး
-PJP မရှင်းဘူး
-Forecast မရှင်းဘူး
-Performance Review မရှင်းဘူး
-
-Target ကို အပေါ်က number တစ်ခုကို salesperson တွေထံပို့ပေးရုံနဲ့ မပြီးပါ
-
-Target ရဲ့ logic
-Target ရဲ့ driver
-Target ရဲ့ action
-Target ရဲ့ resource
-
-အားလုံးကို ချိတ်ဆက်စဉ်းစားရပါတယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Target ဆိုတာဘာလဲ",
-      explanation: `
-Target ဆိုတာ သတ်မှတ်ထားတဲ့အချိန်အတွင်း
-ရရှိရမယ့် measurable business result ဖြစ်ပါတယ်
-
-ဥပမာ
-
-Monthly Sales Target = 1,000 သိန်း
-
-ဒါပေမယ့် Manager အတွက် ဒီ number တစ်ခုတည်းနဲ့ မလုံလောက်ပါ
-
-ဘယ် product ကနေ
-ဘယ် customer segment ကနေ
-ဘယ် territory ကနေ
-ဘယ် channel ကနေ
-ဘယ် salesperson ကနေ
-
-1,000 သိန်းရမလဲဆိုတာ သိရမယ်
-`
-    },
-
-    {
-      title: "2. Top-down Target vs Bottom-up Reality",
-      explanation: `
-Company က
-
-"Next month 1,000 သိန်းရမယ်"
-
-လို့ Target ပေးနိုင်ပါတယ်
-
-ဒါက Top-down Target ဖြစ်ပါတယ်
-
-Manager ကတော့
-
-Current Run Rate
-Previous Month
-Previous Year
-Customer Base
-Distribution
-Seasonality
-Pipeline
-Sales Capacity
-Market Condition
-
-တွေကိုကြည့်ပြီး
-Target ရောက်ဖို့လိုအပ်တဲ့ execution ကို ပြန်တွက်ရပါတယ်
-
-Target ကို challenge လုပ်တာနဲ့ Target ကို reject လုပ်တာ မတူပါ
-
-Manager က
-"ဒီ Target ကိုရဖို့ ဘာတွေလိုမလဲ"
-
-ဆိုတာကိုတွက်ရပါတယ်
-`
-    },
-
-    {
-      title: "3. Target ကို Driver အဖြစ် ခွဲခြမ်းခြင်း",
-      explanation: `
-Revenue ကို
-
-Number of Customers
-×
-Purchase Frequency
-×
-Average Order Value
-
-လို driver တွေနဲ့ စဉ်းစားနိုင်ပါတယ်
-
-ဥပမာ
-
-100 Customers
-တစ်လ 2 ကြိမ် order
-Average Order 5 သိန်း
-
-Revenue
-
-100 × 2 × 5
-= 1,000 သိန်း
-
-Target 1,200 သိန်းဖြစ်လာရင်
-
-Customer တိုးမလား
-Frequency တိုးမလား
-Average Order တိုးမလား
-
-ဆိုတာကို ဆုံးဖြတ်ရမယ်
-
-ဒါက Target Thinking ဖြစ်ပါတယ်
-`
-    },
-
-    {
-      title: "4. Target ကို Action ပြောင်းခြင်း",
-      explanation: `
-Target 1,000 သိန်းကို
-နေ့တိုင်း "1,000 သိန်းရအောင်လုပ်"
-
-လို့ပြောရုံနဲ့ မရပါ
-
-Target ကို
-
-Monthly
-Weekly
-Daily
-Rep
-Territory
-Customer
-SKU
-
-အလိုက် ခွဲရပါတယ်
-
-ဥပမာ
-
-Monthly = 1,000 သိန်း
-Weekly = 250 သိန်း
-Daily Average = 50 သိန်း
-
-ဒါပေမယ့် business seasonality ရှိရင်
-နေ့တိုင်းတူတူမခွဲသင့်ပါ
-
-Target Allocation က Business Reality နဲ့ကိုက်ညီရမယ်
-`
-    },
-
-    {
-      title: "5. Good Target ရဲ့ Characteristics",
-      explanation: `
-Target က
-
-Clear
-Measurable
-Time-bound
-Relevant
-Trackable
-
-ဖြစ်ရမယ်
-
-ဒါပေမယ့် Target က realistic ဖြစ်တာတစ်ခုတည်းနဲ့ မပြီးပါ
-
-Challenge ရှိရမယ်
-ဒါပေမယ့် Team ကို လုံးဝမဖြစ်နိုင်တဲ့ number ပေးထားတာမျိုးလည်း မဖြစ်သင့်ပါ
-
-Manager ရဲ့တာဝန်က
-Target နဲ့ Capability ကြား Gap ကို ရှာပြီး
-Capability Building နဲ့ Execution Plan ချိတ်ပေးတာပါ
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Target = measurable business outcome",
-    "Target ကို drivers အဖြစ်ခွဲစဉ်းစားရ",
-    "Monthly target ကို weekly execution နဲ့ချိတ်ရ",
-    "Target နဲ့ Capability ကြား gap ကို manage လုပ်ရ",
-    "Number တစ်ခုတည်းမဟုတ်ဘဲ target logic ကိုနားလည်ရ"
-  ],
-
-  example: `
-Target = 1,000 သိန်း
-
-Current Customer = 100
-Frequency = 2
-Average Order = 5 သိန်း
-
-100 × 2 × 5 = 1,000 သိန်း
-
-Target 1,200 ဖြစ်ရင်
-Customer +10
-Frequency +0.2
-သို့မဟုတ် Average Order တိုးခြင်းတို့နဲ့ driver ကိုပြောင်းနိုင်ပါတယ်
-`,
-
-  caseStudy: {
-    title: "Case Study — Target တိုးလာပြီ",
-    situation: `
-Last Month Sales = 1,000 သိန်း
-Next Month Target = 1,300 သိန်း
-
-Team က
-"Target အရမ်းမြင့်တယ်"
-
-လို့ပြောနေပါတယ်
-`,
-    questions: [
-      "Target ကို ဘယ်လို breakdown လုပ်မလဲ",
-      "ဘယ် sales driver တွေကို တိုးရမလဲ",
-      "ဘယ် KPI တွေကို weekly monitor လုပ်မလဲ"
-    ],
-    modelAnswer: `
-Target Gap = 300 သိန်း
-
-Customer Acquisition
-Frequency
-Average Order Value
-Distribution
-SKU Mix
-
-ထဲက ဘယ် driver တွေက realistic ဖြစ်သလဲဆိုတာ
-Data နဲ့ဆုံးဖြတ်ရမယ်
-`
-  },
-
-  practice: `
-ကိုယ့်ရဲ့ လာမယ့်လ Target ကိုရွေးပါ
-
-1. Monthly Target
-2. Weekly Target
-3. Number of Customers
-4. Average Order Value
-5. Purchase Frequency
-6. Territory Target
-7. Rep Target
-
-ရေးပြီး Target ကို ဘယ် Driver က drive လုပ်မလဲ သတ်မှတ်ပါ
-`,
-
-  quiz: [
-    {
-      question: "Target ကို ဘယ်လိုမြင်သင့်သလဲ",
-      options: [
-        "Number တစ်ခုတည်း",
-        "Business Result + Drivers",
-        "Management Pressure",
-        "Salesperson punishment"
-      ],
-      answer: 1,
-      explanation: "Target ကို drivers နဲ့ ခွဲကြည့်နိုင်မှ execution plan တည်ဆောက်နိုင်ပါတယ်"
-    },
-    {
-      question: "Target 1,000 ကနေ 1,200 ဖြစ်လာရင် ဘာလုပ်သင့်သလဲ",
-      options: [
-        "Team ကို ပိုကြိုးစားခိုင်း",
-        "Target ကိုချက်ချင်းလျှော့",
-        "Sales Drivers တွေကိုခွဲပြီး Action ဆွဲ",
-        "Customer ကို အပြစ်တင်"
-      ],
-      answer: 2,
-      explanation: "Gap ကို driver level မှာရှာပြီး action plan ပြောင်းရပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "funnel",
-    title: "Target → Drivers → Action",
-    caption: "Target Number ကို Business Driver နဲ့ Execution အဖြစ်ပြောင်းခြင်း",
-    steps: [
-      "TARGET",
-      "CUSTOMERS",
-      "FREQUENCY",
-      "ORDER VALUE",
-      "EXECUTION",
-      "RESULT"
-    ],
-    imagePrompt:
-      "Premium corporate sales target funnel infographic, target at top flowing into customers frequency average order value and execution, Myanmar business training style"
-  },
-
-  applyToday: `
-နောက်လ Target ကို number တစ်ခုတည်းမထားဘဲ
-Target Driver 3 ခုရေးပါ
-
-ဥပမာ
-
-Customer
-Frequency
-Order Value
-`
-  ,
-  takeaway:
-    "ကောင်းတဲ့ Sales Manager က Target ကို လက်ခံရုံမဟုတ်ဘဲ Target ရောက်ဖို့ Business Drivers ကို ရှာပြီး Execution Plan ပြောင်းနိုင်ရမယ်"
-},
-
-
-/* =========================================================
-   LESSON 03
-========================================================= */
-
-{
-  id: 3,
-  module: "Sales Management Foundation",
-  title: "KPI Fundamentals",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Peter Drucker",
-      concept: "Objectives & Measurement",
-      role: "Result ကို measurable ဖြစ်စေခြင်း"
-    },
-    {
-      name: "Charlie Munger",
-      concept: "Mental Models",
-      role: "Numbers နောက်က cause ကိုရှာခြင်း"
-    },
-    {
-      name: "Philip Kotler",
-      concept: "Customer & Market Metrics",
-      role: "Customer value နဲ့ commercial metrics"
-    }
-  ],
-
-  mixedMindset:
-    "KPI ကို report number အဖြစ်မသုံးဘဲ Business Health Indicator အဖြစ် အသုံးပြုရမယ်",
-
-  trainerIntro: `
-KPI ဆိုတာ Sales Manager တစ်ယောက်ရဲ့ Dashboard ပေါ်က number တွေပါ
-
-ဒါပေမယ့် KPI တွေကို ကြည့်ရုံနဲ့ Manager မဖြစ်ပါ
-
-Number တစ်ခုက ဘာကိုပြောနေလဲ
-ဘာကြောင့်ဖြစ်လာလဲ
-ဘယ် Action လုပ်ရမလဲ
-
-ဆိုတာကို ဖတ်နိုင်ရမယ်
-
-KPI က Measurement ဖြစ်သလို
-Diagnosis Tool လည်း ဖြစ်ပါတယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. KPI ဆိုတာဘာလဲ",
-      explanation: `
-KPI = Key Performance Indicator
-
-Business Result ကို drive လုပ်ပေးတဲ့
-အရေးကြီးတဲ့ performance measure ဖြစ်ပါတယ်
-
-Sales Manager အတွက်
-
-Sales
-Achievement
-Coverage
-Strike Rate
-Productivity
-Drop Size
-Distribution
-Growth
-AR
-
-တို့ဟာ KPI ဖြစ်နိုင်ပါတယ်
-
-ဒါပေမယ့် KPI အများကြီးထားတာက အမြဲကောင်းတာမဟုတ်ပါ
-Business Result ကို တကယ် drive လုပ်တဲ့ KPI တွေကို ရွေးရပါတယ်
-`
-    },
-
-    {
-      title: "2. Lagging KPI နဲ့ Leading KPI",
-      explanation: `
-Sales Revenue က
-အများအားဖြင့် Lagging Indicator ဖြစ်ပါတယ်
-
-လကုန်မှ result သိရတတ်ပါတယ်
-
-Coverage
-Customer Visit
-Pipeline
-SKU Availability
-PJP Execution
-
-တို့က Leading Indicator အဖြစ် အသုံးဝင်နိုင်ပါတယ်
-
-ဥပမာ
-
-လကုန် Sales မရခင်
-Coverage ကျနေတယ်
-Strike Rate ကျနေတယ်
-
-ဆိုရင် Manager က စောစော Action လုပ်နိုင်ပါတယ်
-
-ဒါကြောင့် KPI ကို Result ပြီးမှကြည့်ဖို့မဟုတ်ဘဲ
-Result မရခင် Warning Signal အဖြစ်ပါ အသုံးပြုရမယ်
-`
-    },
-
-    {
-      title: "3. KPI တစ်ခုချင်းစီရဲ့ Meaning",
-      explanation: `
-Coverage = Customer Reach
-
-Strike Rate = Visit ကနေ Productive Order ဖြစ်လာမှု
-
-Productivity = Salesperson တစ်ယောက်ရဲ့ Output
-
-Drop Size = Order တစ်ကြိမ်ရဲ့ Average Value
-
-Distribution = Product ရဲ့ Market Reach
-
-Growth = Period over Period Change
-
-KPI တစ်ခုချင်းစီက Sales Funnel ရဲ့ အပိုင်းတစ်ခုကိုပြပါတယ်
-`
-    },
-
-    {
-      title: "4. KPI ကို တစ်ခုတည်းမကြည့်ရ",
-      explanation: `
-Coverage 90%
-Strike Rate 30%
-
-ဆိုရင် Customer အများကြီးသွားပေမယ့်
-Order Conversion နည်းနေတာ ဖြစ်နိုင်ပါတယ်
-
-Coverage 50%
-Strike Rate 80%
-
-ဆိုရင် Visit နည်းပေမယ့်
-သွားတဲ့ customer တွေမှာ conversion ကောင်းနေပါတယ်
-
-ဒါကြောင့် KPI တစ်ခုကို အထီးကျန်ကြည့်လို့မရပါ
-
-KPI Relationship ကိုကြည့်ရပါတယ်
-`
-    },
-
-    {
-      title: "5. KPI Review Conversation",
-      explanation: `
-Manager က KPI Review မှာ
-
-"မင်း Strike Rate ဘာလို့နည်းတာလဲ"
-
-လို့မေးတာထက်
-
-"ဒီ Week မှာ Planned Visit ဘယ်လောက်
-Actual Visit ဘယ်လောက်
-Productive Visit ဘယ်လောက်
-
-ဘာ obstacle ကြောင့် conversion မရတာလဲ"
-
-လို့မေးရင် diagnosis ပိုကောင်းပါတယ်
-
-KPI Review = Question + Data + Action
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "KPI = Business Health Indicator",
-    "Lagging KPI နဲ့ Leading KPI ခွဲသိရ",
-    "KPI တစ်ခုတည်းမကြည့်ရ",
-    "KPI Relationship ကိုရှာရ",
-    "KPI Review က Action ထုတ်ဖို့ဖြစ်တယ်"
-  ],
-
-  example: `
-Coverage 90%
-Strike Rate 30%
-Drop Size 4 သိန်း
-
-ဒီအခြေအနေမှာ
-Coverage problem မဟုတ်နိုင်ပါ
-
-Conversion သို့မဟုတ် Selling Skill
-သို့မဟုတ် Product/Price issue ဖြစ်နိုင်ပါတယ်
-`,
-
-  caseStudy: {
-    title: "Case Study — Sales ကျသွားခြင်း",
-    situation: `
-Last Month Revenue = 1,000 သိန်း
-This Month Revenue = 850 သိန်း
-
-Coverage = 92%
-Strike Rate = 55% → 42%
-Drop Size = 5 သိန်း → 4 သိန်း
-`,
-    questions: [
-      "ဘယ် KPI က အဓိက Warning Signal ဖြစ်သလဲ",
-      "Possible Root Cause ဘာတွေလဲ",
-      "Manager က ဘာကို အရင် Action လုပ်သင့်သလဲ"
-    ],
-    modelAnswer: `
-Strike Rate နဲ့ Drop Size နှစ်ခုလုံးကျနေတဲ့အတွက်
-Conversion နဲ့ order value ကို စစ်သင့်ပါတယ်
-
-Customer mix
-Selling skill
-Promotion
-SKU
-Price
-Competitor
-
-တို့ကို ထပ်စစ်ရမယ်
-`
-  },
-
-  practice: `
-ကိုယ့် Team ရဲ့ KPI 5 ခုရွေးပါ
-
-KPI တစ်ခုချင်းစီအတွက်
-
-1. What does it measure
-2. Why does it matter
-3. What causes it to go down
-4. What action can improve it
-
-ရေးပါ
-`,
-
-  quiz: [
-    {
-      question: "Revenue က ဘာလို KPI ဖြစ်နိုင်သလဲ",
-      options: [
-        "Leading KPI",
-        "Lagging KPI",
-        "Activity KPI",
-        "People KPI"
-      ],
-      answer: 1,
-      explanation: "Revenue က Result ကိုပြတဲ့အတွက် အများအားဖြင့် Lagging Indicator ဖြစ်ပါတယ်"
-    },
-    {
-      question: "KPI Review ရဲ့ ရည်ရွယ်ချက်ကဘာလဲ",
-      options: [
-        "Report ပို့ရန်",
-        "လူကိုအပြစ်တင်ရန်",
-        "Diagnosis နဲ့ Action ထုတ်ရန်",
-        "Meeting ကြာအောင်လုပ်ရန်"
-      ],
-      answer: 2,
-      explanation: "KPI Review ရဲ့ value က Data ကနေ Action ထုတ်နိုင်ခြင်းဖြစ်ပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "dashboard",
-    title: "Sales KPI Dashboard",
-    caption: "Revenue ရဲ့နောက်က Leading KPI တွေကို ဖတ်ခြင်း",
-    steps: [
-      "Revenue",
-      "Achievement",
-      "Coverage",
-      "Strike Rate",
-      "Drop Size",
-      "Distribution",
-      "Growth"
-    ],
-    imagePrompt:
-      "Modern premium sales KPI dashboard infographic showing revenue, achievement, coverage, strike rate, productivity, drop size, distribution and growth connected together"
-  },
-
-  applyToday: `
-ဒီနေ့ KPI Review လုပ်တဲ့အခါ
-Number တစ်ခုချင်းစီအတွက်
-
-What happened?
-Why?
-What next?
-
-သုံးခုမေးပါ
-`,
-
-  takeaway:
-    "KPI ကို Report အတွက်မဟုတ်ဘဲ Business Diagnosis နဲ့ Action အတွက်အသုံးပြုရမယ်"
-},
-
-
-/* =========================================================
-   LESSON 04
-========================================================= */
-
-{
-  id: 4,
-  module: "Sales Management Foundation",
-  title: "Target vs Actual",
-  duration: "10–15 min",
-
-  masters: [
-    {
-      name: "Peter Drucker",
-      concept: "Measurement",
-      role: "Objective နဲ့ actual performance ချိန်ခြင်း"
-    },
-    {
-      name: "Charlie Munger",
-      concept: "Inversion",
-      role: "ဘာကြောင့်မရတာလဲကနေ ပြန်စဉ်းစားခြင်း"
-    },
-    {
-      name: "Brian Tracy",
-      concept: "Goals & Action",
-      role: "Gap ကို action ပြောင်းခြင်း"
-    }
-  ],
-
-  mixedMindset:
-    "Target vs Actual ကို Scoreboard အဖြစ်ပဲ မကြည့်ဘဲ Gap Diagnosis System အဖြစ် အသုံးပြုရမယ်",
-
-  trainerIntro: `
-Sales Manager ရဲ့ Daily/Weekly Review မှာ
-Target vs Actual က အခြေခံအကျဆုံး data ဖြစ်ပါတယ်
-
-ဒါပေမယ့်
-
-Target = 100
-Actual = 80
-
-ဆိုပြီး Gap 20 ကိုမြင်ရုံနဲ့ မပြီးပါ
-
-Gap 20 ဘာကြောင့်ဖြစ်တာလဲ
-ဘယ် customer
-ဘယ် territory
-ဘယ် product
-ဘယ် salesperson
-ဘယ် execution
-
-က Gap ကိုဖန်တီးနေလဲဆိုတာ ရှာရပါမယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Target vs Actual ကို ဘယ်လိုဖတ်မလဲ",
-      explanation: `
-Target = 1,000 သိန်း
-Actual = 850 သိန်း
-
-Gap = 150 သိန်း
-
-Achievement = 85%
-
-ဒီမှာ Manager က
-"150 သိန်းမရဘူး"
-
-ဆိုတာထက်
-
-150 သိန်းက
-ဘယ်နေရာမှာ ပျောက်သွားတာလဲ
-
-ဆိုတာကို စဉ်းစားရပါတယ်
-`
-    },
-
-    {
-      title: "2. Gap ကို Breakdown လုပ်ခြင်း",
-      explanation: `
-Team Gap = 150 သိန်း
-
-Rep A = -10
-Rep B = -20
-Rep C = -40
-Rep D = -30
-Rep E = -50
-
-Total = -150
-
-အခုဆိုရင် Manager သိလာတာက
-Rep E နဲ့ C က Team Gap ရဲ့ အဓိက contributor ဖြစ်နေတယ်ဆိုတာပါ
-
-ဒါက Management Attention ကို
-အမှန်နေရာကို ပို့ပေးနိုင်ပါတယ်
-`
-    },
-
-    {
-      title: "3. Gap Analysis",
-      explanation: `
-Gap ကို
-
-Volume Gap
-Customer Gap
-Coverage Gap
-Conversion Gap
-Order Value Gap
-Distribution Gap
-Stock Gap
-
-ဆိုပြီး ခွဲစဉ်းစားနိုင်ပါတယ်
-
-ဥပမာ
-
-Customer Visit ပြည့်ပေမယ့်
-Order Value ကျနေတယ်ဆိုရင်
-
-Coverage မဟုတ်ဘဲ
-Drop Size problem ဖြစ်နိုင်ပါတယ်
-`
-    },
-
-    {
-      title: "4. Positive Gap ကိုလည်းရှာရ",
-      explanation: `
-Gap ဆိုတာ Negative Gap တစ်ခုတည်းမဟုတ်ပါ
-
-Target = 100
-Actual = 120
-
-ဆိုရင် Positive Gap = +20
-
-Manager က
-"ကောင်းတယ်"
-
-လို့ပဲ မပြောသင့်ပါ
-
-ဘာကြောင့် 120 ဖြစ်လာတာလဲ
-ဘယ် customer
-ဘယ် product
-ဘယ် execution
-
-က drive လုပ်တာလဲဆိုတာ ရှာပြီး
-အောင်မြင်တဲ့ pattern ကို Team ထဲ replicate လုပ်နိုင်ပါတယ်
-`
-    },
-
-    {
-      title: "5. Manager Review Flow",
-      explanation: `
-Target
-↓
-Actual
-↓
-Gap
-↓
-Breakdown
-↓
-Root Cause
-↓
-Action
-↓
-Owner
-↓
-Deadline
-↓
-Follow-up
-
-ဒီ Flow ကို Weekly Sales Review မှာ အသုံးပြုနိုင်ပါတယ်
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Target vs Actual = Starting Point",
-    "Gap ကို Breakdown လုပ်ရ",
-    "Negative Gap နဲ့ Positive Gap နှစ်ခုလုံးကို လေ့လာရ",
-    "Gap → Root Cause → Action",
-    "Action မှာ Owner + Deadline ပါရမယ်"
-  ],
-
-  example: `
-Team Target = 1,000
-Actual = 850
-Gap = -150
-
-Rep C = -40
-Rep E = -50
-
-အဆိုပါ Rep နှစ်ယောက်ကို Deep Dive လုပ်ပြီး
-Team Gap ရဲ့ အဓိက drivers ကိုရှာနိုင်ပါတယ်
-`,
-
-  caseStudy: {
-    title: "Case Study — 150 သိန်း Gap",
-    situation: `
-Target = 1,000 သိန်း
-Actual = 850 သိန်း
-
-Coverage က 95% ရှိတယ်
-ဒါပေမယ့် Drop Size ကျနေတယ်
-`,
-    questions: [
-      "Coverage ကိုထပ်တိုးဖို့လိုသလား",
-      "ဘယ် KPI ကို အရင်စစ်မလဲ",
-      "Action Plan ဘာဖြစ်နိုင်သလဲ"
-    ],
-    modelAnswer: `
-Coverage က already high ဖြစ်နေရင်
-Visit အရေအတွက်တိုးတာထက်
-
-Order Value
-SKU Mix
-Cross Selling
-Premium Product
-Customer Potential
-
-တို့ကိုစစ်သင့်ပါတယ်
-`
-  },
-
-  practice: `
-Last Month Team Target နဲ့ Actual ကိုယူပါ
-
-Gap တွက်ပါ
-
-ပြီးရင် Gap ကို
-
-Rep
-Territory
-Customer
-Product
-
-အလိုက် Breakdown လုပ်ပါ
-
-Gap ရဲ့ Top 3 contributors ကိုရှာပါ
-`,
-
-  quiz: [
-    {
-      question: "Target vs Actual ပြီးရင် ဘာလုပ်သင့်သလဲ",
-      options: [
-        "Meeting ပြီး",
-        "Gap Breakdown လုပ်",
-        "Target လျှော့",
-        "လူအပြစ်တင်"
-      ],
-      answer: 1,
-      explanation: "Gap ရဲ့ source ကိုရှာဖို့ Breakdown လုပ်ရပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "bar-chart",
-    title: "Target vs Actual",
-    caption: "Gap ကိုမြင်ပြီး Root Cause ဆီသွားခြင်း",
-    steps: [
-      "TARGET",
-      "ACTUAL",
-      "GAP",
-      "BREAKDOWN",
-      "ROOT CAUSE",
-      "ACTION"
-    ],
-    imagePrompt:
-      "Professional sales target versus actual bar chart with visible gap and root cause analysis arrows, premium business training infographic"
-  },
-
-  applyToday: `
-ဒီနေ့ Sales Review မှာ
-"Gap ဘယ်လောက်လဲ"
-
-မေးပြီးရင်
-
-"Gap ဘယ်ကလာတာလဲ"
-
-ကို ဆက်မေးပါ
-`,
-
-  takeaway:
-    "Target vs Actual က Report မဟုတ်ဘဲ Management Diagnosis ရဲ့ ပထမခြေလှမ်းဖြစ်တယ်"
-},
-
-
-/* =========================================================
-   LESSON 05
-========================================================= */
-
-{
-  id: 5,
-  module: "Sales Management Foundation",
-  title: "Achievement %",
-  duration: "10–15 min",
-
-  masters: [
-    {
-      name: "Peter Drucker",
-      concept: "Performance Measurement",
-      role: "Performance ကို measurable ဖြစ်စေခြင်း"
-    },
-    {
-      name: "Brian Tracy",
-      concept: "Goal Measurement",
-      role: "Progress ကိုတိုင်းတာခြင်း"
-    },
-    {
-      name: "Charlie Munger",
-      concept: "Comparative Thinking",
-      role: "Number ကို context နဲ့ကြည့်ခြင်း"
-    }
-  ],
-
-  mixedMindset:
-    "Achievement % ကို Score တစ်ခုအဖြစ်မဟုတ်ဘဲ Progress + Context + Trend အဖြစ် ဖတ်ရမယ်",
-
-  trainerIntro: `
-Achievement % က Sales Manager တွေအတွက် အရမ်းအသုံးများတဲ့ KPI ပါ
-
-Target 100
-Actual 80
-Achievement 80%
-
-ဆိုတာ လွယ်ပါတယ်
-
-ဒါပေမယ့် Manager အတွက် မေးခွန်းက
-
-80% က ကောင်းတာလား
-မကောင်းတာလား
-
-မဟုတ်ပါ
-
-ဘာကြောင့် 80% ဖြစ်တာလဲ
-ဘယ်အချိန်အထိ 80% ဖြစ်တာလဲ
-Previous period နဲ့ဘယ်လိုကွာလဲ
-Month pace နဲ့ကိုက်လား
-
-ဆိုတာတွေကို ထပ်ကြည့်ရပါတယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Achievement % Formula",
-      explanation: `
-Achievement %
-
-= Actual ÷ Target × 100
-
-ဥပမာ
-
-Actual = 800
-Target = 1,000
-
-Achievement = 80%
-
-ဒါက Basic Calculation ဖြစ်ပါတယ်
-`
-    },
-
-    {
-      title: "2. Achievement % ကို Context နဲ့ကြည့်ခြင်း",
-      explanation: `
-Month Day 10 မှာ
-
-Achievement = 30%
-
-ဆိုရင် မကောင်းဘူးလို့ ချက်ချင်းမပြောနိုင်ပါ
-
-အဲဒီလရဲ့ sales pattern က
-Month End မှာ ပိုတက်တတ်ရင်
-30% က pace နဲ့ကိုက်နိုင်ပါတယ်
-
-ဒါကြောင့်
-
-Achievement
-Elapsed Days
-Expected Run Rate
-
-သုံးခုကို ချိတ်ကြည့်ရပါတယ်
-`
-    },
-
-    {
-      title: "3. Current Achievement vs Expected Achievement",
-      explanation: `
-Month 30 days
-
-Day 10
-
-Time elapsed = 33.3%
-
-Achievement = 25%
-
-ဆိုရင် pace နည်းနေတာ ဖြစ်နိုင်ပါတယ်
-
-ဒါပေမယ့် Weekly/Monthly seasonality ရှိရင်
-Calendar percentage တစ်ခုတည်းနဲ့ မဆုံးဖြတ်ရပါ
-
-Historical sales pattern ကိုလည်းကြည့်ရမယ်
-`
-    },
-
-    {
-      title: "4. Rep Achievement Comparison",
-      explanation: `
-Rep A = 95%
-Rep B = 88%
-Rep C = 82%
-Rep D = 70%
-Rep E = 65%
-
-Manager က Top Rep ကိုချီးကျူးရုံနဲ့ မပြီးပါ
-
-Rep E ရဲ့ Gap ကို
-Root Cause ရှာရမယ်
-
-Rep A ရဲ့ Best Practice ကိုလည်း
-Team အတွင်း Share လုပ်နိုင်ပါတယ်
-`
-    },
-
-    {
-      title: "5. Achievement ကို Action ပြောင်းခြင်း",
-      explanation: `
-Achievement 70% ဖြစ်တယ်ဆိုတာ
-Action မဟုတ်ပါ
-
-70% ဖြစ်တဲ့အကြောင်းရင်းက
-Action ရဲ့ input ဖြစ်ပါတယ်
-
-ဥပမာ
-
-Achievement 70%
-Coverage 50%
-
-Action = Coverage Improvement
-
-Achievement 70%
-Coverage 90%
-Strike Rate 40%
-
-Action = Conversion Improvement
-
-Achievement 70%
-Coverage 90%
-Strike Rate 80%
-Drop Size နည်း
-
-Action = Order Value Improvement
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Achievement % = Actual ÷ Target",
-    "Achievement ကို Time + Trend နဲ့ကြည့်ရ",
-    "Achievement တစ်ခုတည်းနဲ့ diagnosis မလုပ်ရ",
-    "Best Performer ရဲ့ practice ကိုလည်းလေ့လာရ",
-    "Low Achievement ကို Action Driver အဖြစ်ပြောင်းရ"
-  ],
-
-  example: `
-Target = 1,000
-Actual = 700
-Achievement = 70%
-
-Coverage = 90%
-Strike Rate = 80%
-Drop Size = နည်း
-
-ဒီအခြေအနေမှာ Coverage/Strike Rate မဟုတ်ဘဲ
-Average Order Value ကို Deep Dive လုပ်နိုင်ပါတယ်
-`,
-
-  caseStudy: {
-    title: "Case Study — 70% Achievement",
-    situation: `
-Rep A = 70%
-Coverage = 92%
-Strike Rate = 78%
-Orders = 120
-Average Order Value = နည်း
-`,
-    questions: [
-      "Rep A ကို Low Performer လို့ပဲ သတ်မှတ်လို့ရသလား",
-      "ဘယ် driver ကို စစ်သင့်သလဲ",
-      "Coaching ဘာပေးမလဲ"
-    ],
-    modelAnswer: `
-Activity နဲ့ conversion ကောင်းနေတဲ့အတွက်
-Order Value / SKU Mix / Customer Potential ကို စစ်သင့်ပါတယ်
-
-Coaching က
-Cross Selling
-Premium SKU
-Bundle Selling
-Value Selling
-
-ဘက်ကိုသွားနိုင်ပါတယ်
-`
-  },
-
-  practice: `
-Sales Team 5 ယောက်ရဲ့ Achievement % တွက်ပါ
-
-ပြီးရင်
-
-Highest
-Lowest
-Average
-Gap to Target
-
-တွက်ပါ
-
-Lowest Performer ရဲ့ root cause ကို KPI နဲ့ရှာပါ
-`,
-
-  quiz: [
-    {
-      question: "Achievement % Formula ကဘာလဲ",
-      options: [
-        "Target ÷ Actual × 100",
-        "Actual ÷ Target × 100",
-        "Actual − Target",
-        "Target + Actual"
-      ],
-      answer: 1,
-      explanation: "Achievement = Actual ÷ Target × 100 ဖြစ်ပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "dashboard",
-    title: "Achievement Performance",
-    caption: "Achievement % ကို KPI Drivers နဲ့ ချိတ်ဖတ်ခြင်း",
-    steps: [
-      "TARGET",
-      "ACTUAL",
-      "ACHIEVEMENT %",
-      "DRIVER",
-      "ACTION"
-    ],
-    imagePrompt:
-      "Premium sales performance dashboard showing target actual achievement percentage and KPI drivers, corporate training visual"
-  },
-
-  applyToday: `
-ဒီနေ့ Team Performance Review မှာ
-Achievement % တစ်ခုတည်း မပြောဘဲ
-
-Achievement
-Coverage
-Strike Rate
-Drop Size
-
-ကို အတူကြည့်ပါ
-`,
-
-  takeaway:
-    "Achievement % က Result ကိုတိုင်းတာပေးတယ်၊ KPI Drivers တွေက Result ဘာကြောင့်ဖြစ်လာတယ်ဆိုတာ ပြပေးတယ်"
-},
-
-
-/* =========================================================
-   LESSON 06
-========================================================= */
-
-{
-  id: 6,
-  module: "Sales Management Foundation",
-  title: "Gap Analysis",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Charlie Munger",
-      concept: "Inversion",
-      role: "မရတဲ့အကြောင်းရင်းကနေ ပြန်စဉ်းစားခြင်း"
-    },
-    {
-      name: "Peter Drucker",
-      concept: "Action Planning",
-      role: "Problem ကို action အဖြစ်ပြောင်းခြင်း"
-    },
-    {
-      name: "Stephen Covey",
-      concept: "Circle of Influence",
-      role: "ကိုယ်တိုင်လွှမ်းမိုးနိုင်တာကို ဦးစားပေးခြင်း"
-    }
-  ],
-
-  mixedMindset:
-    "Gap Analysis ဆိုတာ 'ဘယ်လောက်နောက်ကျနေတယ်' ကိုသာတွက်တာမဟုတ်ဘဲ 'ဘာကြောင့်နောက်ကျနေတယ်' နဲ့ 'ဘယ်လိုပြန်ဖြည့်မလဲ' ကိုရှာတဲ့ process ဖြစ်တယ်",
-
-  trainerIntro: `
-Manager က Gap တွေကို မကြောက်သင့်ပါ
-
-Gap ဆိုတာ Problem ရဲ့ Signal ဖြစ်ပါတယ်
-
-Gap မရှိရင်တောင် Improvement Opportunity ရှိနိုင်ပါတယ်
-
-အရေးကြီးတာက
-Gap ကို မြင်နိုင်ခြင်း
-Gap ကို ခွဲနိုင်ခြင်း
-Gap ရဲ့ Cause ကိုရှာနိုင်ခြင်း
-Gap ကို Action ပြောင်းနိုင်ခြင်း ဖြစ်ပါတယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Gap ဆိုတာဘာလဲ",
-      explanation: `
-Gap = Expected Result − Actual Result
-
-Target 1,000
-Actual 850
-
-Gap = 150
-
-ဒါပေမယ့် Gap 150 က Root Cause မဟုတ်ပါ
-`
-    },
-
-    {
-      title: "2. Gap ကို ဘယ်အဆင့်အထိ ခွဲမလဲ",
-      explanation: `
-Company
-↓
-Region
-↓
-Territory
-↓
-Rep
-↓
-Customer
-↓
-Product
-↓
-SKU
-
-အဆင့်လိုက် Drill Down လုပ်နိုင်ပါတယ်
-
-ဥပမာ Team Gap 150
-
-Region A = 40
-Region B = 30
-Region C = 80
-
-Region C ထဲမှာ
-Rep E = 50
-
-Rep E ထဲမှာ
-Customer X = 30
-
-ဒီလို Drill Down လုပ်ရင်
-Attention ဘယ်နေရာမှာထားရမလဲ သိလာပါတယ်
-`
-    },
-
-    {
-      title: "3. Gap Type ခွဲခြင်း",
-      explanation: `
-Gap ကို
-
-Volume Gap
-Value Gap
-Customer Gap
-Distribution Gap
-Coverage Gap
-Conversion Gap
-Stock Gap
-Price Gap
-Execution Gap
-Capability Gap
-
-ဆိုပြီး ခွဲနိုင်ပါတယ်
-
-Gap Type မတူရင် Action လည်း မတူပါ
-`
-    },
-
-    {
-      title: "4. Controllable vs Uncontrollable",
-      explanation: `
-Manager အနေနဲ့
-ကိုယ်တိုင်လွှမ်းမိုးနိုင်တာနဲ့
-လွှမ်းမိုးလို့မရတာ ခွဲရပါတယ်
-
-Controllable
-
-Coverage
-Call Plan
-Coaching
-SKU Execution
-PJP
-Follow-up
-
-Less Controllable
-
-Market Shock
-Unexpected Regulation
-Major Competitor Event
-Supply Disruption
-
-ဒါပေမယ့် Uncontrollable ဖြစ်လို့
-ဘာမှမလုပ်ရဘူးလို့ မဆိုလိုပါ
-
-Manager က Response Plan တည်ဆောက်ရပါတယ်
-`
-    },
-
-    {
-      title: "5. Gap Closure Plan",
-      explanation: `
-Gap = 100 သိန်း
-
-Action 1 = +30
-Action 2 = +25
-Action 3 = +20
-Action 4 = +25
-
-Total Expected Recovery = 100
-
-ဒီလို Action တစ်ခုချင်းစီကို
-Expected Contribution နဲ့ချိတ်ရင်
-Gap Closure Plan ဖြစ်လာပါတယ်
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Gap = Signal",
-    "Gap ကို Drill Down လုပ်ရ",
-    "Gap Type သိရင် Action ပိုတိကျလာတယ်",
-    "Controllable vs Uncontrollable ခွဲရ",
-    "Action တစ်ခုချင်းစီမှာ Expected Contribution ရှိသင့်တယ်"
-  ],
-
-  example: `
-Team Gap = 100 သိန်း
-
-Coverage Action = +25
-New Customer = +20
-Premium SKU = +30
-Reactivation = +25
-
-Expected Recovery = 100 သိန်း
-`,
-
-  caseStudy: {
-    title: "Case Study — Gap 100 သိန်း",
-    situation: `
-Month Target = 1,000
-Current Forecast = 900
-Gap = 100
-
-Manager မှာ 15 ရက်ကျန်သေးတယ်
-`,
-    questions: [
-      "100 Gap ကို ဘယ်လိုခွဲမလဲ",
-      "ဘယ် Action တွေက controllable ဖြစ်လဲ",
-      "Daily/Weekly follow-up ဘယ်လိုလုပ်မလဲ"
-    ],
-    modelAnswer: `
-Customer Reactivation
-Coverage
-SKU Expansion
-Order Value
-Key Account Push
-
-တို့ကို opportunity အလိုက် ခွဲပြီး
-Owner နဲ့ Deadline သတ်မှတ်နိုင်ပါတယ်
-`
-  },
-
-  practice: `
-ကိုယ့် Team ရဲ့ Current Gap တစ်ခုရွေးပါ
-
-Gap = ______
-
-ပြီးရင်
-
-Top 3 Causes
-Top 3 Actions
-Owner
-Deadline
-Expected Contribution
-
-ရေးပါ
-`,
-
-  quiz: [
-    {
-      question: "Gap Analysis ရဲ့ အဓိကရည်ရွယ်ချက်ကဘာလဲ",
-      options: [
-        "Gap ကို report လုပ်ရန်",
-        "လူကိုအပြစ်တင်ရန်",
-        "Gap ရဲ့ cause နဲ့ closure action ရှာရန်",
-        "Target လျှော့ရန်"
-      ],
-      answer: 2,
-      explanation: "Gap Analysis က diagnosis နဲ့ closure plan အတွက်ဖြစ်ပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "cause-tree",
-    title: "Gap Analysis Tree",
-    caption: "Gap ကနေ Root Cause နဲ့ Action ဆီသွားခြင်း",
-    steps: [
-      "GAP",
-      "WHERE",
-      "WHY",
-      "ROOT CAUSE",
-      "ACTION",
-      "EXPECTED RECOVERY"
-    ],
-    imagePrompt:
-      "Professional business gap analysis tree diagram showing sales gap branching into territory customer product execution and root causes, premium corporate infographic"
-  },
-
-  applyToday: `
-လက်ရှိ Team ထဲက Gap တစ်ခုကိုရွေးပြီး
-
-"Gap ဘယ်ကလာတာလဲ"
-
-ဆိုတာကို အနည်းဆုံး 3 Level Drill Down လုပ်ပါ
-`,
-
-  takeaway:
-    "Manager က Gap ကို ဖုံးကွယ်သူမဟုတ်ဘဲ Gap ကိုမြင်ပြီး Closure Plan တည်ဆောက်သူ ဖြစ်ရမယ်"
-},
-
-
-/* =========================================================
-   LESSON 07
-========================================================= */
-
-{
-  id: 7,
-  module: "Sales Management Foundation",
-  title: "Root Cause Analysis",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Charlie Munger",
-      concept: "Inversion",
-      role: "Problem ကိုပြန်လှန်စဉ်းစားခြင်း"
-    },
-    {
-      name: "Peter Drucker",
-      concept: "Effective Action",
-      role: "Correct problem ကို action လုပ်ခြင်း"
-    },
-    {
-      name: "Daniel Goleman",
-      concept: "Emotional Intelligence",
-      role: "People issue ကို blame မလုပ်ဘဲ understand လုပ်ခြင်း"
-    }
-  ],
-
-  mixedMindset:
-    "Root Cause Analysis ရဲ့ ရည်ရွယ်ချက်က အပြစ်ရှိသူရှာဖို့မဟုတ်ဘဲ ပြဿနာထပ်မဖြစ်အောင် အကြောင်းရင်းအမှန်ကို ရှာဖို့ဖြစ်တယ်",
-
-  trainerIntro: `
-Sales Result ကျသွားတဲ့အခါ
-
-"Salesperson မကြိုးစားဘူး"
-
-ဆိုတာ Root Cause မဟုတ်သေးပါ
-
-အဲဒါက Opinion ဖြစ်နိုင်ပါတယ်
-
-Manager က Evidence ရှာရမယ်
-
-ဘာဖြစ်လို့လဲ
-ဘာကြောင့်လဲ
-ဘယ် Data ကပြသလဲ
-ဘယ် Process ပျက်နေလဲ
-ဘယ် Capability လိုနေလဲ
-
-ဆိုတာကိုစစ်ရပါတယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Symptom နဲ့ Root Cause",
-      explanation: `
-Symptom = မြင်ရတဲ့ပြဿနာ
-
-Root Cause = ပြဿနာဖြစ်လာအောင် အဓိကဖန်တီးနေတဲ့အကြောင်းရင်း
-
-ဥပမာ
-
-Sales ကျတယ်
-
-ဒါက Symptom
-
-Coverage ကျတယ်
-
-ဒါက Cause တစ်ခုဖြစ်နိုင်တယ်
-
-Coverage ကျရတဲ့အကြောင်းက
-PJP မကောင်းတာ
-
-PJP မကောင်းရတဲ့အကြောင်းက
-Territory Planning မလုပ်ထားတာ
-
-ဒီလိုသွားရပါတယ်
-`
-    },
-
-    {
-      title: "2. 5 Why",
-      explanation: `
-Problem:
-Sales ကျတယ်
-
-Why 1:
-Order နည်းတယ်
-
-Why 2:
-Customer visit နည်းတယ်
-
-Why 3:
-PJP မလိုက်နာဘူး
-
-Why 4:
-Route မသင့်တော်ဘူး
-
-Why 5:
-Territory Planning မပြန်ဆွဲထားဘူး
-
-အခုဆိုရင်
-"Salesperson မကြိုးစားဘူး"
-
-ထက်
-"Territory/PJP Planning issue"
-
-ဆိုတဲ့ Root Cause ကို ရောက်လာပါတယ်
-`
-    },
-
-    {
-      title: "3. People Problem ကို Diagnosis လုပ်ခြင်း",
-      explanation: `
-People issue တွေမှာ
-
-Skill
-Will
-Knowledge
-Resource
-Clarity
-Confidence
-Motivation
-
-ခွဲစဉ်းစားရပါတယ်
-
-Salesperson မလုပ်နိုင်တာနဲ့
-မလုပ်ချင်တာ မတူပါ
-
-မသိတာနဲ့
-မလိုက်နာတာ မတူပါ
-
-Manager က Diagnosis မမှန်ရင်
-Coaching Action လည်း မမှန်နိုင်ပါ
-`
-    },
-
-    {
-      title: "4. Root Cause Evidence",
-      explanation: `
-Root Cause တစ်ခုကိုပြောရင်
-
-Data
-Observation
-Customer Feedback
-Sales Report
-Field Visit
-
-တို့နဲ့ evidence ရှိသင့်ပါတယ်
-
-ဥပမာ
-
-"Price ကြောင့် sales ကျတယ်"
-
-ဆိုရင်
-
-ဘယ် customer
-ဘယ် product
-ဘယ် competitor
-ဘယ် price difference
-
-ကိုပြနိုင်ရမယ်
-`
-    },
-
-    {
-      title: "5. Root Cause မှ Action",
-      explanation: `
-Root Cause = Skill Gap
-
-Action = Coaching
-
-Root Cause = Stock Gap
-
-Action = Supply Coordination
-
-Root Cause = Coverage Gap
-
-Action = PJP Improvement
-
-Root Cause = Customer Potential မမှန်
-
-Action = Customer Segmentation
-
-Action က Root Cause ကို target လုပ်ရမယ်
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Symptom ≠ Root Cause",
-    "5 Why ကိုအသုံးပြုနိုင်တယ်",
-    "People issue ကို Skill/Will/Knowledge/Resource ခွဲကြည့်ရ",
-    "Root Cause မှာ Evidence ရှိသင့်တယ်",
-    "Action က Root Cause ကို target လုပ်ရမယ်"
-  ],
-
-  example: `
-Problem = Sales ကျ
-
-Why = Order ကျ
-Why = Productive Visit ကျ
-Why = Customer Coverage ကျ
-Why = PJP မကောင်း
-Why = Territory Planning မပြန်ဆွဲ
-
-Root Cause = Territory/PJP Planning
-`,
-
-  caseStudy: {
-    title: "Case Study — Rep Performance",
-    situation: `
-Rep B Achievement = 65%
-
-Manager က
-"Rep B က Lazy"
-
-လို့ပြောနေတယ်
-
-Field Check လုပ်တဲ့အခါ
-Rep B က Territory အသစ်ရထားပြီး
-Customer Route ကို မသိသေးတာတွေ့ရတယ်
-`,
-    questions: [
-      "Lazy ဆိုတာ Root Cause လား",
-      "ဘယ်အချက်ကို စစ်သင့်သလဲ",
-      "Action ဘာဖြစ်သင့်သလဲ"
-    ],
-    modelAnswer: `
-Lazy ဆိုတာ Evidence မရှိရင် conclusion မချသင့်ပါ
-
-Territory Knowledge
-PJP
-Customer Mapping
-Capability
-
-ကို စစ်သင့်ပါတယ်
-
-Action က Territory Coaching + Joint Field Visit + PJP Reset ဖြစ်နိုင်ပါတယ်
-`
-  },
-
-  practice: `
-ကိုယ့် Team မှာ ဖြစ်နေတဲ့ Problem တစ်ခုရွေးပါ
-
-5 Why လုပ်ပါ
-
-Why 1
-Why 2
-Why 3
-Why 4
-Why 5
-
-ပြီးရင် Root Cause ကို တစ်ကြောင်းတည်းနဲ့ရေးပါ
-`,
-
-  quiz: [
-    {
-      question: "Sales ကျတာက ဘာဖြစ်နိုင်သလဲ",
-      options: [
-        "Root Cause အမြဲဖြစ်တယ်",
-        "Symptom ဖြစ်နိုင်တယ်",
-        "Action Plan ဖြစ်တယ်",
-        "KPI ဖြစ်တယ်"
-      ],
-      answer: 1,
-      explanation: "Sales ကျတာက မြင်ရတဲ့ Result/Symptom ဖြစ်ပြီး underlying cause ရှာရပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "cause-tree",
-    title: "5 Why Root Cause Tree",
-    caption: "Symptom ကနေ Root Cause အထိ နက်နက်ရှိုင်းရှိုင်းဆင်းခြင်း",
-    steps: [
-      "PROBLEM",
-      "WHY 1",
-      "WHY 2",
-      "WHY 3",
-      "WHY 4",
-      "WHY 5",
-      "ROOT CAUSE"
-    ],
-    imagePrompt:
-      "Premium management training infographic showing five why root cause analysis tree for a sales performance problem"
-  },
-
-  applyToday: `
-ဒီနေ့ Problem တစ်ခုကိုရွေးပြီး
-
-"ဘာကြောင့်လဲ"
-
-ကို 5 ကြိမ်မေးပါ
-
-နောက်ဆုံးရောက်တဲ့အကြောင်းရင်းက
-တကယ် Root Cause ဖြစ်မဖြစ် Evidence နဲ့ပြန်စစ်ပါ
-`,
-
-  takeaway:
-    "အပြစ်ရှိသူကိုရှာတာက Management မဟုတ်ဘူး၊ Problem ထပ်မဖြစ်အောင် Root Cause ကိုရှာတာက Management ဖြစ်တယ်"
-},
-
-
-/* =========================================================
-   LESSON 08
-========================================================= */
-
-{
-  id: 8,
-  module: "Sales Management Foundation",
-  title: "Action Planning",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Peter Drucker",
-      concept: "Action Plans",
-      role: "Knowledge ကို action ပြောင်းခြင်း"
-    },
-    {
-      name: "Brian Tracy",
-      concept: "Goals & Action",
-      role: "Goal ကို actionable steps ခွဲခြင်း"
-    },
-    {
-      name: "David Allen",
-      concept: "Next Action",
-      role: "လုပ်ရမယ့် next step ကိုရှင်းအောင်လုပ်ခြင်း"
-    },
-    {
-      name: "James Clear",
-      concept: "Systems",
-      role: "Action ကို repeatable system အဖြစ်တည်ဆောက်ခြင်း"
-    }
-  ],
-
-  mixedMindset:
-    "Action Plan ဆိုတာ 'ပိုကြိုးစားမယ်' ဆိုတဲ့ intention မဟုတ်ဘဲ Who + What + When + Expected Result ပါတဲ့ execution commitment ဖြစ်တယ်",
-
-  trainerIntro: `
-Manager တွေမှာ အများဆုံးတွေ့ရတဲ့ problem တစ်ခုက
-Meeting မှာ အကြံတွေများတယ်
-ဒါပေမယ့် Action မထွက်ဘူး
-
-"ပိုကြိုးစားမယ်"
-"Customer ပိုသွားမယ်"
-"Sales တိုးအောင်လုပ်မယ်"
-
-ဒါတွေက Action Plan မဟုတ်ပါ
-
-Action Plan မှာ
-ဘာလုပ်မလဲ
-ဘယ်သူလုပ်မလဲ
-ဘယ်အချိန်လုပ်မလဲ
-ဘာ result မျှော်လင့်လဲ
-
-ရှင်းရမယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Action Plan ရဲ့ Structure",
-      explanation: `
-Action Plan ရဲ့ Basic Structure
-
-WHAT
-WHO
-WHEN
-WHERE
-HOW
-EXPECTED RESULT
-
-ဖြစ်ပါတယ်
-
-ဥပမာ
-
-What = Lost Customer Reactivation
-Who = Rep A
-When = Friday
-How = Customer Visit + New Offer
-Expected Result = 5 သိန်း Order
-`
-    },
-
-    {
-      title: "2. Weak Action vs Strong Action",
-      explanation: `
-Weak:
-
-"Customer ပိုသွားပါ"
-
-Strong:
-
-"Rep A က Priority Customer 10 ယောက်ကို
-Wednesday–Friday အတွင်း visit လုပ်ပြီး
-အနည်းဆုံး 5 customer မှာ order ပြန်ရအောင်လုပ်မယ်"
-
-Strong Action မှာ
-Scope
-Owner
-Deadline
-Expected Result
-
-ရှင်းပါတယ်
-`
-    },
-
-    {
-      title: "3. Action Priority",
-      explanation: `
-Action အများကြီးရှိရင်
-အားလုံးကို တစ်ပြိုင်နက်လုပ်လို့ မရပါ
-
-Impact
-Urgency
-Effort
-
-နဲ့ စီပါ
-
-High Impact + High Urgency
-ကို အရင်လုပ်ပါ
-
-Low Impact + Low Urgency
-ကို နောက်ထားနိုင်ပါတယ်
-`
-    },
-
-    {
-      title: "4. Action Owner",
-      explanation: `
-Action တစ်ခုမှာ Owner မရှိရင်
-Accountability ပျောက်နိုင်ပါတယ်
-
-ဥပမာ
-
-"Team က Customer Reactivation လုပ်မယ်"
-
-ဆိုတာမရှင်းပါ
-
-"Rep A က Customer X
-Rep B က Customer Y
-Manager က Key Account Z"
-
-လို Owner ခွဲထားရမယ်
-`
-    },
-
-    {
-      title: "5. Follow-up System",
-      explanation: `
-Action Plan ရေးပြီးထားတာနဲ့ မပြီးပါ
-
-Follow-up Date
-Progress
-Obstacle
-Support
-Next Step
-
-လိုပါတယ်
-
-Action Plan → Follow-up → Adjustment → Result
-
-ဆိုတဲ့ cycle ဖြစ်ရမယ်
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Action = What + Who + When + Expected Result",
-    "Vague Action မလုပ်ရ",
-    "Priority ခွဲရ",
-    "Owner မရှိတဲ့ Action က accountability နည်းတတ်တယ်",
-    "Follow-up မရှိရင် Action Plan မပြည့်စုံ"
-  ],
-
-  example: `
-Gap = 50 သိန်း
-
-Action 1:
-10 Lost Customers Reactivation
-Expected = 15 သိန်း
-
-Action 2:
-Premium SKU Push
-Expected = 20 သိန်း
-
-Action 3:
-Key Account Order
-Expected = 15 သိန်း
-
-Total Expected Recovery = 50 သိန်း
-`,
-
-  caseStudy: {
-    title: "Case Study — Meeting Action မထွက်ခြင်း",
-    situation: `
-Weekly Meeting ပြီးတဲ့အခါ
-
-"Sales တိုးအောင်လုပ်မယ်"
-"Customer ပိုသွားမယ်"
-"Team ကို motivate လုပ်မယ်"
-
-ဆိုတဲ့ စကားတွေပဲ ကျန်တယ်
-`,
-    questions: [
-      "ဘာလိုအပ်နေလဲ",
-      "Action Plan ကို ဘယ်လိုပြောင်းမလဲ",
-      "Follow-up ကို ဘယ်လိုထားမလဲ"
-    ],
-    modelAnswer: `
-Vague intention တွေကို
-
-What
-Who
-When
-Expected Result
-
-အဖြစ်ပြောင်းရမယ်
-`
-  },
-
-  practice: `
-လက်ရှိ Team Problem တစ်ခုရွေးပါ
-
-အောက်ပါ Action Plan ဖြည့်ပါ
-
-WHAT:
-WHO:
-WHEN:
-HOW:
-EXPECTED RESULT:
-FOLLOW-UP DATE:
-`,
-
-  quiz: [
-    {
-      question: "Action Plan မှာ အရေးကြီးတဲ့အချက်တစ်ခုကဘာလဲ",
-      options: [
-        "Long explanation",
-        "Owner",
-        "Meeting duration",
-        "Manager speech"
-      ],
-      answer: 1,
-      explanation: "Owner မရှိရင် accountability ပျောက်နိုင်ပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "flow",
-    title: "Action Planning System",
-    caption: "Problem ကို Measurable Action အဖြစ်ပြောင်းခြင်း",
-    steps: [
-      "PROBLEM",
-      "ACTION",
-      "OWNER",
-      "DEADLINE",
-      "EXPECTED RESULT",
-      "FOLLOW-UP",
-      "RESULT"
-    ],
-    imagePrompt:
-      "Premium business action planning flow infographic showing problem to action owner deadline expected result follow-up and result"
-  },
-
-  applyToday: `
-ဒီနေ့ Meeting မှာ
-"ပိုကြိုးစားမယ်"
-
-ဆိုတဲ့ Action တစ်ခုကိုရွေးပြီး
-
-Who
-What
-When
-Expected Result
-
-အဖြစ်ပြောင်းပါ
-`,
-
-  takeaway:
-    "Manager ရဲ့တန်ဖိုးက Idea ပေးနိုင်တာထက် Idea ကို Execution အဖြစ်ပြောင်းနိုင်တာမှာ ပိုရှိတယ်"
-},
-
-
-/* =========================================================
-   LESSON 09
-========================================================= */
-
-{
-  id: 9,
-  module: "Sales Management Foundation",
-  title: "Daily Management",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Stephen Covey",
-      concept: "Prioritization",
-      role: "အရေးကြီးတာကို ဦးစားပေးခြင်း"
-    },
-    {
-      name: "David Allen",
-      concept: "Execution System",
-      role: "Next Action နဲ့ Follow-up"
-    },
-    {
-      name: "James Clear",
-      concept: "Systems & Habits",
-      role: "Consistent daily execution"
-    },
-    {
-      name: "Peter Drucker",
-      concept: "Manager Effectiveness",
-      role: "Time နဲ့ attention ကို အကျိုးရှိစွာအသုံးပြုခြင်း"
-    }
-  ],
-
-  mixedMindset:
-    "Daily Management ဆိုတာ တစ်နေ့လုံး team ကိုစောင့်ကြည့်တာမဟုတ်ဘဲ Critical Result, Critical Activity နဲ့ Critical People ကို နေ့စဉ်အာရုံစိုက်တဲ့ operating rhythm ဖြစ်တယ်",
-
-  trainerIntro: `
-Sales Manager တစ်ယောက်ရဲ့နေ့တိုင်းမှာ
-
-Phone Call
-Meeting
-Report
-Customer
-Distributor
-Salesperson
-Management Request
-
-အများကြီးရှိပါတယ်
-
-အရာအားလုံးကို တစ်ပြိုင်နက်လုပ်ရင်
-အရေးကြီးတာတွေ ပျောက်သွားနိုင်ပါတယ်
-
-Daily Management System တစ်ခုလိုပါတယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Daily Management ရဲ့ Purpose",
-      explanation: `
-Daily Management ရဲ့ရည်ရွယ်ချက်က
-
-Today Result
-Today Risk
-Today Priority
-Today Support
-Today Follow-up
-
-ကို သိဖို့ဖြစ်ပါတယ်
-`
-    },
-
-    {
-      title: "2. Morning Management",
-      explanation: `
-မနက်မှာ
-
-Yesterday Result
-Today Target
-Priority Customer
-Priority Rep
-Critical Issue
-
-ကို 10–15 မိနစ်အတွင်း ပြန်ကြည့်ပါ
-
-မနက် Meeting ကို
-Long Speech ဖြစ်အောင် မလုပ်ပါနဲ့
-
-Result + Priority + Support
-ကိုပဲ Focus လုပ်ပါ
-`
-    },
-
-    {
-      title: "3. Midday Check",
-      explanation: `
-နေ့လယ်မှာ
-
-Plan vs Actual
-Customer Visit
-Order
-Stock
-Critical Issue
-
-ကို quick check လုပ်နိုင်ပါတယ်
-
-အရေးကြီးတာက
-နေ့လယ်မှာ problem တွေ့ရင်
-နေ့မကုန်ခင် Action လုပ်နိုင်ဖို့ပါ
-`
-    },
-
-    {
-      title: "4. End-of-Day Review",
-      explanation: `
-နေ့ကုန်မှာ
-
-Plan
-Actual
-Gap
-Reason
-Next Action
-
-ပြန်ကြည့်ပါ
-
-ဒီနေ့မရတာကို
-မနက်ဖြန်ထိ မထားသင့်ပါ
-
-Critical issue တွေကို
-same day escalation လုပ်နိုင်ရင် ပိုကောင်းပါတယ်
-`
-    },
-
-    {
-      title: "5. Manager Time Allocation",
-      explanation: `
-Manager ရဲ့အချိန်ကို
-
-People
-Customer
-Numbers
-Planning
-Problem Solving
-Administration
-
-အလိုက်ခွဲထားသင့်ပါတယ်
-
-တစ်နေ့လုံး Report လုပ်နေရင်
-Team Development မဖြစ်နိုင်ပါ
-
-တစ်နေ့လုံး Field ထွက်နေရင်
-Strategic Planning ပျောက်နိုင်ပါတယ်
-
-Balance လိုပါတယ်
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Daily Management = Operating Rhythm",
-    "Morning = Priority",
-    "Midday = Risk Check",
-    "Evening = Review",
-    "Manager Time ကို Result Driver တွေအပေါ် allocate လုပ်ရ"
-  ],
-
-  example: `
-Morning:
-Team Target + Priority Customer + Critical Issue
-
-Midday:
-Visit + Order + Stock Check
-
-Evening:
-Actual + Gap + Root Cause + Next Action
-`,
-
-  caseStudy: {
-    title: "Case Study — Busy But No Result",
-    situation: `
-Manager တစ်ယောက်က
-နေ့တိုင်း meeting 5 ခုလုပ်တယ်
-Report 20 ခုကြည့်တယ်
-Phone Call 50 ခေါ်တယ်
-
-ဒါပေမယ့် Team Result မတိုးဘူး
-`,
-    questions: [
-      "Busy ဖြစ်တာနဲ့ Productive ဖြစ်တာ ဘာကွာသလဲ",
-      "Manager Time ကို ဘယ်လိုပြန်ခွဲမလဲ",
-      "ဘယ် Activity တွေကို ဖယ်ရှားမလဲ"
-    ],
-    modelAnswer: `
-Activity များတာက Effectiveness ကို မသေချာစေပါ
-
-Critical Result
-Critical People
-Critical Problem
-
-အပေါ်ကို Attention ပြန်ပို့ရမယ်
-`
-  },
-
-  practice: `
-မနက်ဖြန်အတွက် Daily Management Plan ဆွဲပါ
-
-08:30 — Team Priority
-10:00 — Customer
-12:00 — KPI Check
-14:00 — Coaching
-16:00 — Distributor
-17:00 — Review
-
-ပြီးရင် ဘာက Critical Result ကို drive လုပ်လဲ ပြန်စစ်ပါ
-`,
-
-  quiz: [
-    {
-      question: "Daily Management ရဲ့ အဓိကရည်ရွယ်ချက်ကဘာလဲ",
-      options: [
-        "Manager ကို busy ဖြစ်စေရန်",
-        "Team ကိုတစ်နေ့လုံးစောင့်ကြည့်ရန်",
-        "Critical Result နဲ့ Priority ကို စီမံရန်",
-        "Meeting တိုးရန်"
-      ],
-      answer: 2,
-      explanation: "Daily Management က attention နဲ့ execution rhythm ကို manage လုပ်ဖို့ဖြစ်ပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "timeline",
-    title: "Daily Manager Operating Rhythm",
-    caption: "Morning → Midday → Evening Management Cycle",
-    steps: [
-      "MORNING PRIORITY",
-      "FIELD EXECUTION",
-      "MIDDAY CHECK",
-      "COACHING",
-      "EVENING REVIEW",
-      "NEXT ACTION"
-    ],
-    imagePrompt:
-      "Premium daily sales manager operating rhythm timeline infographic from morning priority to evening review"
-  },
-
-  applyToday: `
-မနက်ဖြန်ကစပြီး
-
-Morning = What matters today?
-Midday = What is at risk?
-Evening = What happened and what next?
-
-ဆိုတဲ့ 3-question system သုံးပါ
-`,
-
-  takeaway:
-    "Daily Management က Manager ကို busy ဖြစ်အောင်လုပ်တာမဟုတ်ဘဲ Team ကို Focused ဖြစ်အောင်လုပ်တာ"
-},
-
-
-/* =========================================================
-   LESSON 10
-========================================================= */
-
-{
-  id: 10,
-  module: "Sales Management Foundation",
-  title: "Manager Mindset",
-  duration: "12–15 min",
-
-  masters: [
-    {
-      name: "Peter Drucker",
-      concept: "Effectiveness",
-      role: "Right work ကို ရွေးပြီး Result ထုတ်ခြင်း"
-    },
-    {
-      name: "Stephen Covey",
-      concept: "Proactivity",
-      role: "Responsibility ယူပြီး response ရွေးခြင်း"
-    },
-    {
-      name: "Simon Sinek",
-      concept: "Purpose",
-      role: "Why ကို နားလည်ပြီး လူတွေကို align လုပ်ခြင်း"
-    },
-    {
-      name: "Ken Blanchard",
-      concept: "Coaching",
-      role: "People ကို develop လုပ်ခြင်း"
-    },
-    {
-      name: "John Maxwell",
-      concept: "Influence",
-      role: "Position ထက် influence နဲ့ lead လုပ်ခြင်း"
-    }
-  ],
-
-  mixedMindset:
-    "Manager Mindset ဆိုတာ Position ရလာတာနဲ့ အလိုအလျောက်ရလာတာမဟုတ်ဘဲ Responsibility, Ownership, People Development, Numbers Thinking နဲ့ Execution Thinking ကို တဖြည်းဖြည်းတည်ဆောက်ရတဲ့အရာ",
-
-  trainerIntro: `
-ဒီ Module ရဲ့ Lesson 10 က Foundation ရဲ့ အရေးကြီးဆုံးအပိုင်းပါ
-
-Sales Manager ဖြစ်လာတာက Job Title ပြောင်းသွားတာပါ
-
-Manager Mindset ရလာတာက
-Thinking System ပြောင်းသွားတာပါ
-
-Salesperson က
-
-"ငါဘယ်လောက်ရောင်းနိုင်လဲ"
-
-လို့စဉ်းစားနိုင်ပါတယ်
-
-Manager ကတော့
-
-"ငါ့ Team က ဘယ်လို Predictable Result ထုတ်နိုင်မလဲ"
-
-လို့စဉ်းစားရပါတယ်
-`,
-
-  sections: [
-
-    {
-      title: "1. Individual Performer → Team Builder",
-      explanation: `
-Salesperson အနေနဲ့
-ကိုယ်တိုင် Result ထုတ်ရပါတယ်
-
-Manager ဖြစ်လာတဲ့အခါ
-Team ကနေ Result ထုတ်ရပါတယ်
-
-ဒါကြောင့် Manager က
-"ငါက အကောင်းဆုံး salesperson ဖြစ်ရမယ်"
-
-ဆိုတာထက်
-
-"ငါ့ Team ထဲက လူတွေ အကောင်းဆုံးဖြစ်လာအောင် ဘယ်လိုတည်ဆောက်မလဲ"
-
-လို့စဉ်းစားရပါတယ်
-`
-    },
-
-    {
-      title: "2. Blame Mindset → Ownership Mindset",
-      explanation: `
-Bad Result ဖြစ်တဲ့အခါ
-
-Customer ကြောင့်
-Market ကြောင့်
-Competitor ကြောင့်
-Price ကြောင့်
-Team ကြောင့်
-
-လို့ပြောလို့ရပါတယ်
-
-ဒါပေမယ့် Manager က
-
-"ဒီအခြေအနေထဲမှာ ငါဘာကို လွှမ်းမိုးနိုင်သလဲ"
-
-လို့ပြန်မေးရပါတယ်
-
-ဒါက Ownership Thinking ဖြစ်ပါတယ်
-`
-    },
-
-    {
-      title: "3. Activity Mindset → Result Mindset",
-      explanation: `
-Calls 100 ခေါ်တယ်
-Visits 200 လုပ်တယ်
-Meeting 20 ခုလုပ်တယ်
-
-ဒါပေမယ့် Result မရှိဘူးဆိုရင်
-
-Activity များတာနဲ့ Performance ကောင်းတာ မတူပါ
-
-Manager က
-
-Activity
-→ Conversion
-→ Result
-
-Relationship ကို ကြည့်ရပါတယ်
-`
-    },
-
-    {
-      title: "4. Boss → Coach",
-      explanation: `
-Boss က
-
-"ဒီလိုလုပ်"
-
-လို့ပြောနိုင်ပါတယ်
-
-Coach က
-
-"မင်းဘယ်လိုစဉ်းစားထားလဲ"
-
-"ဘယ်မှာအခက်အခဲရှိလဲ"
-
-"နောက်တစ်ခါ ဘယ်လိုလုပ်မလဲ"
-
-လို့မေးပါတယ်
-
-Manager ရဲ့ရည်ရွယ်ချက်က
-ဒီနေ့ Problem ဖြေရှင်းပေးတာတင်မဟုတ်ပါ
-
-နောက်တစ်ခါ အဲဒီလူကိုယ်တိုင် ဖြေရှင်းနိုင်အောင်
-Capability တည်ဆောက်ပေးဖို့ပါ
-`
-    },
-
-    {
-      title: "5. I → We Thinking",
-      explanation: `
-Manager က
-
-"ငါရောင်းနိုင်တယ်"
-
-ဆိုတာနဲ့ မပြီးပါ
-
-"ငါတို့ Team ဘယ်လို Result ထုတ်မလဲ"
-
-ဆိုတာကို စဉ်းစားရပါတယ်
-
-Individual Hero မဟုတ်ဘဲ
-Team System တည်ဆောက်ရပါတယ်
-`
-    },
-
-    {
-      title: "6. Short-term Result + Long-term Capability",
-      explanation: `
-Manager က ဒီလ Target ကို ရဖို့လိုပါတယ်
-
-ဒါပေမယ့် ဒီလ Target ရဖို့
-Team ကို အမြဲတမ်း Manager ကိုပဲ မှီခိုနေအောင်လုပ်ရင်
-Long-term မှာ ပြဿနာဖြစ်နိုင်ပါတယ်
-
-ဒါကြောင့်
-
-Short-term Result
-+
-Long-term Capability
-
-နှစ်ခုလုံးကို manage လုပ်ရပါတယ်
-`
-    },
-
-    {
-      title: "7. The Manager's Daily Questions",
-      explanation: `
-Manager တစ်ယောက်အနေနဲ့ နေ့တိုင်း မေးသင့်တဲ့ Question 7 ခုရှိပါတယ်
-
-1. What result matters today?
-2. Where is the biggest gap?
-3. What is causing it?
-4. Who needs coaching?
-5. What decision is needed?
-6. What action must happen today?
-7. What will I follow up tomorrow?
-
-ဒီ Question 7 ခုက Manager Thinking ကို တည်ဆောက်ပေးနိုင်ပါတယ်
-`
-    }
-
-  ],
-
-  keyPrinciples: [
-    "Individual Performer → Team Builder",
-    "Blame → Ownership",
-    "Activity → Result",
-    "Boss → Coach",
-    "I → We",
-    "Short-term Result + Long-term Capability"
-  ],
-
-  example: `
-Sales Team တစ်ခုမှာ
-Manager ကို မရှိရင် sales ကျသွားတယ်ဆိုရင်
-
-Manager က Team ကို manage လုပ်နေတာမဟုတ်ဘဲ
-Team အတွက် အလုပ်လုပ်ပေးနေတာ ဖြစ်နိုင်ပါတယ်
-
-ကောင်းတဲ့ system မှာ
-Manager မရှိတဲ့နေ့မှာတောင်
-Team က Basic Execution ဆက်လုပ်နိုင်ရမယ်
-`,
-
-  caseStudy: {
-    title: "Case Study — Manager မရှိရင် Team မလုပ်နိုင်ခြင်း",
-    situation: `
-Manager က Customer Visit
-Order
-Price
-Approval
-Problem Solving
-
-အားလုံးကို ကိုယ်တိုင်ဆုံးဖြတ်ပေးနေတယ်
-
-Manager မရှိတဲ့နေ့မှာ
-Team က Decision မချနိုင်တော့ဘူး
-`,
-    questions: [
-      "ဘာပြဿနာရှိနေတာလဲ",
-      "Manager က ဘာကိုပြောင်းသင့်သလဲ",
-      "Team Capability ဘယ်လိုတည်ဆောက်မလဲ"
-    ],
-    modelAnswer: `
-Over-dependence ဖြစ်နေပါတယ်
-
-Decision Rights
-Delegation
-Coaching
-Standard
-Escalation Rule
-
-တွေသတ်မှတ်ပြီး
-Team ကို Decision Ownership ပေးသင့်ပါတယ်
-`
-  },
-
-  practice: `
-ကိုယ့် Manager Role ကို 10 မှတ်နဲ့ Self-Assessment လုပ်ပါ
-
-People Development = /10
-Numbers Thinking = /10
-Execution = /10
-Coaching = /10
-Delegation = /10
-Decision Making = /10
-Strategic Thinking = /10
-
-အနိမ့်ဆုံး 2 ခုကိုရွေးပြီး
-30-Day Improvement Action Plan ဆွဲပါ
-`,
-
-  quiz: [
-    {
-      question: "Manager Mindset ရဲ့ အဓိကပြောင်းလဲမှုကဘာလဲ",
-      options: [
-        "ပိုပြီးအမိန့်ပေးခြင်း",
-        "ကိုယ်တိုင်အလုပ်ပိုလုပ်ခြင်း",
-        "Individual Result ကနေ Team Result ဆီပြောင်းခြင်း",
-        "Meeting ပိုလုပ်ခြင်း"
-      ],
-      answer: 2,
-      explanation: "Manager ရဲ့အဓိကအပြောင်းအလဲက Individual Performer ကနေ Team Builder ဖြစ်လာခြင်းပါ"
-    },
-    {
-      question: "Manager က Team ကို Coach လုပ်တဲ့အခါ အဓိကရည်ရွယ်ချက်ကဘာလဲ",
-      options: [
-        "Manager အလုပ်နည်းစေရန်",
-        "Team Member ကို ကိုယ်တိုင်စဉ်းစားပြီး ဖြေရှင်းနိုင်အောင်တည်ဆောက်ရန်",
-        "လူကိုအပြစ်တင်ရန်",
-        "Meeting တိုးရန်"
-      ],
-      answer: 1,
-      explanation: "Coaching ရဲ့ရည်ရွယ်ချက်က long-term capability တည်ဆောက်ခြင်းဖြစ်ပါတယ်"
-    }
-  ],
-
-  visual: {
-    type: "people-system",
-    title: "Manager Mindset Transformation",
-    caption: "Salesperson → Manager → Leader",
-    steps: [
-      "I DO",
-      "I MANAGE",
-      "I COACH",
-      "WE EXECUTE",
-      "WE IMPROVE",
-      "TEAM RESULT"
-    ],
-    imagePrompt:
-      "Premium executive leadership infographic showing transformation from individual salesperson to sales manager to team leader, coaching, ownership, KPI and team result"
-  },
-
-  applyToday: `
-ဒီနေ့ Team Member တစ်ယောက်နဲ့ စကားပြောတဲ့အခါ
-
-"ဒီလိုလုပ်"
-
-လို့ ချက်ချင်းမပြောဘဲ
-
-"မင်းဘယ်လိုစဉ်းစားထားလဲ"
-
-"မင်းအမြင်မှာ အဓိက Problem ကဘာလဲ"
-
-"မင်းအနေနဲ့ ဘာ Action လုပ်မလဲ"
-
-လို့ မေးကြည့်ပါ
-`,
-
-  takeaway:
-    "Manager ဖြစ်တာက Position ရလာတာ၊ Manager ဖြစ်လာတာက Thinking System ပြောင်းလာတာ"
-}
-
-];
-
-
-/* =========================================================
-   LESSON ENGINE HELPERS
-========================================================= */
+   LESSON ENGINE
+   ========================================================= */
 
 function getLessonById(id) {
-  return academyLessons.find(lesson => lesson.id === Number(id));
+  return academyLessons.find(
+    lesson => lesson.id === Number(id)
+  );
 }
 
 function getLessonsByModule(moduleName) {
@@ -3061,21 +15,38 @@ function getLessonsByModule(moduleName) {
   );
 }
 
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+function getAcademyProgress() {
+  try {
+    return JSON.parse(
+      localStorage.getItem("aungAcademyProgress") || "{}"
+    );
+  } catch (error) {
+    console.error("Progress read error:", error);
+    return {};
+  }
+}
+
+
 function getLessonProgress(id) {
-  const progress =
-    JSON.parse(localStorage.getItem("aungAcademyProgress") || "{}");
+  const progress = getAcademyProgress();
 
   return progress[id] || {
     completed: false,
     quizScore: 0,
     notes: "",
-    favorite: false
+    favorite: false,
+    completedAt: null
   };
 }
 
+
 function saveLessonProgress(id, data) {
-  const progress =
-    JSON.parse(localStorage.getItem("aungAcademyProgress") || "{}");
+  const progress = getAcademyProgress();
 
   progress[id] = {
     ...(progress[id] || {}),
@@ -3086,91 +57,41 @@ function saveLessonProgress(id, data) {
     "aungAcademyProgress",
     JSON.stringify(progress)
   );
+
+  return progress[id];
 }
 
 
 /* =========================================================
-   VISUAL EXPLANATION RENDERER
-========================================================= */
-
-function renderLessonVisual(lesson) {
-
-  if (!lesson.visual) return "";
-
-  const visual = lesson.visual;
-
-  return `
-    <section class="visual-explanation">
-
-      <div class="visual-header">
-        <span class="visual-badge">VISUAL EXPLANATION</span>
-        <h2>${visual.title}</h2>
-        <p>${visual.caption}</p>
-      </div>
-
-      <div class="visual-flow">
-
-        ${visual.steps.map((step, index) => `
-          <div class="visual-step">
-
-            <div class="visual-number">
-              ${index + 1}
-            </div>
-
-            <div class="visual-step-text">
-              ${step}
-            </div>
-
-          </div>
-
-          ${
-            index < visual.steps.length - 1
-              ? `<div class="visual-arrow">↓</div>`
-              : ""
-          }
-
-        `).join("")}
-
-      </div>
-
-      <div class="visual-coach-box">
-        <strong>Trainer မှတ်ချက်</strong>
-
-        <p>
-          ဒီ Visual ကို စာအနေနဲ့မမှတ်ဘဲ
-          Process တစ်ခုအနေနဲ့ မှတ်ပါ
-        </p>
-
-        <p>
-          ${visual.caption}
-        </p>
-      </div>
-
-    </section>
-  `;
-}
-
-
-/* =========================================================
-   LESSON COMPLETION
-========================================================= */
+   COMPLETE LESSON
+   ========================================================= */
 
 function completeLesson(lessonId, quizScore = 0) {
 
-  saveLessonProgress(lessonId, {
-    completed: true,
-    quizScore,
-    completedAt: new Date().toISOString()
-  });
-
   const lesson = getLessonById(lessonId);
 
-  if (!lesson) return;
+  if (!lesson) {
+    console.error("Lesson not found:", lessonId);
+    return {
+      success: false,
+      message: "Lesson not found"
+    };
+  }
+
+  const saved = saveLessonProgress(
+    lessonId,
+    {
+      completed: true,
+      quizScore: Number(quizScore) || 0,
+      completedAt: new Date().toISOString()
+    }
+  );
 
   return {
     success: true,
-    lessonId,
+    lessonId: lesson.id,
     title: lesson.title,
+    progress: saved,
     message: "Lesson Completed"
   };
 }
@@ -3178,19 +99,19 @@ function completeLesson(lessonId, quizScore = 0) {
 
 /* =========================================================
    NEXT LESSON
-========================================================= */
+   ========================================================= */
 
 function getNextLesson(id) {
 
-  const currentIndex =
-    academyLessons.findIndex(
-      lesson => lesson.id === Number(id)
-    );
+  const currentIndex = academyLessons.findIndex(
+    lesson => lesson.id === Number(id)
+  );
 
-  if (
-    currentIndex === -1 ||
-    currentIndex === academyLessons.length - 1
-  ) {
+  if (currentIndex === -1) {
+    return null;
+  }
+
+  if (currentIndex >= academyLessons.length - 1) {
     return null;
   }
 
@@ -3199,63 +120,682 @@ function getNextLesson(id) {
 
 
 /* =========================================================
-   LESSON COMPLETION FLOW
-========================================================= */
+   PREVIOUS LESSON
+   ========================================================= */
+
+function getPreviousLesson(id) {
+
+  const currentIndex = academyLessons.findIndex(
+    lesson => lesson.id === Number(id)
+  );
+
+  if (currentIndex <= 0) {
+    return null;
+  }
+
+  return academyLessons[currentIndex - 1];
+}
+
+
+/* =========================================================
+   VISUAL EXPLANATION
+   ========================================================= */
+
+function renderLessonVisual(lesson) {
+
+  if (!lesson || !lesson.visual) {
+    return "";
+  }
+
+  const visual = lesson.visual;
+
+  const steps = Array.isArray(visual.steps)
+    ? visual.steps
+    : [];
+
+  const stepHTML = steps
+    .map(function(step, index) {
+
+      const isLast = index === steps.length - 1;
+
+      return `
+        <div class="academy-visual-step">
+
+          <div class="academy-visual-number">
+            ${index + 1}
+          </div>
+
+          <div class="academy-visual-step-text">
+            ${escapeAcademyHTML(step)}
+          </div>
+
+        </div>
+
+        ${
+          !isLast
+            ? `
+              <div class="academy-visual-arrow">
+                ↓
+              </div>
+            `
+            : ""
+        }
+      `;
+
+    })
+    .join("");
+
+
+  return `
+    <section class="academy-visual-card">
+
+      <div class="academy-visual-badge">
+        VISUAL EXPLANATION
+      </div>
+
+      <h2 class="academy-visual-title">
+        ${escapeAcademyHTML(visual.title || "Visual Explanation")}
+      </h2>
+
+      <p class="academy-visual-caption">
+        ${escapeAcademyHTML(visual.caption || "")}
+      </p>
+
+      <div class="academy-visual-flow">
+        ${stepHTML}
+      </div>
+
+      <div class="academy-visual-trainer">
+
+        <div class="academy-visual-trainer-title">
+          TRAINER NOTE
+        </div>
+
+        <p>
+          ဒီ Visual ကို စာအနေနဲ့မမှတ်ဘဲ
+          Process တစ်ခုအနေနဲ့ မှတ်ပါ
+        </p>
+
+        <p>
+          ${escapeAcademyHTML(visual.caption || "")}
+        </p>
+
+      </div>
+
+      ${
+        visual.imagePrompt
+          ? `
+            <details class="academy-visual-prompt">
+
+              <summary>
+                Visual Generation Prompt
+              </summary>
+
+              <div>
+                ${escapeAcademyHTML(visual.imagePrompt)}
+              </div>
+
+            </details>
+          `
+          : ""
+      }
+
+    </section>
+  `;
+}
+
+
+/* =========================================================
+   HTML SAFETY
+   ========================================================= */
+
+function escapeAcademyHTML(value) {
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   COMPLETION SCREEN
+   ========================================================= */
 
 function getCompletionScreen(lessonId) {
 
   const lesson = getLessonById(lessonId);
 
-  if (!lesson) return "";
+  if (!lesson) {
+    return `
+      <div class="academy-error">
+        Lesson not found
+      </div>
+    `;
+  }
+
+  const nextLesson = getNextLesson(lessonId);
 
   return `
-    <div class="lesson-complete-screen">
+    <section class="academy-completion-screen">
 
-      <div class="complete-icon">
+      <div class="academy-completion-icon">
         ✓
       </div>
 
-      <div class="complete-badge">
+      <div class="academy-completion-label">
         LESSON COMPLETED
       </div>
 
-      <h2>${lesson.title}</h2>
+      <h1>
+        ${escapeAcademyHTML(lesson.title)}
+      </h1>
 
-      <p>
+      <p class="academy-completion-text">
         သင်ခန်းစာကို ပြီးဆုံးပါပြီ
       </p>
 
       ${renderLessonVisual(lesson)}
 
-      <div class="apply-box">
+      <div class="academy-apply-card">
 
-        <div class="apply-label">
+        <div class="academy-apply-label">
           APPLY TODAY
         </div>
 
-        <div class="apply-content">
-          ${lesson.applyToday}
+        <div class="academy-apply-text">
+          ${escapeAcademyHTML(lesson.applyToday || "")}
         </div>
 
       </div>
 
       ${
-        getNextLesson(lessonId)
+        nextLesson
           ? `
             <button
-              class="next-lesson-btn"
-              onclick="openLesson(${getNextLesson(lessonId).id})"
+              type="button"
+              class="academy-next-btn"
+              onclick="openAcademyLesson(${nextLesson.id})"
             >
               Next Lesson →
             </button>
           `
           : `
-            <button class="next-lesson-btn">
-              Module Completed ✓
-            </button>
+            <div class="academy-module-complete">
+              ✓ Module Completed
+            </div>
           `
       }
 
-    </div>
+    </section>
   `;
 }
+
+
+/* =========================================================
+   LESSON QUIZ SCORE
+   ========================================================= */
+
+function calculateLessonQuizScore(
+  lessonId,
+  answers
+) {
+
+  const lesson = getLessonById(lessonId);
+
+  if (!lesson || !Array.isArray(lesson.quiz)) {
+    return 0;
+  }
+
+  if (!Array.isArray(answers)) {
+    return 0;
+  }
+
+  let correct = 0;
+
+  lesson.quiz.forEach(function(question, index) {
+
+    if (
+      Number(answers[index]) ===
+      Number(question.answer)
+    ) {
+      correct++;
+    }
+
+  });
+
+  return Math.round(
+    (correct / lesson.quiz.length) * 100
+  );
+}
+
+
+/* =========================================================
+   MODULE PROGRESS
+   ========================================================= */
+
+function getModuleProgress(moduleName) {
+
+  const lessons = getLessonsByModule(moduleName);
+
+  if (!lessons.length) {
+    return {
+      total: 0,
+      completed: 0,
+      percentage: 0
+    };
+  }
+
+  let completed = 0;
+
+  lessons.forEach(function(lesson) {
+
+    const progress = getLessonProgress(
+      lesson.id
+    );
+
+    if (progress.completed) {
+      completed++;
+    }
+
+  });
+
+  return {
+    total: lessons.length,
+    completed: completed,
+    percentage: Math.round(
+      (completed / lessons.length) * 100
+    )
+  };
+}
+
+
+/* =========================================================
+   TOTAL ACADEMY PROGRESS
+   ========================================================= */
+
+function getAcademyOverallProgress() {
+
+  const total = academyLessons.length;
+
+  if (!total) {
+    return {
+      total: 0,
+      completed: 0,
+      percentage: 0
+    };
+  }
+
+  let completed = 0;
+
+  academyLessons.forEach(function(lesson) {
+
+    const progress = getLessonProgress(
+      lesson.id
+    );
+
+    if (progress.completed) {
+      completed++;
+    }
+
+  });
+
+  return {
+    total: total,
+    completed: completed,
+    percentage: Math.round(
+      (completed / total) * 100
+    )
+  };
+}
+
+
+/* =========================================================
+   SAVE NOTE
+   ========================================================= */
+
+function saveLessonNote(
+  lessonId,
+  note
+) {
+
+  return saveLessonProgress(
+    lessonId,
+    {
+      notes: String(note || "")
+    }
+  );
+}
+
+
+/* =========================================================
+   FAVORITE
+   ========================================================= */
+
+function toggleLessonFavorite(lessonId) {
+
+  const current = getLessonProgress(
+    lessonId
+  );
+
+  const newValue = !current.favorite;
+
+  saveLessonProgress(
+    lessonId,
+    {
+      favorite: newValue
+    }
+  );
+
+  return newValue;
+}
+
+
+/* =========================================================
+   RESET LESSON
+   ========================================================= */
+
+function resetLessonProgress(lessonId) {
+
+  const progress = getAcademyProgress();
+
+  delete progress[lessonId];
+
+  localStorage.setItem(
+    "aungAcademyProgress",
+    JSON.stringify(progress)
+  );
+
+  return true;
+}
+
+
+/* =========================================================
+   RESET ALL ACADEMY PROGRESS
+   ========================================================= */
+
+function resetAcademyProgress() {
+
+  localStorage.removeItem(
+    "aungAcademyProgress"
+  );
+
+  return true;
+}
+
+
+/* =========================================================
+   VISUAL CSS
+   ========================================================= */
+
+function injectAcademyVisualCSS() {
+
+  if (
+    document.getElementById(
+      "academy-visual-css"
+    )
+  ) {
+    return;
+  }
+
+  const style =
+    document.createElement("style");
+
+  style.id =
+    "academy-visual-css";
+
+  style.textContent = `
+
+    .academy-completion-screen {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .academy-completion-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 36px;
+      font-weight: 800;
+      background: #1d4ed8;
+      color: white;
+    }
+
+    .academy-completion-label {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      opacity: .65;
+    }
+
+    .academy-completion-screen h1 {
+      text-align: center;
+      margin: 8px 0;
+      font-size: 30px;
+    }
+
+    .academy-completion-text {
+      text-align: center;
+      opacity: .7;
+      margin-bottom: 28px;
+    }
+
+    .academy-visual-card {
+      border-radius: 24px;
+      padding: 24px;
+      background:
+        linear-gradient(
+          145deg,
+          #111827,
+          #1e293b
+        );
+      color: white;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.18);
+      margin-bottom: 22px;
+    }
+
+    .academy-visual-badge {
+      display: inline-block;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+    }
+
+    .academy-visual-title {
+      margin: 14px 0 8px;
+      font-size: 25px;
+    }
+
+    .academy-visual-caption {
+      opacity: .75;
+      line-height: 1.7;
+    }
+
+    .academy-visual-flow {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .academy-visual-step {
+      min-width: 130px;
+      padding: 15px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.12);
+      text-align: center;
+    }
+
+    .academy-visual-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.14);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .academy-visual-step-text {
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .academy-visual-arrow {
+      font-size: 24px;
+      opacity: .55;
+    }
+
+    .academy-visual-trainer {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.07);
+    }
+
+    .academy-visual-trainer-title {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      opacity: .6;
+      margin-bottom: 8px;
+    }
+
+    .academy-visual-trainer p {
+      line-height: 1.7;
+      margin: 5px 0;
+    }
+
+    .academy-visual-prompt {
+      margin-top: 18px;
+      opacity: .65;
+      font-size: 12px;
+    }
+
+    .academy-visual-prompt summary {
+      cursor: pointer;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .academy-apply-card {
+      padding: 22px;
+      border-radius: 20px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 20px;
+    }
+
+    .academy-apply-label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      opacity: .55;
+      margin-bottom: 8px;
+    }
+
+    .academy-apply-text {
+      line-height: 1.8;
+    }
+
+    .academy-next-btn {
+      display: block;
+      width: 100%;
+      padding: 15px 20px;
+      border: 0;
+      border-radius: 15px;
+      background: #111827;
+      color: white;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .academy-module-complete {
+      padding: 18px;
+      border-radius: 16px;
+      background: #f1f5f9;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .academy-error {
+      padding: 20px;
+      border-radius: 15px;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    @media (max-width: 640px) {
+
+      .academy-completion-screen {
+        padding: 15px;
+      }
+
+      .academy-completion-screen h1 {
+        font-size: 23px;
+      }
+
+      .academy-visual-card {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .academy-visual-flow {
+        display: block;
+      }
+
+      .academy-visual-step {
+        min-width: 0;
+        margin: 8px 0;
+      }
+
+      .academy-visual-arrow {
+        text-align: center;
+        transform: rotate(90deg);
+        margin: 3px 0;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    injectAcademyVisualCSS();
+
+  }
+);
