@@ -4,15 +4,15 @@
    ========================================================= */
 
 function getLessonById(id) {
-  return academyLessons.find(
-    lesson => lesson.id === Number(id)
-  );
+  return academyLessons.find(function (lesson) {
+    return lesson.id === Number(id);
+  });
 }
 
 function getLessonsByModule(moduleName) {
-  return academyLessons.filter(
-    lesson => lesson.module === moduleName
-  );
+  return academyLessons.filter(function (lesson) {
+    return lesson.module === moduleName;
+  });
 }
 
 
@@ -31,19 +31,19 @@ function getAcademyProgress() {
   }
 }
 
-
 function getLessonProgress(id) {
   const progress = getAcademyProgress();
 
-  return progress[id] || {
-    completed: false,
-    quizScore: 0,
-    notes: "",
-    favorite: false,
-    completedAt: null
-  };
+  return (
+    progress[id] || {
+      completed: false,
+      quizScore: 0,
+      notes: "",
+      favorite: false,
+      completedAt: null
+    }
+  );
 }
-
 
 function saveLessonProgress(id, data) {
   const progress = getAcademyProgress();
@@ -66,26 +66,23 @@ function saveLessonProgress(id, data) {
    COMPLETE LESSON
    ========================================================= */
 
-function completeLesson(lessonId, quizScore = 0) {
-
+function completeLesson(lessonId, quizScore) {
   const lesson = getLessonById(lessonId);
 
   if (!lesson) {
     console.error("Lesson not found:", lessonId);
+
     return {
       success: false,
       message: "Lesson not found"
     };
   }
 
-  const saved = saveLessonProgress(
-    lessonId,
-    {
-      completed: true,
-      quizScore: Number(quizScore) || 0,
-      completedAt: new Date().toISOString()
-    }
-  );
+  const saved = saveLessonProgress(lessonId, {
+    completed: true,
+    quizScore: Number(quizScore) || 0,
+    completedAt: new Date().toISOString()
+  });
 
   return {
     success: true,
@@ -102,10 +99,9 @@ function completeLesson(lessonId, quizScore = 0) {
    ========================================================= */
 
 function getNextLesson(id) {
-
-  const currentIndex = academyLessons.findIndex(
-    lesson => lesson.id === Number(id)
-  );
+  const currentIndex = academyLessons.findIndex(function (lesson) {
+    return lesson.id === Number(id);
+  });
 
   if (currentIndex === -1) {
     return null;
@@ -124,10 +120,9 @@ function getNextLesson(id) {
    ========================================================= */
 
 function getPreviousLesson(id) {
-
-  const currentIndex = academyLessons.findIndex(
-    lesson => lesson.id === Number(id)
-  );
+  const currentIndex = academyLessons.findIndex(function (lesson) {
+    return lesson.id === Number(id);
+  });
 
   if (currentIndex <= 0) {
     return null;
@@ -138,11 +133,28 @@ function getPreviousLesson(id) {
 
 
 /* =========================================================
+   HTML SAFETY
+   ========================================================= */
+
+function escapeAcademyHTML(value) {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
    VISUAL EXPLANATION
    ========================================================= */
 
 function renderLessonVisual(lesson) {
-
   if (!lesson || !lesson.visual) {
     return "";
   }
@@ -153,38 +165,49 @@ function renderLessonVisual(lesson) {
     ? visual.steps
     : [];
 
-  const stepHTML = steps
-    .map(function(step, index) {
+  let stepHTML = "";
 
-      const isLast = index === steps.length - 1;
+  steps.forEach(function (step, index) {
+    const isLast = index === steps.length - 1;
 
-      return `
-        <div class="academy-visual-step">
+    stepHTML += `
+      <div class="academy-visual-step">
 
-          <div class="academy-visual-number">
-            ${index + 1}
-          </div>
-
-          <div class="academy-visual-step-text">
-            ${escapeAcademyHTML(step)}
-          </div>
-
+        <div class="academy-visual-number">
+          ${index + 1}
         </div>
 
-        ${
-          !isLast
-            ? `
-              <div class="academy-visual-arrow">
-                ↓
-              </div>
-            `
-            : ""
-        }
+        <div class="academy-visual-step-text">
+          ${escapeAcademyHTML(step)}
+        </div>
+
+      </div>
+    `;
+
+    if (!isLast) {
+      stepHTML += `
+        <div class="academy-visual-arrow">
+          →
+        </div>
       `;
+    }
+  });
 
-    })
-    .join("");
+  let promptHTML = "";
 
+  if (visual.imagePrompt) {
+    promptHTML = `
+      <details class="academy-visual-prompt">
+        <summary>
+          Visual Generation Prompt
+        </summary>
+
+        <div>
+          ${escapeAcademyHTML(visual.imagePrompt)}
+        </div>
+      </details>
+    `;
+  }
 
   return `
     <section class="academy-visual-card">
@@ -194,12 +217,16 @@ function renderLessonVisual(lesson) {
       </div>
 
       <h2 class="academy-visual-title">
-        ${escapeAcademyHTML(visual.title || "Visual Explanation")}
+        ${escapeAcademyHTML(
+          visual.title || "Visual Explanation"
+        )}
       </h2>
 
-      <p class="academy-visual-caption">
-        ${escapeAcademyHTML(visual.caption || "")}
-      </p>
+      <div class="academy-visual-caption">
+        ${escapeAcademyHTML(
+          visual.caption || ""
+        )}
+      </div>
 
       <div class="academy-visual-flow">
         ${stepHTML}
@@ -216,51 +243,22 @@ function renderLessonVisual(lesson) {
           Process တစ်ခုအနေနဲ့ မှတ်ပါ
         </p>
 
-        <p>
-          ${escapeAcademyHTML(visual.caption || "")}
-        </p>
+        ${
+          visual.caption
+            ? `
+              <p>
+                ${escapeAcademyHTML(visual.caption)}
+              </p>
+            `
+            : ""
+        }
 
       </div>
 
-      ${
-        visual.imagePrompt
-          ? `
-            <details class="academy-visual-prompt">
-
-              <summary>
-                Visual Generation Prompt
-              </summary>
-
-              <div>
-                ${escapeAcademyHTML(visual.imagePrompt)}
-              </div>
-
-            </details>
-          `
-          : ""
-      }
+      ${promptHTML}
 
     </section>
   `;
-}
-
-
-/* =========================================================
-   HTML SAFETY
-   ========================================================= */
-
-function escapeAcademyHTML(value) {
-
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }
 
 
@@ -269,7 +267,6 @@ function escapeAcademyHTML(value) {
    ========================================================= */
 
 function getCompletionScreen(lessonId) {
-
   const lesson = getLessonById(lessonId);
 
   if (!lesson) {
@@ -282,8 +279,27 @@ function getCompletionScreen(lessonId) {
 
   const nextLesson = getNextLesson(lessonId);
 
+  let nextHTML = "";
+
+  if (nextLesson) {
+    nextHTML = `
+      <button
+        class="academy-next-btn"
+        onclick="openAcademyLesson(${nextLesson.id})"
+      >
+        Next Lesson →
+      </button>
+    `;
+  } else {
+    nextHTML = `
+      <div class="academy-module-complete">
+        ✓ Academy Lesson Completed
+      </div>
+    `;
+  }
+
   return `
-    <section class="academy-completion-screen">
+    <div class="academy-completion-screen">
 
       <div class="academy-completion-icon">
         ✓
@@ -297,9 +313,9 @@ function getCompletionScreen(lessonId) {
         ${escapeAcademyHTML(lesson.title)}
       </h1>
 
-      <p class="academy-completion-text">
+      <div class="academy-completion-text">
         သင်ခန်းစာကို ပြီးဆုံးပါပြီ
-      </p>
+      </div>
 
       ${renderLessonVisual(lesson)}
 
@@ -310,30 +326,16 @@ function getCompletionScreen(lessonId) {
         </div>
 
         <div class="academy-apply-text">
-          ${escapeAcademyHTML(lesson.applyToday || "")}
+          ${escapeAcademyHTML(
+            lesson.applyToday || ""
+          )}
         </div>
 
       </div>
 
-      ${
-        nextLesson
-          ? `
-            <button
-              type="button"
-              class="academy-next-btn"
-              onclick="openAcademyLesson(${nextLesson.id})"
-            >
-              Next Lesson →
-            </button>
-          `
-          : `
-            <div class="academy-module-complete">
-              ✓ Module Completed
-            </div>
-          `
-      }
+      ${nextHTML}
 
-    </section>
+    </div>
   `;
 }
 
@@ -346,10 +348,12 @@ function calculateLessonQuizScore(
   lessonId,
   answers
 ) {
-
   const lesson = getLessonById(lessonId);
 
-  if (!lesson || !Array.isArray(lesson.quiz)) {
+  if (
+    !lesson ||
+    !Array.isArray(lesson.quiz)
+  ) {
     return 0;
   }
 
@@ -357,17 +361,24 @@ function calculateLessonQuizScore(
     return 0;
   }
 
+  if (lesson.quiz.length === 0) {
+    return 0;
+  }
+
   let correct = 0;
 
-  lesson.quiz.forEach(function(question, index) {
+  lesson.quiz.forEach(function (question, index) {
+    const correctAnswer =
+      question.answer !== undefined
+        ? question.answer
+        : question.correctAnswer;
 
     if (
       Number(answers[index]) ===
-      Number(question.answer)
+      Number(correctAnswer)
     ) {
       correct++;
     }
-
   });
 
   return Math.round(
@@ -381,8 +392,8 @@ function calculateLessonQuizScore(
    ========================================================= */
 
 function getModuleProgress(moduleName) {
-
-  const lessons = getLessonsByModule(moduleName);
+  const lessons =
+    getLessonsByModule(moduleName);
 
   if (!lessons.length) {
     return {
@@ -394,16 +405,13 @@ function getModuleProgress(moduleName) {
 
   let completed = 0;
 
-  lessons.forEach(function(lesson) {
-
-    const progress = getLessonProgress(
-      lesson.id
-    );
+  lessons.forEach(function (lesson) {
+    const progress =
+      getLessonProgress(lesson.id);
 
     if (progress.completed) {
       completed++;
     }
-
   });
 
   return {
@@ -421,7 +429,6 @@ function getModuleProgress(moduleName) {
    ========================================================= */
 
 function getAcademyOverallProgress() {
-
   const total = academyLessons.length;
 
   if (!total) {
@@ -434,16 +441,13 @@ function getAcademyOverallProgress() {
 
   let completed = 0;
 
-  academyLessons.forEach(function(lesson) {
-
-    const progress = getLessonProgress(
-      lesson.id
-    );
+  academyLessons.forEach(function (lesson) {
+    const progress =
+      getLessonProgress(lesson.id);
 
     if (progress.completed) {
       completed++;
     }
-
   });
 
   return {
@@ -464,7 +468,6 @@ function saveLessonNote(
   lessonId,
   note
 ) {
-
   return saveLessonProgress(
     lessonId,
     {
@@ -479,12 +482,11 @@ function saveLessonNote(
    ========================================================= */
 
 function toggleLessonFavorite(lessonId) {
+  const current =
+    getLessonProgress(lessonId);
 
-  const current = getLessonProgress(
-    lessonId
-  );
-
-  const newValue = !current.favorite;
+  const newValue =
+    !current.favorite;
 
   saveLessonProgress(
     lessonId,
@@ -502,8 +504,8 @@ function toggleLessonFavorite(lessonId) {
    ========================================================= */
 
 function resetLessonProgress(lessonId) {
-
-  const progress = getAcademyProgress();
+  const progress =
+    getAcademyProgress();
 
   delete progress[lessonId];
 
@@ -521,7 +523,6 @@ function resetLessonProgress(lessonId) {
    ========================================================= */
 
 function resetAcademyProgress() {
-
   localStorage.removeItem(
     "aungAcademyProgress"
   );
@@ -535,7 +536,6 @@ function resetAcademyProgress() {
    ========================================================= */
 
 function injectAcademyVisualCSS() {
-
   if (
     document.getElementById(
       "academy-visual-css"
@@ -551,7 +551,6 @@ function injectAcademyVisualCSS() {
     "academy-visual-css";
 
   style.textContent = `
-
     .academy-completion-screen {
       width: 100%;
       max-width: 900px;
@@ -604,7 +603,7 @@ function injectAcademyVisualCSS() {
         );
       color: white;
       box-shadow:
-        0 20px 60px rgba(0,0,0,.18);
+        0 20px 60px rgba(0, 0, 0, .18);
       margin-bottom: 22px;
     }
 
@@ -612,7 +611,8 @@ function injectAcademyVisualCSS() {
       display: inline-block;
       padding: 7px 11px;
       border-radius: 999px;
-      background: rgba(255,255,255,.12);
+      background:
+        rgba(255, 255, 255, .12);
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1.2px;
@@ -641,8 +641,11 @@ function injectAcademyVisualCSS() {
       min-width: 130px;
       padding: 15px;
       border-radius: 16px;
-      background: rgba(255,255,255,.09);
-      border: 1px solid rgba(255,255,255,.12);
+      background:
+        rgba(255, 255, 255, .09);
+      border:
+        1px solid
+        rgba(255, 255, 255, .12);
       text-align: center;
     }
 
@@ -654,7 +657,8 @@ function injectAcademyVisualCSS() {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255,255,255,.14);
+      background:
+        rgba(255, 255, 255, .14);
       font-size: 12px;
       font-weight: 800;
     }
@@ -673,7 +677,8 @@ function injectAcademyVisualCSS() {
       margin-top: 24px;
       padding: 18px;
       border-radius: 16px;
-      background: rgba(255,255,255,.07);
+      background:
+        rgba(255, 255, 255, .07);
     }
 
     .academy-visual-trainer-title {
@@ -705,7 +710,9 @@ function injectAcademyVisualCSS() {
       padding: 22px;
       border-radius: 20px;
       background: #f8fafc;
-      border: 1px solid #e5e7eb;
+      border:
+        1px solid
+        #e5e7eb;
       margin-bottom: 20px;
     }
 
@@ -778,9 +785,7 @@ function injectAcademyVisualCSS() {
         transform: rotate(90deg);
         margin: 3px 0;
       }
-
     }
-
   `;
 
   document.head.appendChild(style);
@@ -793,9 +798,7 @@ function injectAcademyVisualCSS() {
 
 document.addEventListener(
   "DOMContentLoaded",
-  function() {
-
+  function () {
     injectAcademyVisualCSS();
-
   }
 );
